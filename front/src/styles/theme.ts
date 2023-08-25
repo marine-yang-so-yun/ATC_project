@@ -7,6 +7,7 @@ export const theme: DefaultTheme = {
 		lightGray: "#F2F2F2",
 		gray: "#767676",
 		purple: "#323470",
+		lightPurple: "#686BB6",
 	},
 	fontSize: {
 		xs: "0.75rem",
