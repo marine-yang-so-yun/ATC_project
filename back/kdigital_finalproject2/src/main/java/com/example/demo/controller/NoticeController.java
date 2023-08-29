@@ -3,7 +3,6 @@ package com.example.demo.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,10 +30,24 @@ public class NoticeController {
 	private NoticeService service;
 	
 	@GetMapping
-	public List<Notice> noticeAll()	{
-		return repository.findAll();
+	public List<Object[]> noticeAll()	{
+		List<Object[]> data = repository.dataAll();
+		List<Map<String, Object>> detail = new ArrayList<>();
 		
 		
+//		for (Object[] row : data)	{
+//			Map<String, Object> detail1 = new HashMap<>();
+//			detail1.put("noticeseq", row[0]);
+//			detail1.put("noticetitle", row[1]);
+//			detail1.put("noticewriter", row[2]);
+//			detail1.put("noticedate", row[3]);
+//			detail1.put("noticeurgency", row[4]);
+//			detail1.put("noticedetail", row[5]);
+//			
+//			detail.add(detail1);
+//		}
+		
+		return data;
 	}
 	
 	
