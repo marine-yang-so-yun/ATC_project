@@ -1,15 +1,20 @@
 import React from "react";
 import Header from "./Header";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Footer from "./Footer";
+import { MainContainer } from "styles/commons";
+import Banner from "components/banner/Banner";
 
 const Layout = () => {
+	const loc = useLocation().pathname;
+
 	return (
 		<>
 			<Header />
-			<main>
+			{loc === "/" && <Banner />}
+			<MainContainer>
 				<Outlet />
-			</main>
+			</MainContainer>
 			<Footer />
 		</>
 	);

@@ -1,14 +1,17 @@
 import React from "react";
 import { FaUser, FaBars } from "react-icons/fa";
-import { HeaderContainer, NavBtn } from "styles/components/header";
+import { Link } from "react-router-dom";
+import { HeaderContainer, NavBtn } from "styles/components/layout/header";
 
 const Header = () => {
 	return (
 		<HeaderContainer>
-			<img
-				src={process.env.PUBLIC_URL + "/logo.png"}
-				alt="Total Soft Bank Logo"
-			/>
+			<Link to="/">
+				<img
+					src={process.env.PUBLIC_URL + "/logo.png"}
+					alt="Total Soft Bank Logo"
+				/>
+			</Link>
 			<nav>
 				<NavBtn>
 					<FaUser />
