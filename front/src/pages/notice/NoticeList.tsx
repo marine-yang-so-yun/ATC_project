@@ -1,6 +1,6 @@
 import React from "react";
 import { NoticeData } from "types/api";
-import NoticeItem from "./NoticeItem";
+import NoticeItem from "components/notice/NoticeItem";
 import { MainTitle } from "styles/commons";
 import { NoticeUl, NoticeUlHeader } from "styles/notice/noticeList";
 
