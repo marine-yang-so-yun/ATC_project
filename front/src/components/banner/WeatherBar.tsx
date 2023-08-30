@@ -1,14 +1,11 @@
 import React from "react";
-import {
-	BannerBarContainer,
-	BannerBarLink,
-} from "styles/components/banner/banner";
+import * as S from "styles/components/banner/banner.style";
 
 const WeatherBar = () => {
 	return (
-		<BannerBarContainer>
-			<BannerBarLink to="/weather">날씨정보</BannerBarLink>
-		</BannerBarContainer>
+		<S.BannerBarContainer>
+			<S.BannerBarLink to="/weather">날씨정보</S.BannerBarLink>
+		</S.BannerBarContainer>
 	);
 };
 

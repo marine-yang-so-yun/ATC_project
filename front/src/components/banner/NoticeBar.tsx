@@ -1,9 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-	BannerBarContainer,
-	Carousel,
-	BannerBarLink,
-} from "styles/components/banner/banner";
+import * as S from "styles/components/banner/banner.style";
 import { useDispatch, useSelector } from "react-redux";
 import { getNoticeAsync } from "store/notice";
 import { AppState } from "store";
@@ -42,18 +38,18 @@ const NoticeBar = () => {
 	}, [dispatch]);
 
 	return (
-		<BannerBarContainer>
-			<Carousel $count={count} ref={carouselRef}>
+		<S.BannerBarContainer>
+			<S.Carousel $count={count} ref={carouselRef}>
 				{notices.map((notice, idx) => (
-					<BannerBarLink
+					<S.BannerBarLink
 						to={"/notice/" + notice.noticeseq}
 						key={notice.noticeseq + idx}
 					>
 						{notice.noticetitle}
-					</BannerBarLink>
+					</S.BannerBarLink>
 				))}
-			</Carousel>
-		</BannerBarContainer>
+			</S.Carousel>
+		</S.BannerBarContainer>
 	);
 };
 
