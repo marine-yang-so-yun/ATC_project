@@ -24,17 +24,19 @@ import com.example.demo.service.NoticeService;
 public class NoticeController {
 
 	
-	@Autowired
-	private NoticeRepository repository;
+	private final NoticeRepository repository;
+	private final NoticeService service;
 	
-	@Autowired
-	private NoticeService service;
+	public NoticeController (NoticeRepository repository, NoticeService service)	{
+		this.repository = repository;
+		this.service = service;
+	}
+	
+	
 	
 	@GetMapping
 	public List<Notice> noticeAll()	{
-		return repository.findAll();
-		
-		
+		return repository.findAll();	
 	}
 	
 	
