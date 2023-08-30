@@ -1,11 +1,10 @@
-import Banner from "components/banner/Banner";
 import React from "react";
-import { MainContainer } from "styles/commons";
+import Simulator from "components/home/Simulator";
 
 const Home = () => {
 	return (
 		<>
-			<MainContainer></MainContainer>
+			<Simulator />
 		</>
 	);
 };
