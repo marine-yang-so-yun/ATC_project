@@ -2,7 +2,7 @@ export interface NoticeData {
 	noticeseq: number;
 	noticetitle: string;
 	noticewriter: string;
-	noticedata: Date;
+	noticedate: Date;
 	noticeurgency: boolean;
 	noticedetail: string;
 }
