@@ -4,62 +4,18 @@ import {
 	Carousel,
 	BannerBarLink,
 } from "styles/components/banner/banner";
-import { NoticeData } from "types/api";
+import { useDispatch, useSelector } from "react-redux";
+import { getNoticeAsync } from "store/notice";
+import { AppState } from "store";
 
-const noticeSample: NoticeData[] = [
-	{
-		noticeseq: 1,
-		noticewriter: "member",
-		noticetitle: "test1",
-		noticeurgency: false,
-		noticedetail: "content",
-		noticedate: new Date(),
-	},
-	{
-		noticeseq: 2,
-		noticewriter: "member",
-		noticetitle: "test2",
-		noticeurgency: false,
-		noticedetail: "content",
-		noticedate: new Date(),
-	},
-	{
-		noticeseq: 3,
-		noticewriter: "member",
-		noticetitle: "test3",
-		noticeurgency: false,
-		noticedetail: "content",
-		noticedate: new Date(),
-	},
-	{
-		noticeseq: 4,
-		noticewriter: "member",
-		noticetitle: "test4",
-		noticeurgency: false,
-		noticedetail: "content",
-		noticedate: new Date(),
-	},
-	{
-		noticeseq: 5,
-		noticewriter: "member",
-		noticetitle: "test5",
-		noticeurgency: false,
-		noticedetail: "content",
-		noticedate: new Date(),
-	},
-	{
-		noticeseq: 1,
-		noticewriter: "member",
-		noticetitle: "test1",
-		noticeurgency: false,
-		noticedetail: "content",
-		noticedate: new Date(),
-	},
-];
 const NoticeBar = () => {
 	const [count, setCount] = useState<number>(0);
 	const carouselRef = useRef<HTMLDivElement>(null);
 	const [currentPage, setCurrentPage] = useState<number>(0);
+	const dispatch = useDispatch();
+	const notices: AppState["notices"] = useSelector(
+		(state: AppState) => state.notices
+	);
 
 	const flag = useRef<boolean>(false);
 	useEffect(() => {
@@ -81,10 +37,14 @@ const NoticeBar = () => {
 		};
 	}, [count, currentPage]);
 
+	useEffect(() => {
+		dispatch<any>(getNoticeAsync());
+	}, [dispatch]);
+
 	return (
 		<BannerBarContainer>
 			<Carousel $count={count} ref={carouselRef}>
-				{noticeSample.map((notice, idx) => (
+				{notices.map((notice, idx) => (
 					<BannerBarLink
 						to={"/notice/" + notice.noticeseq}
 						key={notice.noticeseq + idx}
