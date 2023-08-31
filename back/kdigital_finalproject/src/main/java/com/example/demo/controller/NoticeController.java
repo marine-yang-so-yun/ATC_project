@@ -2,12 +2,10 @@ package com.example.demo.controller;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -24,19 +22,17 @@ import com.example.demo.service.NoticeService;
 public class NoticeController {
 
 	
-	private final NoticeRepository repository;
-	private final NoticeService service;
+	@Autowired
+	private NoticeRepository repository;
 	
-	public NoticeController (NoticeRepository repository, NoticeService service)	{
-		this.repository = repository;
-		this.service = service;
-	}
-	
-	
+	@Autowired
+	private NoticeService service;
 	
 	@GetMapping
-	public List<Notice> noticeAll()	{
-		return repository.findAll();	
+	public List<Object[]> noticeAll()	{
+		List<Object[]> data = repository.dataAll();
+		
+		return data;
 	}
 	
 	
@@ -45,6 +41,14 @@ public class NoticeController {
 		
 		return service.insertNotice(notice);
 	}
+	
+	
+	@PutMapping("/updateNotice")
+	public Notice updateNotice (@RequestBody Notice notice) throws IOException	{
+		
+		return service.updateNotice(notice);
+	}
+	
 	
 	
 }

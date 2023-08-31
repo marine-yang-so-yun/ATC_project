@@ -1,38 +1,55 @@
 package com.example.demo.config;
 
 
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-
+import com.example.demo.filter.JWTAuthenticationFilter;
+import com.example.demo.filter.JWTAuthorizationFilter;
+import com.example.demo.repository.MemberRepository;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
 	
+	@Autowired
+	private AuthenticationConfiguration authConfig;
+	
+	@Autowired
+	private MemberRepository memberRepo;
 	@Bean
-	public BCryptPasswordEncoder encoder() {
+	public PasswordEncoder passwordEncoder()	{
 		return new BCryptPasswordEncoder();
 	}
 	
-	
 	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity security) throws Exception {
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception	{
 		
-		security.csrf(csrf->csrf.disable());
+		http.csrf(csrf -> csrf.disable());
+		http.cors(cors -> cors.disable());
 		
-		security.formLogin(abcd ->abcd.disable());
-		
-		security.authorizeHttpRequests(auth->{
-			auth.anyRequest().permitAll();
+		http.authorizeHttpRequests(security ->{
+			
+			security.requestMatchers("/notice/createNotice").hasRole("ADMIN")
+			.requestMatchers("/notice/updateNotice").hasRole("ADMIN")
+			.anyRequest().permitAll();
 		});
-	
-		return security.build();
+		
+		http.formLogin(frmLogin -> frmLogin.disable());
+		http.sessionManagement(ssmg->ssmg.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+		http.addFilter(new JWTAuthenticationFilter(authConfig.getAuthenticationManager(), memberRepo));
+		http.addFilter(new JWTAuthorizationFilter(authConfig.getAuthenticationManager(), memberRepo));
+		return http.build();
 	}
-	
-
 }
+  
