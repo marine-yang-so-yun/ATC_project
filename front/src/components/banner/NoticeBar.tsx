@@ -40,10 +40,10 @@ const NoticeBar = () => {
 	return (
 		<S.BannerBarContainer>
 			<S.Carousel $count={count} ref={carouselRef}>
-				{notices.map((notice, idx) => (
+				{notices.map((notice) => (
 					<S.BannerBarLink
 						to={"/notice/" + notice.noticeseq}
-						key={notice.noticeseq + idx}
+						key={notice.noticeseq}
 					>
 						{notice.noticetitle}
 					</S.BannerBarLink>
