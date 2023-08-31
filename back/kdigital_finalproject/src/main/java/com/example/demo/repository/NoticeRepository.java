@@ -12,4 +12,6 @@ public interface NoticeRepository extends JpaRepository <Notice, Integer>{
 	@Query(value = "SELECT n FROM Notice n")
 	List<Object[]> dataAll();
 	
+	List<Notice> findAll();
+	
 }

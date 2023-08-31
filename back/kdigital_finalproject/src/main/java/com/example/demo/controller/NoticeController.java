@@ -29,8 +29,8 @@ public class NoticeController {
 	private NoticeService service;
 	
 	@GetMapping
-	public List<Object[]> noticeAll()	{
-		List<Object[]> data = repository.dataAll();
+	public List<Notice> noticeAll()	{
+		List<Notice> data = repository.findAll();
 		
 		return data;
 	}
