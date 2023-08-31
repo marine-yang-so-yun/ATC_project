@@ -1,45 +1,31 @@
 import React from "react";
-import { NoticeData } from "types/api";
 import NoticeItem from "components/notice/NoticeItem";
 import { MainTitle } from "styles/commons";
-import { NoticeUl, NoticeUlHeader } from "styles/notice/noticeList";
-
-const noticeSample: NoticeData[] = [
-	{
-		noticeseq: 1,
-		noticewriter: "member",
-		noticetitle: "test",
-		noticeurgency: false,
-		noticedetail: "content",
-		noticedate: new Date(),
-	},
-	{
-		noticeseq: 2,
-		noticewriter: "member",
-		noticetitle: "test",
-		noticeurgency: false,
-		noticedetail: "content",
-		noticedate: new Date(),
-	},
-];
+import * as S from "styles/notice/noticeList.style";
+import { useSelector } from "react-redux";
+import { AppState } from "store";
 
 const NoticeList = () => {
+	const notices: AppState["notices"] = useSelector(
+		(state: AppState) => state.notices
+	);
+
 	return (
 		<>
 			<MainTitle>공지사항</MainTitle>
-			<NoticeUlHeader>
+			<S.NoticeUlHeader>
 				<li>
 					<span>번호</span>
 					<span>제목</span>
 					<span>작성자</span>
 					<span>작성일</span>
 				</li>
-			</NoticeUlHeader>
-			<NoticeUl>
-				{noticeSample.map((notice) => (
+			</S.NoticeUlHeader>
+			<S.NoticeUl>
+				{notices.map((notice) => (
 					<NoticeItem key={notice.noticeseq} notice={notice} />
 				))}
-			</NoticeUl>
+			</S.NoticeUl>
 		</>
 	);
 };

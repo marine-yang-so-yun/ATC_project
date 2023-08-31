@@ -5,7 +5,6 @@ export const NoticeUl = styled.ul`
 	width: 100%;
 
 	& > li {
-		width: 100%;
 		display: flex;
 
 		& > span {
@@ -19,4 +18,5 @@ export const NoticeUl = styled.ul`
 export const NoticeUlHeader = styled(NoticeUl)`
 	font-size: ${theme.fontSize.md};
 	font-weight: 600;
+	border-bottom: 2px solid ${theme.color.lightPurple};
 `;

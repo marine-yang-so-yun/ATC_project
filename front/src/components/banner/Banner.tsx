@@ -1,14 +1,14 @@
 import React from "react";
 import NoticeBar from "./NoticeBar";
 import WeatherBar from "./WeatherBar";
-import { BannerContainer } from "styles/components/banner/banner";
+import * as S from "styles/components/banner/banner.style";
 
 const Banner = () => {
 	return (
-		<BannerContainer>
+		<S.BannerContainer>
 			<NoticeBar />
 			<WeatherBar />
-		</BannerContainer>
+		</S.BannerContainer>
 	);
 };
 

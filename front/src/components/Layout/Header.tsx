@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaUser, FaBars } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
-import {
-	HeaderContainer,
-	NavBtn,
-	NavContainer,
-	NavListItem,
-} from "styles/components/layout/header";
+import * as S from "styles/components/layout/header.style";
 
 const Header = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
@@ -17,7 +12,7 @@ const Header = () => {
 	}, [loc]);
 
 	return (
-		<HeaderContainer>
+		<S.HeaderContainer>
 			<Link to="/">
 				<img
 					src={process.env.PUBLIC_URL + "/logo.png"}
@@ -25,29 +20,29 @@ const Header = () => {
 				/>
 			</Link>
 			<div>
-				<NavBtn>
+				<S.NavBtn>
 					<FaUser />
 					<span>로그인</span>
-				</NavBtn>
-				<NavBtn
+				</S.NavBtn>
+				<S.NavBtn
 					$isMenuOpen={isMenuOpen}
 					onClick={() => setIsMenuOpen(!isMenuOpen)}
 				>
 					<FaBars />
 					<span>메뉴</span>
-				</NavBtn>
+				</S.NavBtn>
 			</div>
-			<NavContainer $isMenuOpen={isMenuOpen}>
+			<S.NavContainer $isMenuOpen={isMenuOpen}>
 				<ul>
-					<NavListItem>
+					<S.NavListItem>
 						<Link to="/notice">공지사항</Link>
-					</NavListItem>
-					<NavListItem>
+					</S.NavListItem>
+					<S.NavListItem>
 						<Link to="/weather">날씨정보</Link>
-					</NavListItem>
+					</S.NavListItem>
 				</ul>
-			</NavContainer>
-		</HeaderContainer>
+			</S.NavContainer>
+		</S.HeaderContainer>
 	);
 };
 
