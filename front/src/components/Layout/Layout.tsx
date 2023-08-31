@@ -2,7 +2,6 @@ import React from "react";
 import Header from "./Header";
 import { Outlet, useLocation } from "react-router-dom";
 import Footer from "./Footer";
-import { MainContainer } from "styles/commons";
 import Banner from "components/banner/Banner";
 
 const Layout = () => {
@@ -12,9 +11,9 @@ const Layout = () => {
 		<>
 			<Header />
 			{loc === "/" && <Banner />}
-			<MainContainer>
+			<main>
 				<Outlet />
-			</MainContainer>
+			</main>
 			<Footer />
 		</>
 	);
