@@ -101,8 +101,7 @@ class Scheduler {
 		
 		List<ContainerWork> worklist = repository.findWorkingStart();
 		
-		
-		
+	
 		if (!worklist.isEmpty())	{
 			
 			sendFlag = 1;
@@ -118,14 +117,12 @@ class Scheduler {
 				sendData.setRow1(work.getRow1());
 				sendData.setTier1(work.getTier1());
 
-
 				sdList.add(sendData);
 			}
 			
 			
 		}
 		
-
         try {
         	// Create ObjectMapper instance
         	ObjectMapper objectMapper = new ObjectMapper();
