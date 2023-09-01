@@ -113,9 +113,9 @@ class Scheduler {
 				SendData sendData = new SendData();
 				
 				sendData.setWorkStatus("workingstart");
-				sendData.setBay1(work.getBay1());
-				sendData.setRow1(work.getRow1());
-				sendData.setTier1(work.getTier1());
+				sendData.setBay1(work.getBay1().substring(1));
+				sendData.setRow1(work.getRow1().substring(1));
+				sendData.setTier1(work.getTier1().substring(1));
 
 				sdList.add(sendData);
 			}
