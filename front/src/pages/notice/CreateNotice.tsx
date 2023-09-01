@@ -1,20 +1,27 @@
 import apiService from "api";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getUser } from "utils/localStorage";
 
 const CreateNotice = () => {
 	const [form, setForm] = useState({ title: "", urgency: false, content: "" });
 	const { title, urgency, content } = form;
+	const writer = getUser() || "";
+	const navigate = useNavigate();
 
 	const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		if (!title || !content) return;
+		if (!title || !content || !writer) return;
 
-		const res = await apiService.noticeService.postNotice({
+		await apiService.noticeService.postNotice({
 			noticetitle: title,
-			noticewriter: "admin",
+			noticewriter: writer,
 			noticeurgency: urgency,
 			noticedetail: content,
 		});
+
+		setForm({ title: "", urgency: false, content: "" });
+		navigate("/notice");
 	};
 
 	const changeFormValue = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,6 +41,7 @@ const CreateNotice = () => {
 					value={title}
 					onChange={changeFormValue}
 					placeholder="제목"
+					required
 				/>
 				<input
 					name="urgency"
@@ -49,6 +57,7 @@ const CreateNotice = () => {
 					value={content}
 					onChange={changeFormValue}
 					placeholder="내용"
+					required
 				/>
 				<button type="submit">작성</button>
 			</form>

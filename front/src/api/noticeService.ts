@@ -1,5 +1,6 @@
 import { axiosInstance } from "api";
 import { NoticeData } from "types/api";
+import { getCookie } from "utils/cookieUtils";
 
 /**
  * 공지사항 전체 리스트 요청
@@ -13,7 +14,9 @@ const getNotice = () => axiosInstance.get<NoticeData[]>("/notice");
  * @return AxiosPromise
  */
 const postNotice = (body: Omit<NoticeData, "noticeseq" | "noticedate">) =>
-	axiosInstance.post("/notice/createNotice", body);
+	axiosInstance.post("/notice/createNotice", body, {
+		headers: { Authorization: `Bearer ${getCookie("accessToken")}` },
+	});
 
 const noticeService = { getNotice, postNotice };
 

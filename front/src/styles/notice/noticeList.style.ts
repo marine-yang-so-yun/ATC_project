@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { LightPurpleBtn, MainTitle } from "styles/commons";
+import { MainTitle } from "styles/commons";
 import { theme } from "styles/theme";
 
 export const TitleContainer = styled.div`
