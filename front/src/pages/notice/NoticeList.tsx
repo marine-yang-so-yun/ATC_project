@@ -3,8 +3,11 @@ import NoticeItem from "components/notice/NoticeItem";
 import * as S from "styles/notice/noticeList.style";
 import { useSelector } from "react-redux";
 import { AppState } from "store";
+import { LightPurpleBtn } from "styles/commons";
+import { useNavigate } from "react-router-dom";
 
 const NoticeList = () => {
+	const navigate = useNavigate();
 	const [selectedCate, setSelectedCate] = useState<"전체" | "공지" | "알림">(
 		"전체"
 	);
@@ -38,13 +41,15 @@ const NoticeList = () => {
 				</div>
 			</S.TitleContainer>
 			<S.NoticeOlContainer>
+				<LightPurpleBtn onClick={() => navigate("/createnotice")}>
+					글 작성
+				</LightPurpleBtn>
 				<S.NoticeHeaderOl>
 					<li>
 						<span>번호</span>
 						<span>카테고리</span>
 						<span>제목</span>
 						<span>작성일</span>
-						<span>조회수</span>
 					</li>
 				</S.NoticeHeaderOl>
 				<S.NoticeContentOl>

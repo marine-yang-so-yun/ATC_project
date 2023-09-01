@@ -40,6 +40,7 @@ export const GlobalStyle = createGlobalStyle`
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 100%;
     border: none;
+    background-color: transparent;
   }
   img {
     display: block;
