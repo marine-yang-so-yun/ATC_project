@@ -43,6 +43,12 @@ class SendData {
 	private int bay1;
 	private int row1;
 	private int tier1;
+	
+	private int bay2;
+	private int row2;
+	private int tier2;
+	
+	private String time_taken;
 }
 
 
@@ -116,6 +122,12 @@ class Scheduler {
 				sendData.setBay1(Integer.parseInt(work.getBay1().substring(1)));
 				sendData.setRow1(Integer.parseInt(work.getRow1().substring(1)));
 				sendData.setTier1(Integer.parseInt(work.getTier1().substring(1)));
+				
+				sendData.setTier2(Integer.parseInt(work.getTier2().substring(1)));
+				sendData.setBay2(Integer.parseInt(work.getBay2().substring(1)));
+				sendData.setRow2(Integer.parseInt(work.getRow2().substring(1)));
+				
+				sendData.setTime_taken(work.getTimeTaken());
 
 				sdList.add(sendData);
 			}

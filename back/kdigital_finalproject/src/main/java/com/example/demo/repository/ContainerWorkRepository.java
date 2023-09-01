@@ -14,9 +14,13 @@ public interface ContainerWorkRepository extends JpaRepository<ContainerWork, In
 	List<ContainerWork> findWorkingStart();
 
 	
-	@Query(value = "SELECT container, MAX(timeEnd), bay2, row2, tier2 "
+	@Query(value = "SELECT container, timeEnd, bay2, row2, tier2 "
 			+ "FROM ContainerWork "
-			+ "WHERE timeEnd <= DATE_FORMAT(NOW(), '%H:%i:%s') "
-			+ "GROUP BY container, bay2, row2, tier2")
+			+ "WHERE (container, timeEnd) IN ( "
+			+ "  SELECT container, MAX(timeEnd) "
+			+ "  FROM ContainerWork "
+			+ "  WHERE timeEnd <= DATE_FORMAT(NOW(), '%H:%i:%s') "
+			+ "  GROUP BY container"
+			+ ")")
 	List<Object[]> findWorkAll();
 }
