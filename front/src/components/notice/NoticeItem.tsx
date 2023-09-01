@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import * as S from "styles/notice/noticeList.style";
 import { NoticeData } from "types/api";
 
