@@ -53,12 +53,12 @@ export const NoticeOl = styled.ol`
 	& > li {
 		& > span {
 			display: inline-block;
-			width: 12.5%;
+			width: 10%;
 			padding: 10px 0;
 			text-align: center;
 
 			&:nth-child(3) {
-				width: 50%;
+				width: 70%;
 			}
 		}
 	}
@@ -77,18 +77,28 @@ export const NoticeContentOl = styled.ol`
 
 		& > div > span {
 			display: inline-block;
-			width: 12.5%;
+			width: 10%;
 			padding: 10px 0;
 			text-align: center;
 
 			&:nth-child(3) {
-				width: 50%;
+				width: 70%;
 			}
 		}
-
-		& > p {
-			display: none;
-			padding: 0 25%;
-		}
 	}
+`;
+
+export const NoticeTitleBtn = styled.button<{ $isContentOpen: boolean }>`
+	transition: all 250ms ease-in-out;
+	${({ $isContentOpen }) =>
+		$isContentOpen &&
+		css`
+			font-size: ${theme.fontSize.md};
+			font-weight: 600;
+		`}
+`;
+
+export const NoticeContent = styled.p<{ $isContentOpen: boolean }>`
+	display: ${({ $isContentOpen }) => ($isContentOpen ? "block" : "none")};
+	padding: 1% 25%;
 `;

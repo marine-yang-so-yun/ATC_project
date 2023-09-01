@@ -42,7 +42,7 @@ const NoticeBar = () => {
 			<S.Carousel $count={count} ref={carouselRef}>
 				{notices.map((notice) => (
 					<S.BannerBarLink
-						to={"/notice/" + notice.noticeseq}
+						to={"/notice?id=" + notice.noticeseq}
 						key={notice.noticeseq}
 					>
 						{notice.noticetitle}

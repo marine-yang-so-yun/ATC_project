@@ -44,7 +44,6 @@ const NoticeList = () => {
 						<span>카테고리</span>
 						<span>제목</span>
 						<span>작성일</span>
-						<span>조회수</span>
 					</li>
 				</S.NoticeHeaderOl>
 				<S.NoticeContentOl>
