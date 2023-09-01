@@ -40,9 +40,9 @@ import lombok.extern.slf4j.Slf4j;
 class SendData {
 
 	private String workStatus;
-	private int bay1;
-	private int row1;
-	private int tier1;
+	private String bay1;
+	private String row1;
+	private String tier1;
 }
 
 
@@ -113,9 +113,9 @@ class Scheduler {
 				SendData sendData = new SendData();
 				
 				sendData.setWorkStatus("workingstart");
-				sendData.setBay1(Integer.parseInt(work.getBay1().substring(1)));
-				sendData.setRow1(Integer.parseInt(work.getRow1().substring(1)));
-				sendData.setTier1(Integer.parseInt(work.getTier1().substring(1)));
+				sendData.setBay1(work.getBay1().substring(1));
+				sendData.setRow1(work.getRow1().substring(1));
+				sendData.setTier1(work.getTier1().substring(1));
 
 				sdList.add(sendData);
 			}
