@@ -44,7 +44,8 @@ export const LoginTextInput = styled.input`
 `;
 
 export const LoginSubmitBtn = styled.button`
-	padding: 5px 10px;
+	width: 100%;
+	padding: 5px 0;
 	border-radius: 5px;
 	background-color: ${theme.color.purple};
 	color: ${theme.color.white};
