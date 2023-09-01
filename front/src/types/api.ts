@@ -1,3 +1,8 @@
+export interface LoginData {
+	username: string;
+	password: string;
+}
+
 export interface NoticeData {
 	noticeseq: number;
 	noticetitle: string;

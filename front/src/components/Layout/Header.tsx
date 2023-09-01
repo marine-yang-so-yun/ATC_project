@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { FaUser, FaBars } from "react-icons/fa";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import * as S from "styles/components/layout/header.style";
 
 const Header = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 	const loc = useLocation().pathname;
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		setIsMenuOpen(false);
@@ -20,7 +21,7 @@ const Header = () => {
 				/>
 			</Link>
 			<div>
-				<S.NavBtn>
+				<S.NavBtn onClick={() => navigate("/login")}>
 					<FaUser />
 					<span>로그인</span>
 				</S.NavBtn>
