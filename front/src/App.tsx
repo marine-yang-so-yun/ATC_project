@@ -23,8 +23,8 @@ function App() {
 						<Route index element={<Home />} />
 						<Route path="/notice" element={<NoticeList />} />
 						<Route path="/createnotice" element={<CreateNotice />} />
-						<Route path="/login" element={<Login />} />
 					</Route>
+					<Route path="/login" element={<Login />} />
 				</Routes>
 			</ThemeProvider>
 		</ReduxProvider>

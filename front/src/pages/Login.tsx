@@ -1,7 +1,8 @@
 import apiService from "api";
 import jwtDecode from "jwt-decode";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import * as S from "styles/login/login";
 import { setCookie } from "utils/cookieUtils";
 
 const Login = () => {
@@ -42,27 +43,40 @@ const Login = () => {
 	};
 
 	return (
-		<>
-			<form onSubmit={(e) => onSubmit(e)}>
-				<input
-					name="id"
-					type="text"
-					value={id}
-					onChange={changeFormValue}
-					placeholder="아이디"
-					required
-				/>
-				<input
-					name="password"
-					type="password"
-					value={password}
-					onChange={changeFormValue}
-					placeholder="비밀번호"
-					required
-				/>
-				<button type="submit">로그인</button>
-			</form>
-		</>
+		<S.LoginContainer>
+			<S.LoginImg
+				src={process.env.PUBLIC_URL + "/container_terminal.jpg"}
+				alt="컨테이너 터미널 사진"
+			/>
+			<S.LoginFormContainer>
+				<Link to="/">
+					<img
+						src={process.env.PUBLIC_URL + "/logo.png"}
+						alt="토탈 소프트 뱅크 로고"
+					/>
+				</Link>
+				<form onSubmit={(e) => onSubmit(e)}>
+					<S.LoginTextInput
+						name="id"
+						type="text"
+						value={id}
+						onChange={changeFormValue}
+						placeholder="아이디"
+						required
+						autoFocus
+					/>
+					<S.LoginTextInput
+						name="password"
+						type="password"
+						value={password}
+						onChange={changeFormValue}
+						placeholder="비밀번호"
+						required
+					/>
+					<S.LoginSubmitBtn type="submit">로그인</S.LoginSubmitBtn>
+				</form>
+			</S.LoginFormContainer>
+		</S.LoginContainer>
 	);
 };
 

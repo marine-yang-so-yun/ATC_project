@@ -18,7 +18,7 @@ const Header = () => {
 			<Link to="/">
 				<img
 					src={process.env.PUBLIC_URL + "/logo.png"}
-					alt="Total Soft Bank Logo"
+					alt="토탈 소프트 뱅크 로고"
 				/>
 			</Link>
 			<div>
