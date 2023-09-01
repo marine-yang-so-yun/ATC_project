@@ -12,6 +12,14 @@ export interface NoticeData {
 	noticedetail: string;
 }
 
+export interface CurrentContainerWorkData {
+	container: "string";
+	timeEnd: "string";
+	bay: number;
+	row: number;
+	tier: number;
+}
+
 export interface ContainerWorkData {
 	id: number;
 	container: string;
@@ -22,14 +30,14 @@ export interface ContainerWorkData {
 	year: number;
 	voyage: number;
 	block1: string;
-	bay1: string;
-	row1: string;
-	tier1: string;
+	bay1: number;
+	row1: number;
+	tier1: number;
 	bayRowTier1: string;
 	block2: string;
-	bay2: string;
-	row2: string;
-	tier2: string;
+	bay2: number;
+	row2: number;
+	tier2: number;
 	bayRowTier2: string;
 	truckNum: string;
 	fullOrEmpty: string;
