@@ -14,7 +14,7 @@ export const BannerBarContainer = styled.div`
 	width: 48%;
 	padding: 0 1.5%;
 	border-radius: 50px;
-	background-color: ${theme.color.lightGray};
+	background-color: ${theme.color.white};
 	font-size: ${theme.fontSize.lg};
 	font-weight: 600;
 	height: 40px;

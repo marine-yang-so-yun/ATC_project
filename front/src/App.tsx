@@ -9,6 +9,7 @@ import Layout from "components/layout/Layout";
 import Home from "pages/Home";
 import NoticeList from "pages/notice/NoticeList";
 import Login from "pages/Login";
+import CreateNotice from "pages/notice/CreateNotice";
 
 function App() {
 	const store = useStore();
@@ -21,6 +22,7 @@ function App() {
 					<Route element={<Layout />}>
 						<Route index element={<Home />} />
 						<Route path="/notice" element={<NoticeList />} />
+						<Route path="/createnotice" element={<CreateNotice />} />
 						<Route path="/login" element={<Login />} />
 					</Route>
 				</Routes>

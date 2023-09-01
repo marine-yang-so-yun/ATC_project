@@ -11,3 +11,17 @@ export const SectionTitle = styled.h2`
 	font-size: ${theme.fontSize.xl};
 	font-weight: 600;
 `;
+
+export const LightPurpleBtn = styled.button`
+	margin-bottom: 10px;
+	padding: 5px 10px;
+	border-radius: 5px;
+	background-color: ${theme.color.lightPurple};
+	color: ${theme.color.white};
+	font-weight: 600;
+	transition: all 250ms ease-in-out;
+
+	&:hover {
+		background-color: ${theme.color.purple};
+	}
+`;
