@@ -204,7 +204,7 @@ const Floor = () => {
 };
 
 const Simulator = () => {
-	const [containerData, setContainerData] = useState<ContainerWorkData[]>([]);
+	const [containerData, setContainerData] = useState<ContainerWorkData>();
 	const wsUrl = process.env.REACT_APP_SOCKET_URL;
 
 	useEffect(() => {
@@ -213,7 +213,7 @@ const Simulator = () => {
 
 		ws.onmessage = (event) => {
 			const newData = JSON.parse(event.data);
-			setContainerData((prev) => [...prev, newData]);
+			setContainerData(newData);
 		};
 
 		return () => {
