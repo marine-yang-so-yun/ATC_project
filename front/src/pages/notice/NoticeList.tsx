@@ -37,8 +37,8 @@ const NoticeList = () => {
 					</S.CateBtn>
 				</div>
 			</S.TitleContainer>
-			<S.NoticeUlContainer>
-				<S.NoticeHeaderUl>
+			<S.NoticeOlContainer>
+				<S.NoticeHeaderOl>
 					<li>
 						<span>번호</span>
 						<span>카테고리</span>
@@ -46,8 +46,8 @@ const NoticeList = () => {
 						<span>작성일</span>
 						<span>조회수</span>
 					</li>
-				</S.NoticeHeaderUl>
-				<S.NoticeContentUl>
+				</S.NoticeHeaderOl>
+				<S.NoticeContentOl>
 					{notices
 						.filter((notice) => {
 							switch (selectedCate) {
@@ -62,8 +62,8 @@ const NoticeList = () => {
 						.map((notice) => (
 							<NoticeItem key={notice.noticeseq} notice={notice} />
 						))}
-				</S.NoticeContentUl>
-			</S.NoticeUlContainer>
+				</S.NoticeContentOl>
+			</S.NoticeOlContainer>
 		</>
 	);
 };

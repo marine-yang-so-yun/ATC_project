@@ -43,11 +43,11 @@ export const CateBtn = styled.button<{ $active: boolean }>`
 		`}
 `;
 
-export const NoticeUlContainer = styled.div`
+export const NoticeOlContainer = styled.div`
 	padding: 1% 5%;
 `;
 
-export const NoticeUl = styled.ul`
+export const NoticeOl = styled.ol`
 	width: 100%;
 
 	& > li {
@@ -64,14 +64,31 @@ export const NoticeUl = styled.ul`
 	}
 `;
 
-export const NoticeHeaderUl = styled(NoticeUl)`
+export const NoticeHeaderOl = styled(NoticeOl)`
 	font-size: ${theme.fontSize.md};
 	font-weight: 600;
 	background-color: ${theme.color.lightGray};
 `;
 
-export const NoticeContentUl = styled(NoticeUl)`
+export const NoticeContentOl = styled.ol`
 	& > li {
-		border-bottom: 1px solid ${theme.color.gray};
+		border-bottom: 1px solid ${theme.color.lightGray};
+		width: 100%;
+
+		& > div > span {
+			display: inline-block;
+			width: 12.5%;
+			padding: 10px 0;
+			text-align: center;
+
+			&:nth-child(3) {
+				width: 50%;
+			}
+		}
+
+		& > p {
+			display: none;
+			padding: 0 25%;
+		}
 	}
 `;
