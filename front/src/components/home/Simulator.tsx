@@ -11,8 +11,21 @@ const ContainerBox = ({ data }: { data: CurrentContainerWorkData }) => {
 	const boxGeometry = new THREE.BoxGeometry(2, 1, 1);
 	const edges = new THREE.EdgesGeometry(boxGeometry);
 
+	let x = -300;
+	let z = -600;
+	if (!isNaN(Number(data.block[0]))) {
+		x += (10 - Number(data.block[0])) * 50;
+		z += (data.block[1].charCodeAt(0) - 65) * 50;
+	} else {
+		x += (10 - Number(data.block[1])) * 50 - 1;
+		z += (data.block[0].charCodeAt(0) - 65) * 50;
+	}
+
 	return (
-		<group position={[data.bay * 2, 0.5 + data.tier, data.row]} castShadow>
+		<group
+			position={[x + data.bay * 2, 0.5 + data.tier, z + data.row]}
+			castShadow
+		>
 			<mesh geometry={boxGeometry}>
 				<meshStandardMaterial color="#f2f2f2" />
 			</mesh>
@@ -26,8 +39,8 @@ const ContainerBox = ({ data }: { data: CurrentContainerWorkData }) => {
 const Floor = () => {
 	return (
 		<mesh rotation={[-angleToRadians(90), 0, 0]} receiveShadow>
-			<planeGeometry args={[50, 50]} />
-			<meshStandardMaterial color="#1f6523" />
+			<planeGeometry args={[1000, 1500]} />
+			<meshStandardMaterial color="#a0f4a4" />
 		</mesh>
 	);
 };
@@ -58,6 +71,7 @@ const Simulator = () => {
 				const { data } =
 					await apiService.containerService.getCurrentContainerWork();
 				setContainerWorkList(data);
+				console.log(data);
 			} catch (error) {
 				console.log(error);
 			}

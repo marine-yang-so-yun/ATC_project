@@ -13,8 +13,9 @@ export interface NoticeData {
 }
 
 export interface CurrentContainerWorkData {
-	container: "string";
-	timeEnd: "string";
+	container: string;
+	timeEnd: string;
+	block: string;
 	bay: number;
 	row: number;
 	tier: number;
