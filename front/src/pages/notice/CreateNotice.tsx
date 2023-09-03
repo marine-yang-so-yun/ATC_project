@@ -2,10 +2,43 @@ import apiService from "api";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUser } from "utils/localStorage";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import { NoticeTitle, TitleContainer } from "styles/notice/noticeList.style";
+import * as S from "styles/notice/createNotice.style";
+import { LightPurpleBtn } from "styles/commons";
+
+const modules = {
+	toolbar: {
+		container: [
+			[{ header: [1, 2, 3, 4, 5, 6, false] }],
+			[{ font: [] }],
+			[{ align: [] }],
+			["bold", "italic", "underline", "strike", "blockquote"],
+			[
+				{ list: "ordered" },
+				{ list: "bullet" },
+				{ indent: "-1" },
+				{ indent: "+1" },
+			],
+			[
+				{
+					color: ["#000000", "#e60000", "#0066cc", "#ffffff"],
+				},
+				{
+					background: ["#000000", "#e60000", "#0066cc", "#ffffff"],
+				},
+			],
+			["image", "video"],
+			["clean"],
+		],
+	},
+};
 
 const CreateNotice = () => {
-	const [form, setForm] = useState({ title: "", urgency: false, content: "" });
-	const { title, urgency, content } = form;
+	const [form, setForm] = useState({ title: "", urgency: false });
+	const [content, setContent] = useState<string>("");
+	const { title, urgency } = form;
 	const writer = getUser() || "";
 	const navigate = useNavigate();
 
@@ -20,7 +53,8 @@ const CreateNotice = () => {
 			noticedetail: content,
 		});
 
-		setForm({ title: "", urgency: false, content: "" });
+		setForm({ title: "", urgency: false });
+		setContent("");
 		navigate("/notice");
 	};
 
@@ -34,14 +68,18 @@ const CreateNotice = () => {
 
 	return (
 		<>
-			<form onSubmit={(e) => onSubmit(e)}>
-				<input
+			<TitleContainer>
+				<NoticeTitle>공지사항</NoticeTitle>
+			</TitleContainer>
+			<S.CreateNoticeForm onSubmit={(e) => onSubmit(e)}>
+				<S.NoticeTitleInput
 					name="title"
 					type="text"
 					value={title}
 					onChange={changeFormValue}
 					placeholder="제목"
 					required
+					autoFocus
 				/>
 				<input
 					name="urgency"
@@ -51,16 +89,14 @@ const CreateNotice = () => {
 					id="urgency"
 				/>
 				<label htmlFor="urgency">공지</label>
-				<input
-					name="content"
-					type="text"
+				<ReactQuill
 					value={content}
-					onChange={changeFormValue}
-					placeholder="내용"
-					required
+					onChange={setContent}
+					modules={modules}
+					theme="snow"
 				/>
-				<button type="submit">작성</button>
-			</form>
+				<LightPurpleBtn type="submit">작성하기</LightPurpleBtn>
+			</S.CreateNoticeForm>
 		</>
 	);
 };

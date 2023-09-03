@@ -98,7 +98,7 @@ export const NoticeTitleBtn = styled.button<{ $isContentOpen: boolean }>`
 		`}
 `;
 
-export const NoticeContent = styled.p<{ $isContentOpen: boolean }>`
+export const NoticeContent = styled.div<{ $isContentOpen: boolean }>`
 	display: ${({ $isContentOpen }) => ($isContentOpen ? "block" : "none")};
 	padding: 1% 25%;
 `;
