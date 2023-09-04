@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,9 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.entity.Maxblock;
 import com.example.demo.repository.ContainerWorkRepository;
-import com.example.demo.repository.MaxblockRepository;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +20,7 @@ import lombok.ToString;
 @ToString
 class CurrentContainer	{
 	private String container;
-	private String timeEnd;
+	private Timestamp timeEnd;
 	private int bay;
 	private int row;
 	private int tier;
@@ -47,11 +46,11 @@ public class ContainerWorkController {
       for (Object[] objs : list)   {
          CurrentContainer temp = new CurrentContainer();
          temp.setContainer((String)objs[0]);
-         temp.setTimeEnd((String)objs[1]);
+         temp.setTimeEnd((Timestamp)objs[1]);
          temp.setBlock((String)objs[2]);
-         temp.setBay(Integer.parseInt(((String)objs[3]).substring(1)));
-         temp.setRow(Integer.parseInt(((String)objs[4]).substring(1)));
-         temp.setTier(Integer.parseInt(((String)objs[5]).substring(1)));
+         temp.setBay((int)objs[3]);
+         temp.setRow((int)objs[4]);
+         temp.setTier((int)objs[5]);
          result.add(temp);
       }
       
