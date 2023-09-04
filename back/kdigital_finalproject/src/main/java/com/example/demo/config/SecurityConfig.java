@@ -68,8 +68,8 @@ public class SecurityConfig {
          
          security
          .requestMatchers("/notice/createNotice").hasRole("ADMIN")
-         //.requestMatchers("/notice/updateNotice").hasRole("ADMIN")
-         //.requestMatchers("/notice/deleteNotice").hasRole("ADMIN")
+         .requestMatchers("/notice/updateNotice").hasRole("ADMIN")
+         .requestMatchers("/notice/deleteNotice").hasRole("ADMIN")
          .anyRequest().permitAll();
       });
       

@@ -14,7 +14,7 @@ public interface ContainerWorkRepository extends JpaRepository<ContainerWork, In
 	List<ContainerWork> findWorkingStart();
 
 	
-	@Query(value = "SELECT container, timeEnd, bay2, row2, tier2"
+	@Query(value = "SELECT container, timeEnd, block2, bay2, row2, tier2 "
 			+ "FROM ContainerWork "
 			+ "WHERE (container, timeEnd) IN ( "
 			+ "  SELECT container, MAX(timeEnd) "

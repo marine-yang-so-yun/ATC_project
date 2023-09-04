@@ -26,9 +26,7 @@ class CurrentContainer	{
 	private int row;
 	private int tier;
 	
-	private int maxbay;
-	private int maxrow;
-	private int maxtier;
+	private int block2;
 }
 
 
@@ -54,7 +52,6 @@ public class ContainerWorkController {
 			temp.setBay(Integer.parseInt(((String)objs[2]).substring(1)));
 			temp.setRow(Integer.parseInt(((String)objs[3]).substring(1)));
 			temp.setTier(Integer.parseInt(((String)objs[4]).substring(1)));
-			
 			result.add(temp);
 		}
 		

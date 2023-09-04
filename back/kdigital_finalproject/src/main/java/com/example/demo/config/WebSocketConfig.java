@@ -141,11 +141,14 @@ class Scheduler {
 				sendData.setRow2(Integer.parseInt(work.getRow2().substring(1)));
 				
 				sendData.setTime_taken(work.getTimeTaken());
+				sendData.setBlock(work.getBlock1());
 				
-				sendData.setBlock(blockinfo.getBlock());
-				sendData.setMaxbay(blockinfo.getMaxbay());
-				sendData.setMaxrow(blockinfo.getMaxrow());
-				sendData.setMaxtier(blockinfo.getMaxtier());
+				if (blockinfo != null)	{
+					sendData.setMaxbay(blockinfo.getMaxbay());
+					sendData.setMaxrow(blockinfo.getMaxrow());
+					sendData.setMaxtier(blockinfo.getMaxtier());
+				}
+
 
 				sdList.add(sendData);
 			}
