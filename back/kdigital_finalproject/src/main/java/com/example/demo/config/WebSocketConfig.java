@@ -52,7 +52,7 @@ class SendData {
 	
 	private String time_taken;
 	
-	private String block;
+	private String block2;
 	private int maxbay;
 	private int maxrow;
 	private int maxtier;
@@ -132,16 +132,15 @@ class Scheduler {
 				Maxblock blockinfo = maxblockrepository.findBlockInfo(work.getBlock1());
 				
 				sendData.setWorkStatus("workingstart");
-				sendData.setBay1(Integer.parseInt(work.getBay1().substring(1)));
-				sendData.setRow1(Integer.parseInt(work.getRow1().substring(1)));
-				sendData.setTier1(Integer.parseInt(work.getTier1().substring(1)));
+				sendData.setBay1(work.getBay1());
+				sendData.setRow1(work.getRow1());
+				sendData.setTier1(work.getTier1());
 				
-				sendData.setTier2(Integer.parseInt(work.getTier2().substring(1)));
-				sendData.setBay2(Integer.parseInt(work.getBay2().substring(1)));
-				sendData.setRow2(Integer.parseInt(work.getRow2().substring(1)));
-				
-				sendData.setTime_taken(work.getTimeTaken());
-				sendData.setBlock(work.getBlock1());
+				sendData.setTier2(work.getBay2());
+				sendData.setBay2(work.getRow2());
+				sendData.setRow2(work.getTier2());
+
+				sendData.setBlock2(work.getBlock2());
 				
 				if (blockinfo != null)	{
 					sendData.setMaxbay(blockinfo.getMaxbay());
