@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.entity.Maxblock;
 import com.example.demo.repository.ContainerWorkRepository;
+import com.example.demo.repository.MaxblockRepository;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +25,10 @@ class CurrentContainer	{
 	private int bay;
 	private int row;
 	private int tier;
+	
+	private int maxbay;
+	private int maxrow;
+	private int maxtier;
 }
 
 
@@ -43,7 +49,6 @@ public class ContainerWorkController {
 		
 		for (Object[] objs : list)	{
 			CurrentContainer temp = new CurrentContainer();
-			
 			temp.setContainer((String)objs[0]);
 			temp.setTimeEnd((String)objs[1]);
 			temp.setBay(Integer.parseInt(((String)objs[2]).substring(1)));

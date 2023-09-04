@@ -69,7 +69,7 @@ public class SecurityConfig {
          security
          .requestMatchers("/notice/createNotice").hasRole("ADMIN")
          //.requestMatchers("/notice/updateNotice").hasRole("ADMIN")
-         .requestMatchers("/notice/deleteNotice").hasRole("ADMIN")
+         //.requestMatchers("/notice/deleteNotice").hasRole("ADMIN")
          .anyRequest().permitAll();
       });
       
@@ -77,6 +77,7 @@ public class SecurityConfig {
       http.sessionManagement(ssmg->ssmg.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
       http.addFilter(new JWTAuthenticationFilter(authConfig.getAuthenticationManager(), memberRepo));
       http.addFilter(new JWTAuthorizationFilter(authConfig.getAuthenticationManager(), memberRepo));
+      
       return http.build();
    }
 }

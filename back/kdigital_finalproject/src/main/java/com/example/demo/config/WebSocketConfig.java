@@ -24,7 +24,9 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.example.demo.entity.ContainerWork;
+import com.example.demo.entity.Maxblock;
 import com.example.demo.repository.ContainerWorkRepository;
+import com.example.demo.repository.MaxblockRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -49,6 +51,11 @@ class SendData {
 	private int tier2;
 	
 	private String time_taken;
+	
+	private String block;
+	private int maxbay;
+	private int maxrow;
+	private int maxtier;
 }
 
 
@@ -91,7 +98,11 @@ class WebSocketHandler extends TextWebSocketHandler {
 class Scheduler {
 
 	@Autowired
-	ContainerWorkRepository repository;
+	ContainerWorkRepository containerworkrepository;
+	
+	
+	@Autowired
+	MaxblockRepository maxblockrepository;
 	
 	@Scheduled(fixedDelay = 1000)			// scheduler 끝나는 시간 기준으로 1000 간격으로 실행
 	public void fixedDelayTask() {
@@ -105,7 +116,7 @@ class Scheduler {
 		List<SendData> sdList = new ArrayList<>();
 		
 		
-		List<ContainerWork> worklist = repository.findWorkingStart();
+		List<ContainerWork> worklist = containerworkrepository.findWorkingStart();
 		
 	
 		if (!worklist.isEmpty())	{
@@ -117,6 +128,8 @@ class Scheduler {
 			for (ContainerWork work : worklist)	{
 				
 				SendData sendData = new SendData();
+				log.info(work.getBlock1());
+				Maxblock blockinfo = maxblockrepository.findBlockInfo(work.getBlock1());
 				
 				sendData.setWorkStatus("workingstart");
 				sendData.setBay1(Integer.parseInt(work.getBay1().substring(1)));
@@ -128,6 +141,11 @@ class Scheduler {
 				sendData.setRow2(Integer.parseInt(work.getRow2().substring(1)));
 				
 				sendData.setTime_taken(work.getTimeTaken());
+				
+				sendData.setBlock(blockinfo.getBlock());
+				sendData.setMaxbay(blockinfo.getMaxbay());
+				sendData.setMaxrow(blockinfo.getMaxrow());
+				sendData.setMaxtier(blockinfo.getMaxtier());
 
 				sdList.add(sendData);
 			}
