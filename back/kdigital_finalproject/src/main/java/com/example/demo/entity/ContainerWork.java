@@ -46,5 +46,4 @@ public class ContainerWork {
     private String containerSize;
     private String crainNum;
     private Timestamp timeEnd;
-
 }

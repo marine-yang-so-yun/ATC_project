@@ -10,7 +10,7 @@ import com.example.demo.entity.ContainerWork;
 public interface ContainerWorkRepository extends JpaRepository<ContainerWork, Integer> {
 
 	
-	@Query(value = "SELECT c FROM ContainerWork c where timeStart = date_format(now(), '%H:%i:%s')")
+	@Query(value = "SELECT c FROM ContainerWork c WHERE TIME(timeEnd) = TIME(NOW())")
 	List<ContainerWork> findWorkingStart();
 
 	
@@ -19,7 +19,7 @@ public interface ContainerWorkRepository extends JpaRepository<ContainerWork, In
 			+ "WHERE (container, timeEnd) IN ( "
 			+ "  SELECT container, MAX(timeEnd) "
 			+ "  FROM ContainerWork "
-			+ "  WHERE timeEnd <= DATE_FORMAT(NOW(), '%H:%i:%s') "
+			+ "  WHERE TIME(timeEnd) <= TIME(NOW()) "
 			+ "  GROUP BY container"
 			+ ")")
 	List<Object[]> findWorkAll();

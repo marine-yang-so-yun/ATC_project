@@ -50,8 +50,7 @@ public class NoticeService {
 		
 	}
 	
-	public boolean deleteNotice(Notice notice) throws IOException	{
-		int seq = notice.getNoticeseq();
+	public boolean deleteNotice(int seq) throws IOException	{
 		Notice noticetemp = noticeRepository.findById(seq).orElse(null);
 		
 		if (noticetemp != null)		{

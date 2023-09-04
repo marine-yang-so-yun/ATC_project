@@ -101,15 +101,12 @@ class Scheduler {
 	ContainerWorkRepository containerworkrepository;
 	
 	
-	@Autowired
-	MaxblockRepository maxblockrepository;
-	
 	@Scheduled(fixedDelay = 1000)			// scheduler 끝나는 시간 기준으로 1000 간격으로 실행
 	public void fixedDelayTask() {
 		
 		
 		LocalTime now = LocalTime.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmmss");
 		String formatedNow = now.format(formatter);
 		log.info(formatedNow);
 		int sendFlag = 0;
@@ -129,7 +126,6 @@ class Scheduler {
 				
 				SendData sendData = new SendData();
 				log.info(work.getBlock1());
-				Maxblock blockinfo = maxblockrepository.findBlockInfo(work.getBlock1());
 				
 				sendData.setWorkStatus("workingstart");
 				sendData.setBay1(work.getBay1());
@@ -141,13 +137,6 @@ class Scheduler {
 				sendData.setRow2(work.getTier2());
 
 				sendData.setBlock2(work.getBlock2());
-				
-				if (blockinfo != null)	{
-					sendData.setMaxbay(blockinfo.getMaxbay());
-					sendData.setMaxrow(blockinfo.getMaxrow());
-					sendData.setMaxtier(blockinfo.getMaxtier());
-				}
-
 
 				sdList.add(sendData);
 			}
