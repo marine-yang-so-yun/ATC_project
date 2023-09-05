@@ -1,12 +1,13 @@
 import apiService from "api";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getUser } from "utils/localStorage";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { NoticeTitle, TitleContainer } from "styles/notice/noticeList.style";
 import * as S from "styles/notice/createNotice.style";
 import { LightPurpleBtn } from "styles/commons";
+import { NoticeData } from "types/api";
 
 const modules = {
 	toolbar: {
@@ -36,8 +37,13 @@ const modules = {
 };
 
 const CreateNotice = () => {
-	const [form, setForm] = useState({ title: "", urgency: false });
-	const [content, setContent] = useState<string>("");
+	const location = useLocation();
+	const state: Omit<NoticeData, "noticedate"> | null = location.state;
+	const [form, setForm] = useState({
+		title: state?.noticetitle || "",
+		urgency: state?.noticeurgency || false,
+	});
+	const [content, setContent] = useState<string>(state?.noticedetail || "");
 	const { title, urgency } = form;
 	const writer = getUser() || "";
 	const navigate = useNavigate();
@@ -46,12 +52,22 @@ const CreateNotice = () => {
 		e.preventDefault();
 		if (!title || !content || !writer) return;
 
-		await apiService.noticeService.postNotice({
-			noticetitle: title,
-			noticewriter: writer,
-			noticeurgency: urgency,
-			noticedetail: content,
-		});
+		if (state) {
+			await apiService.noticeService.putNotice({
+				noticeseq: state.noticeseq,
+				noticetitle: title,
+				noticewriter: writer,
+				noticeurgency: urgency,
+				noticedetail: content,
+			});
+		} else {
+			await apiService.noticeService.postNotice({
+				noticetitle: title,
+				noticewriter: writer,
+				noticeurgency: urgency,
+				noticedetail: content,
+			});
+		}
 
 		setForm({ title: "", urgency: false });
 		setContent("");
@@ -95,7 +111,9 @@ const CreateNotice = () => {
 					modules={modules}
 					theme="snow"
 				/>
-				<LightPurpleBtn type="submit">작성하기</LightPurpleBtn>
+				<LightPurpleBtn type="submit">
+					{state ? "수정하기" : "작성하기"}
+				</LightPurpleBtn>
 			</S.CreateNoticeForm>
 		</>
 	);
