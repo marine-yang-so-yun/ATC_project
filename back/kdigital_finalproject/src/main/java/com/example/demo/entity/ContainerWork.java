@@ -44,6 +44,6 @@ public class ContainerWork {
     private String truckNum;
     private String fullOrEmpty;
     private String containerSize;
-    private String crainNum;
+    private String crane;
     private Timestamp timeEnd;
 }

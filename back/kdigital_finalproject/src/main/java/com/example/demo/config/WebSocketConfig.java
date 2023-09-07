@@ -24,9 +24,7 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.example.demo.entity.ContainerWork;
-import com.example.demo.entity.Maxblock;
 import com.example.demo.repository.ContainerWorkRepository;
-import com.example.demo.repository.MaxblockRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -129,9 +127,9 @@ class Scheduler {
 				sendData.setRow1(work.getRow1());
 				sendData.setTier1(work.getTier1());
 				
-				sendData.setTier2(work.getBay2());
-				sendData.setBay2(work.getRow2());
-				sendData.setRow2(work.getTier2());
+				sendData.setBay2(work.getBay2());
+				sendData.setRow2(work.getRow2());
+				sendData.setTier2(work.getTier2());
 
 				sendData.setBlock2(work.getBlock2());
 
