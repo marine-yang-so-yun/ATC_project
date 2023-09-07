@@ -1,7 +1,12 @@
 package com.example.demo.controller;
 
+
+
+
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +48,11 @@ public class ContainerWorkController {
       List<Object[]> list = repository.findWorkAll();
       List<Object> result = new ArrayList<>();
       
+      SimpleDateFormat sf = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
+      
+      
       for (Object[] objs : list)   {
+    	  
          CurrentContainer temp = new CurrentContainer();
          temp.setContainer((String)objs[0]);
          temp.setTimeEnd((Timestamp)objs[1]);
@@ -52,6 +61,8 @@ public class ContainerWorkController {
          temp.setRow((int)objs[4]);
          temp.setTier((int)objs[5]);
          result.add(temp);
+         
+         
       }
       
       return result;

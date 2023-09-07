@@ -50,12 +50,9 @@ class SendData {
 	private int row2;
 	private int tier2;
 	
-	private String time_taken;
 	
 	private String block2;
-	private int maxbay;
-	private int maxrow;
-	private int maxtier;
+
 }
 
 
