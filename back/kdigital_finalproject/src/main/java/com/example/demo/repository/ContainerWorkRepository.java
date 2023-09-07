@@ -29,11 +29,11 @@ public interface ContainerWorkRepository extends JpaRepository<ContainerWork, In
 	
 	// 블록별로 마지막으로 일한 timeEnd, block2, bay2, row2, tier2 를 출력하는 쿼리
 	
-	@Query(value = "SELECT c.block2, c.max_time_end, cw.bay2, cw.row2, cw.tier2 " +
+	@Query(value = "SELECT c.block2, c.max_time_end, cw.bay2, cw.row2, cw.tier2, cw.crane " +
 		       "FROM ( " +
 		       "    SELECT block2, MAX(time_end) AS max_time_end " +
 		       "    FROM container_work " +
-		       "    WHERE TIME(time_end) < TIME(NOW()) " +
+		       "    WHERE TIME(time_end) <= TIME(NOW()) " +
 		       "    GROUP BY block2 " +
 		       ") AS c " +
 		       "JOIN container_work AS cw " +
@@ -42,9 +42,6 @@ public interface ContainerWorkRepository extends JpaRepository<ContainerWork, In
 		List<Object[]> findLastTimeWorkByBlock();
 
 
-	
-	
-	
 	
 	// 해당 블록에서 일하는 ATC 번호를 찾는 코드
 	

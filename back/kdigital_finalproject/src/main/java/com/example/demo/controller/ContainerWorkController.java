@@ -50,6 +50,7 @@ class LastTimeWork	{
 	private int bay;
 	private int row;
 	private int tier;
+	private String crane;
 }
 
 
@@ -102,6 +103,7 @@ public class ContainerWorkController {
 		   workingcrane.setCraneseq(i);
 		   workingcrane.setCrane((String)objs);
 		   result.add(workingcrane);
+		   i++;
 	   }
 	   
 	   return result;
@@ -122,7 +124,7 @@ public class ContainerWorkController {
 		   temp.setBay((int) objs[2]);
 		   temp.setRow((int) objs[3]);
 		   temp.setTier((int) objs[4]);
-		   
+		   temp.setCrane((String) objs[5]);
 		   result.add(temp);
 		   
 	   }
