@@ -47,9 +47,8 @@ class SendData {
 	private int bay2;
 	private int row2;
 	private int tier2;
-	
-	
 	private String block2;
+	private String crane;
 
 }
 
@@ -132,7 +131,7 @@ class Scheduler {
 				sendData.setTier2(work.getTier2());
 
 				sendData.setBlock2(work.getBlock2());
-
+				sendData.setCrane(work.getCrane());
 				sdList.add(sendData);
 			}
 			
