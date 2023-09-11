@@ -74,7 +74,7 @@ public class ContainerWorkController {
    
    //각 컨테이너의 마지막 위치를 보내주는 쿼리
    @GetMapping("/current")
-   public Map<String, CurrentContainer> workAll()   {
+   public List<Object> workAll()   {
 		List<Object[]> list = repository.findWorkAll();
 		Map<String, CurrentContainer> map = new HashMap<>();
 		
@@ -124,7 +124,9 @@ public class ContainerWorkController {
 			}
 		}
 		
-		return map;
+		List<Object> result = new ArrayList(map.values());
+		
+		return result;
    }
    
    
