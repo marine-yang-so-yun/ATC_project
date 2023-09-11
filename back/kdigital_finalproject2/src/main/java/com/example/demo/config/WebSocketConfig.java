@@ -40,9 +40,16 @@ import lombok.extern.slf4j.Slf4j;
 class SendData {
 
 	private String workStatus;
-	private String bay1;
-	private String row1;
-	private String tier1;
+	private int bay1;
+	private int row1;
+	private int tier1;
+	
+	private int bay2;
+	private int row2;
+	private int tier2;
+	private String block2;
+	private String crane;
+
 }
 
 
@@ -66,7 +73,10 @@ class WebSocketHandler extends TextWebSocketHandler {
 	
 	public static void sendData(String sendMessage) {
 		Set<String> keys = map.keySet();
-		System.out.println(String.format("==>%s[%d]", sendMessage, keys.size()));		
+		if (keys.size() <= 0)	{
+			return;
+		}
+		System.out.println(String.format("==>%s[%d]", sendMessage, keys.size()));
 		synchronized (map) {	// 블럭안에 코드를 수행하는 동안 map 객체에 대한 다른 스레드의 접근을 방지한다.
 			for (String key : keys) {
 				WebSocketSession ws = map.get(key);
@@ -75,6 +85,11 @@ class WebSocketHandler extends TextWebSocketHandler {
 				} catch (IOException e) {}
 			}
 		}
+	}
+	
+	public int getSize()	{
+		Set<String> keys = map.keySet();
+		return keys.size();
 	}
 }
 
@@ -85,21 +100,27 @@ class WebSocketHandler extends TextWebSocketHandler {
 class Scheduler {
 
 	@Autowired
-	ContainerWorkRepository repository;
+	ContainerWorkRepository containerworkrepository;
+	
+	@Autowired
+	WebSocketHandler websockethandler;
 	
 	@Scheduled(fixedDelay = 1000)			// scheduler 끝나는 시간 기준으로 1000 간격으로 실행
 	public void fixedDelayTask() {
 		
+		if (websockethandler.getSize() == 0)	{
+			return;
+		}
 		
 		LocalTime now = LocalTime.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmmss");
 		String formatedNow = now.format(formatter);
 		log.info(formatedNow);
 		int sendFlag = 0;
 		List<SendData> sdList = new ArrayList<>();
 		
 		
-		List<ContainerWork> worklist = repository.findWorkingStart();
+		List<ContainerWork> worklist = containerworkrepository.findWorkingStart();
 		
 	
 		if (!worklist.isEmpty())	{
@@ -111,12 +132,19 @@ class Scheduler {
 			for (ContainerWork work : worklist)	{
 				
 				SendData sendData = new SendData();
+				log.info(work.getBlock1());
 				
 				sendData.setWorkStatus("workingstart");
-				sendData.setBay1(work.getBay1().substring(1));
-				sendData.setRow1(work.getRow1().substring(1));
-				sendData.setTier1(work.getTier1().substring(1));
+				sendData.setBay1(work.getBay1());
+				sendData.setRow1(work.getRow1());
+				sendData.setTier1(work.getTier1());
+				
+				sendData.setBay2(work.getBay2());
+				sendData.setRow2(work.getRow2());
+				sendData.setTier2(work.getTier2());
 
+				sendData.setBlock2(work.getBlock2());
+				sendData.setCrane(work.getCrane());
 				sdList.add(sendData);
 			}
 			

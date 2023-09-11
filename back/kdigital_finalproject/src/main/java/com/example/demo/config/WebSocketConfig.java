@@ -73,7 +73,10 @@ class WebSocketHandler extends TextWebSocketHandler {
 	
 	public static void sendData(String sendMessage) {
 		Set<String> keys = map.keySet();
-		System.out.println(String.format("==>%s[%d]", sendMessage, keys.size()));		
+		if (keys.size() <= 0)	{
+			return;
+		}
+		System.out.println(String.format("==>%s[%d]", sendMessage, keys.size()));
 		synchronized (map) {	// 블럭안에 코드를 수행하는 동안 map 객체에 대한 다른 스레드의 접근을 방지한다.
 			for (String key : keys) {
 				WebSocketSession ws = map.get(key);
@@ -82,6 +85,11 @@ class WebSocketHandler extends TextWebSocketHandler {
 				} catch (IOException e) {}
 			}
 		}
+	}
+	
+	public int getSize()	{
+		Set<String> keys = map.keySet();
+		return keys.size();
 	}
 }
 
@@ -94,10 +102,15 @@ class Scheduler {
 	@Autowired
 	ContainerWorkRepository containerworkrepository;
 	
+	@Autowired
+	WebSocketHandler websockethandler;
 	
 	@Scheduled(fixedDelay = 1000)			// scheduler 끝나는 시간 기준으로 1000 간격으로 실행
 	public void fixedDelayTask() {
 		
+		if (websockethandler.getSize() == 0)	{
+			return;
+		}
 		
 		LocalTime now = LocalTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmmss");
