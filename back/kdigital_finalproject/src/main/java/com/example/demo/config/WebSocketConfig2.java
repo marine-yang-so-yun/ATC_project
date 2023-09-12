@@ -3,6 +3,7 @@ package com.example.demo.config;
 
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -34,30 +35,26 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
+
+
 @Getter
 @Setter
 @ToString
-class SendData {
-
-	private String workStatus;
-	private int bay1;
-	private int row1;
-	private int tier1;
-	
-	private int bay2;
-	private int row2;
-	private int tier2;
-	private String block2;
-	private String crane;
-
+class SendData2	{
+	private String container;
+	private int bay;
+	private int row;
+	private int tier;
+	private Timestamp timeEnd;
 }
-
 
 @Slf4j
 @Component
-class WebSocketHandler1 extends TextWebSocketHandler {
+class WebSocketHandler2 extends TextWebSocketHandler {
 
 	private static Map<String, WebSocketSession> map = new HashMap<>();
+	public static String receivedMessage;
+	public static int sendFlag = 0;
 
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -70,6 +67,13 @@ class WebSocketHandler1 extends TextWebSocketHandler {
 		log.info("user is disconntected![" + session.getId() + "]");
 		map.remove(session.getId());
 	}
+	
+    @Override
+    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        log.info("Received message from user [" + session.getId() + "]: " + message.getPayload());
+        receivedMessage = message.getPayload();
+        sendFlag = 1;
+    }
 	
 	public static void sendData(String sendMessage) {
 		Set<String> keys = map.keySet();
@@ -97,13 +101,13 @@ class WebSocketHandler1 extends TextWebSocketHandler {
 
 @Slf4j
 @Component
-class Scheduler1 {
+class Scheduler2 {
 
 	@Autowired
 	ContainerWorkRepository containerworkrepository;
 	
 	@Autowired
-	WebSocketHandler1 websockethandler;
+	WebSocketHandler2 websockethandler;
 	
 	@Scheduled(fixedDelay = 1000)			// scheduler 끝나는 시간 기준으로 1000 간격으로 실행
 	public void fixedDelayTask() {
@@ -116,37 +120,25 @@ class Scheduler1 {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmmss");
 		String formatedNow = now.format(formatter);
 		log.info(formatedNow);
-		int sendFlag = 0;
-		List<SendData> sdList = new ArrayList<>();
+		List<SendData2> sdList = new ArrayList<>();
 		
 		
-		List<ContainerWork> worklist = containerworkrepository.findWorkingStart();
+		List<ContainerWork> worklist = containerworkrepository.findWorkListByATC(WebSocketHandler2.receivedMessage);
 		
 	
 		if (!worklist.isEmpty())	{
 			
-			sendFlag = 1;
-			
-			System.out.println("******************");
-			
+			System.out.println("*********Send findWorkListByATC*********");
 			for (ContainerWork work : worklist)	{
+				SendData2 sendData = new SendData2();
+				sendData.setContainer(work.getContainer());
+				sendData.setBay(work.getBay1());
+				sendData.setRow(work.getRow1());
+				sendData.setTier(work.getTier1());
+				sendData.setTimeEnd(work.getTimeEnd());
 				
-				SendData sendData = new SendData();
-				log.info(work.getBlock1());
-				
-				sendData.setWorkStatus("workingstart");
-				sendData.setBay1(work.getBay1());
-				sendData.setRow1(work.getRow1());
-				sendData.setTier1(work.getTier1());
-				
-				sendData.setBay2(work.getBay2());
-				sendData.setRow2(work.getRow2());
-				sendData.setTier2(work.getTier2());
-
-				sendData.setBlock2(work.getBlock2());
-				sendData.setCrane(work.getCrane());
-				sdList.add(sendData);
 			}
+
 			
 			
 		}
@@ -155,9 +147,9 @@ class Scheduler1 {
         	// Create ObjectMapper instance
         	ObjectMapper objectMapper = new ObjectMapper();
         	
-        	if (sendFlag == 1)	{
-        		WebSocketHandler1.sendData(objectMapper.writeValueAsString(sdList));
-        		sendFlag = 0;
+        	if (WebSocketHandler2.sendFlag == 1)	{
+        		WebSocketHandler2.sendData(objectMapper.writeValueAsString(sdList));
+        		WebSocketHandler2.sendFlag = 0;
         	}
 			
 		} catch (JsonProcessingException e) {
@@ -167,15 +159,15 @@ class Scheduler1 {
 	}
 }
 
-// 클라이언트에서 연결할 웹소켓 설정 : ws://localhost:8080/pushservice
+// 클라이언트에서 연결할 웹소켓 설정 : ws://localhost:8080/findWorkListByATC
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSocket
-public class WebSocketConfig implements WebSocketConfigurer {
-    private final WebSocketHandler1 webSocketHandler;
+public class WebSocketConfig2 implements WebSocketConfigurer {
+    private final WebSocketHandler2 webSocketHandler;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(webSocketHandler, "pushservice").setAllowedOrigins("*");
+        registry.addHandler(webSocketHandler, "findWorkListByATC").setAllowedOrigins("*");
     }
 }
