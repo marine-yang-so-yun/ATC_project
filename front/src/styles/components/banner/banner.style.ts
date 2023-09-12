@@ -29,4 +29,7 @@ export const Carousel = styled.div<{ $count: number }>`
 export const BannerBarLink = styled(Link)`
 	display: block;
 	line-height: 40px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 `;
