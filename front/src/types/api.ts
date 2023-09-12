@@ -12,26 +12,6 @@ export interface NoticeData {
 	noticedetail: string;
 }
 
-export interface CurrentContainerWorkData {
-	container: string;
-	timeEnd: string;
-	block: string;
-	bay: number;
-	row: number;
-	tier: number;
-}
-
-export interface SocketContainerData {
-	bay1: number;
-	bay2: number;
-	block2: string;
-	row1: number;
-	row2: number;
-	tier1: number;
-	tier2: number;
-	workStatus: string;
-}
-
 export interface ContainerWorkData {
 	id: number;
 	container: string;
@@ -51,8 +31,32 @@ export interface ContainerWorkData {
 	truckNum: string;
 	fullOrEmpty: string;
 	containerSize: string;
-	crainNum: string;
+	crane: string;
 	timeEnd: Date;
+}
+
+export interface CurrentContainerWorkData {
+	crane: string;
+	container: string;
+	timeEnd: string;
+	block: string;
+	bay: number;
+	row: number;
+	tier: number;
+}
+
+export type CurrentATCWorkData = Omit<CurrentContainerWorkData, "container">;
+
+export interface SocketContainerData {
+	bay1: number;
+	bay2: number;
+	block2: string;
+	row1: number;
+	row2: number;
+	tier1: number;
+	tier2: number;
+	crane: string;
+	workStatus: string;
 }
 
 export interface MaxBlockData {
@@ -60,4 +64,9 @@ export interface MaxBlockData {
 	maxbay: number;
 	maxrow: number;
 	maxtier: number;
+}
+
+export interface WorkingCraneData {
+	craneseq: number;
+	crane: string;
 }
