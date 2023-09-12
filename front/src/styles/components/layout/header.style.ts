@@ -1,12 +1,21 @@
 import styled, { css } from "styled-components";
 import { theme } from "styles/theme";
 
-export const HeaderContainer = styled.header`
+export const HeaderContainer = styled.header<{ $isTop: boolean }>`
+	box-sizing: content-box;
+	position: sticky;
+	top: 0;
+	left: 0;
+	right: 0;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	height: 90px;
 	padding: 0 5%;
+	background-color: ${theme.color.white};
+	z-index: 999;
+	border-bottom: ${({ $isTop }) =>
+		!$isTop && `2px solid ${theme.color.purple}`};
 `;
 
 export const NavBtn = styled.button<{ $isMenuOpen?: boolean }>`

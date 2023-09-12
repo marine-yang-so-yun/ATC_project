@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaUser, FaBars } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import * as S from "styles/components/layout/header.style";
@@ -8,13 +8,30 @@ const Header = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 	const loc = useLocation().pathname;
 	const navigate = useNavigate();
+	const headerRef = useRef<HTMLHeadElement>(null);
+	const [isTop, setIsTop] = useState<boolean>(true);
 
 	useEffect(() => {
 		setIsMenuOpen(false);
 	}, [loc]);
 
+	useEffect(() => {
+		const scrollEvent = () => {
+			if (!headerRef.current) return;
+
+			const clientHeight = headerRef.current.clientHeight;
+			if (window.scrollY > clientHeight) setIsTop(() => false);
+			else setIsTop(() => true);
+		};
+
+		window.addEventListener("scroll", scrollEvent);
+		return () => {
+			window.removeEventListener("scroll", scrollEvent);
+		};
+	}, []);
+
 	return (
-		<S.HeaderContainer>
+		<S.HeaderContainer ref={headerRef} $isTop={isTop}>
 			<Link to="/">
 				<img
 					src={process.env.PUBLIC_URL + "/logo.png"}

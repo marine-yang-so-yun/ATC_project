@@ -1,10 +1,14 @@
 import React from "react";
-import Simulator from "components/home/Simulator";
+import ATCWork from "components/home/ATCWork";
+import YardWork from "components/home/YardWork";
+import Monitoring from "components/home/Monitoring";
 
 const Home = () => {
 	return (
 		<>
-			<Simulator />
+			<Monitoring />
+			<ATCWork />
+			<YardWork />
 		</>
 	);
 };

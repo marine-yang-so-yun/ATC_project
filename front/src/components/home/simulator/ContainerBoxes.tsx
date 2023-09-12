@@ -3,7 +3,7 @@ import { useFrame, useLoader } from "@react-three/fiber";
 import * as THREE from "three";
 import { ContainerBoxesProps } from "types/simulator";
 
-const ContainerBoxes = ({ count, boxes }: ContainerBoxesProps) => {
+const ContainerBoxes = ({ count, containers }: ContainerBoxesProps) => {
 	const tempBoxes = new THREE.Object3D();
 	const meshRef = useRef<THREE.InstancedMesh | null>(null);
 	const outline = useLoader(
@@ -13,8 +13,8 @@ const ContainerBoxes = ({ count, boxes }: ContainerBoxesProps) => {
 
 	useFrame(() => {
 		if (meshRef.current) {
-			boxes.current.forEach((box, i) => {
-				tempBoxes.position.copy(box.position);
+			containers.current.forEach((container, i) => {
+				tempBoxes.position.copy(container.position);
 				tempBoxes.updateMatrix();
 				meshRef.current?.setMatrixAt(i, tempBoxes.matrix);
 			});

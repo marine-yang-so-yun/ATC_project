@@ -8,6 +8,7 @@ export const MainTitle = styled.h1`
 `;
 
 export const SectionTitle = styled.h2`
+	margin-bottom: 15px;
 	font-size: ${theme.fontSize.xl};
 	font-weight: 600;
 `;
@@ -24,4 +25,8 @@ export const LightPurpleBtn = styled.button`
 	&:hover {
 		background-color: ${theme.color.purple};
 	}
+`;
+
+export const SectionContainer = styled.section`
+	padding: 1% 5%;
 `;
