@@ -19,7 +19,7 @@ const NoticeItem = ({ notice }: { notice: NoticeData }) => {
 	const navigate = useNavigate();
 
 	const editNotice = () => {
-		navigate("/createnotice", {
+		navigate("/editnotice", {
 			state: { noticeseq, noticetitle, noticeurgency, noticedetail },
 		});
 	};

@@ -36,7 +36,7 @@ const modules = {
 	},
 };
 
-const CreateNotice = () => {
+const WriteNotice = () => {
 	const location = useLocation();
 	const state: Omit<NoticeData, "noticedate"> | null = location.state;
 	const [form, setForm] = useState({
@@ -119,4 +119,4 @@ const CreateNotice = () => {
 	);
 };
 
-export default CreateNotice;
+export default WriteNotice;
