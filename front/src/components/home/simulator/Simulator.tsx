@@ -110,7 +110,7 @@ const Simulator = () => {
 	if (!containerWorkList) return null;
 	return (
 		<S.ThreeCanvas shadows>
-			<PerspectiveCamera makeDefault position={[-100, 150, 150]} />
+			<PerspectiveCamera makeDefault position={[0, 120, 80]} zoom={1.5} />
 			<OrbitControls target={[0, 0, 0]} />
 			<ContainerBoxes count={count} containers={containers} />
 			<Floor />
@@ -122,7 +122,7 @@ const Simulator = () => {
 				castShadow
 			/>
 			<Stats />
-			<gridHelper args={[200, 130]} />
+			<gridHelper args={[160, 160]} />
 			<axesHelper args={[50]} />
 		</S.ThreeCanvas>
 	);
