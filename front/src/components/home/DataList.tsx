@@ -8,7 +8,7 @@ const DataList = ({ header }: DataListProps) => {
 			<S.DataListHeaderOl $count={header.length}>
 				<li>
 					{header.map((col) => (
-						<span>{col}</span>
+						<span key={col}>{col}</span>
 					))}
 				</li>
 			</S.DataListHeaderOl>
