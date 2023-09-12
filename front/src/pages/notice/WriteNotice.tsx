@@ -8,6 +8,8 @@ import { NoticeTitle, TitleContainer } from "styles/notice/noticeList.style";
 import * as S from "styles/notice/createNotice.style";
 import { LightPurpleBtn } from "styles/commons";
 import { NoticeData } from "types/api";
+import { getNoticeAsync } from "store/notice";
+import { useDispatch } from "react-redux";
 
 const modules = {
 	toolbar: {
@@ -45,8 +47,9 @@ const WriteNotice = () => {
 	});
 	const [content, setContent] = useState<string>(state?.noticedetail || "");
 	const { title, urgency } = form;
-	const writer = getUser() || "";
+	const writer = getUser()?.replaceAll('"', "") || "";
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -60,6 +63,7 @@ const WriteNotice = () => {
 				noticeurgency: urgency,
 				noticedetail: content,
 			});
+			await dispatch<any>(getNoticeAsync());
 		} else {
 			await apiService.noticeService.postNotice({
 				noticetitle: title,
@@ -67,6 +71,7 @@ const WriteNotice = () => {
 				noticeurgency: urgency,
 				noticedetail: content,
 			});
+			await dispatch<any>(getNoticeAsync());
 		}
 
 		setForm({ title: "", urgency: false });
