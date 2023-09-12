@@ -123,7 +123,7 @@ class Scheduler2 {
 		List<SendData2> sdList = new ArrayList<>();
 		
 		
-		List<ContainerWork> worklist = containerworkrepository.findWorkListByATC(WebSocketHandler2.receivedMessage);
+		List<ContainerWork> worklist = containerworkrepository.findWorkListByATC(Integer.parseInt(WebSocketHandler2.receivedMessage));
 		
 	
 		if (!worklist.isEmpty())	{
