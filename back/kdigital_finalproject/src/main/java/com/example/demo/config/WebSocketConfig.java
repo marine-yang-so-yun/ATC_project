@@ -384,9 +384,9 @@ class WebSocketHandler3 extends TextWebSocketHandler {
         	// Create ObjectMapper instance
         	ObjectMapper objectMapper = new ObjectMapper();
         	
-        	if (WebSocketHandler2.sendFlag == 1)	{
+        	if (WebSocketHandler3.sendFlag == 1)	{
         		sendData(objectMapper.writeValueAsString(sdList));
-        		WebSocketHandler2.sendFlag = 0;
+        		WebSocketHandler3.sendFlag = 0;
         	}
 			
 		} catch (JsonProcessingException e) {
