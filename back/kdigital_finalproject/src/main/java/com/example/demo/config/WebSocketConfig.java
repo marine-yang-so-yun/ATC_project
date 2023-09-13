@@ -56,6 +56,7 @@ class SendData {
 @ToString
 class SendData2	{
 	private String container;
+	private String block;
 	private int bay;
 	private int row;
 	private int tier;
@@ -257,6 +258,7 @@ class WebSocketHandler2 extends TextWebSocketHandler {
 			for (ContainerWork work : worklist)	{
 				SendData2 sendData = new SendData2();
 				sendData.setContainer(work.getContainer());
+				sendData.setBlock(work.getBlock1());
 				sendData.setBay(work.getBay1());
 				sendData.setRow(work.getRow1());
 				sendData.setTier(work.getTier1());
