@@ -72,6 +72,7 @@ class WorkList	{
 	private String crane;
 	private Timestamp timeEnd;
 	private String truckNum;
+	private String workCode;
 }
 
 
@@ -205,7 +206,7 @@ public class ContainerWorkController {
 		   temp.setShip(containerwork.getShip());
 		   temp.setTimeEnd(containerwork.getTimeEnd());
 		   temp.setTruckNum(containerwork.getTruckNum());
-		   
+		   temp.setWorkCode(containerwork.getWorkCode());
 		   result.add(temp);
 	   }
 	   
