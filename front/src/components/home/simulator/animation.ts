@@ -15,7 +15,7 @@ export const moveBoxAnimation = (
 			duration: 1,
 			ease: "linear",
 		},
-		"+=1"
+		">"
 	);
 
 	timeline.to(
@@ -56,7 +56,7 @@ export const moveCraneAnimation = (
 			x: toPosition.x,
 			y: 0,
 			z: toPosition.z,
-			duration: 10,
+			duration: 5,
 			ease: "power2.out",
 			onComplete: resolve,
 		});
