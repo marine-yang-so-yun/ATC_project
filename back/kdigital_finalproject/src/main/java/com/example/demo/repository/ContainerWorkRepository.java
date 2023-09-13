@@ -58,6 +58,6 @@ public interface ContainerWorkRepository extends JpaRepository<ContainerWork, In
 	@Query(value = "SELECT c FROM ContainerWork c WHERE crane=:keyword AND TIME(NOW())<=TIME(timeEnd) ORDER BY timeEnd ASC")
 	List<ContainerWork> findWorkListByATC(@Param("keyword") String paramValue);
 	
-	@Query(value = "select c from container_work c where time(now()) <= time(time_end)", nativeQuery=true)
+	@Query(value = "select * from container_work where time(now()) <= time(time_end)", nativeQuery=true)
 	List<ContainerWork> findWorkList();
 }

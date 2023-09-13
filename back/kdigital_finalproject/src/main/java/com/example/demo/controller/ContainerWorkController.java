@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.entity.ContainerWork;
 import com.example.demo.entity.Maxblock;
 import com.example.demo.repository.ContainerWorkRepository;
 import com.example.demo.repository.MaxblockRepository;
@@ -56,6 +57,21 @@ class LastTimeWork	{
 	private int row;
 	private int tier;
 	private String crane;
+}
+
+@Getter
+@Setter
+@ToString
+class WorkList	{
+	private String container;
+	private String ship;
+	private String block;
+	private int bay;
+	private int row;
+	private int tier;
+	private String crane;
+	private Timestamp timeEnd;
+	private String truckNum;
 }
 
 
@@ -169,6 +185,31 @@ public class ContainerWorkController {
 	   }
 	   return result;
    
+   }
+   
+   
+   @GetMapping("/findWorkList")
+   public List<Object> findWorkList()	{
+	   List<ContainerWork> list = repository.findWorkList();
+	   List<Object> result = new ArrayList<>();
+	   
+	   
+	   for (ContainerWork containerwork : list)	{
+		   WorkList temp = new WorkList();
+		   temp.setContainer(containerwork.getContainer());
+		   temp.setCrane(containerwork.getCrane());
+		   temp.setBay(containerwork.getBay1());
+		   temp.setRow(containerwork.getRow1());
+		   temp.setTier(containerwork.getTier1());
+		   temp.setBlock(containerwork.getBlock1());
+		   temp.setShip(containerwork.getShip());
+		   temp.setTimeEnd(containerwork.getTimeEnd());
+		   temp.setTruckNum(containerwork.getTruckNum());
+		   
+		   result.add(temp);
+	   }
+	   
+	   return result;
    }
    
    
