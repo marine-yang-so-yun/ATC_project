@@ -56,9 +56,24 @@ class SendData {
 @ToString
 class SendData2	{
 	private String container;
+	private String block;
 	private int bay;
 	private int row;
 	private int tier;
+	private Timestamp timeEnd;
+}
+
+@Getter
+@Setter
+@ToString
+class SendData3	{
+	private String container;
+	private String ship;
+	private String block;
+	private int bay;
+	private int row;
+	private int tier;
+	private String crane;
 	private Timestamp timeEnd;
 }
 
@@ -230,7 +245,7 @@ class WebSocketHandler2 extends TextWebSocketHandler {
 		List<SendData2> sdList = new ArrayList<>();
 		
 		
-		List<ContainerWork> worklist = containerworkrepository.findWorkListByATC(Integer.parseInt(WebSocketHandler2.receivedMessage));
+		List<ContainerWork> worklist = containerworkrepository.findWorkListByATC(WebSocketHandler2.receivedMessage);
 		
 	
 		if (WebSocketHandler2.receivedMessage == "")	{
@@ -243,6 +258,7 @@ class WebSocketHandler2 extends TextWebSocketHandler {
 			for (ContainerWork work : worklist)	{
 				SendData2 sendData = new SendData2();
 				sendData.setContainer(work.getContainer());
+				sendData.setBlock(work.getBlock1());
 				sendData.setBay(work.getBay1());
 				sendData.setRow(work.getRow1());
 				sendData.setTier(work.getTier1());
@@ -269,6 +285,123 @@ class WebSocketHandler2 extends TextWebSocketHandler {
 		
 	}
 }
+
+
+
+@Slf4j
+@Component
+class WebSocketHandler3 extends TextWebSocketHandler {
+
+	private Map<String, WebSocketSession> map = new HashMap<>();
+	public static String receivedMessage;
+	public static int sendFlag = 0;
+	
+	@Autowired
+	ContainerWorkRepository containerworkrepository;
+
+	@Override
+	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+		log.info("user is conntected![" + session.getId() + "]");
+		map.put(session.getId(), session);
+	}
+	
+	@Override
+	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+		log.info("user is disconntected![" + session.getId() + "]");
+		map.remove(session.getId());
+	}
+	
+    @Override
+    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        log.info("Received message from user [" + session.getId() + "]: " + message.getPayload());
+        receivedMessage = message.getPayload();
+        sendFlag = 1;
+    }
+	
+	public void sendData(String sendMessage) {
+		Set<String> keys = map.keySet();
+		if (keys.size() <= 0)	{
+			return;
+		}
+		System.out.println(String.format("==>%s[%d]", sendMessage, keys.size()));
+		synchronized (map) {	// 블럭안에 코드를 수행하는 동안 map 객체에 대한 다른 스레드의 접근을 방지한다.
+			for (String key : keys) {
+				WebSocketSession ws = map.get(key);
+				try {
+					ws.sendMessage(new TextMessage(sendMessage));
+				} catch (IOException e) {}
+			}
+		}
+	}
+	
+	public int getSize()	{
+		Set<String> keys = map.keySet();
+		return keys.size();
+	}
+	
+	@Scheduled(fixedDelay = 1000)			// scheduler 끝나는 시간 기준으로 1000 간격으로 실행
+	public void fixedDelayTask() {
+		
+		if (getSize() == 0)	{
+			return;
+		}
+		
+		LocalTime now = LocalTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmmss");
+		String formatedNow = now.format(formatter);
+		log.info(formatedNow);
+		List<SendData3> sdList = new ArrayList<>();
+		
+		
+		List<ContainerWork> worklist = containerworkrepository.findWorkList();
+		
+	
+		if (WebSocketHandler2.receivedMessage == "")	{
+			return;
+		}
+		
+		if (!worklist.isEmpty())	{
+			
+			System.out.println("*********Send findWorkList*********");
+			for (ContainerWork work : worklist)	{
+				SendData3 sendData = new SendData3();
+				sendData.setContainer(work.getContainer());
+				sendData.setCrane(work.getCrane());
+				sendData.setBay(work.getBay1());
+				sendData.setBlock(work.getBlock1());
+				sendData.setRow(work.getRow1());
+				sendData.setTier(work.getTier1());
+				sendData.setShip(work.getShip());
+				sendData.setTimeEnd(work.getTimeEnd());
+				
+				sdList.add(sendData);
+				
+				
+			}
+
+			
+		}
+		
+        try {
+        	// Create ObjectMapper instance
+        	ObjectMapper objectMapper = new ObjectMapper();
+        	
+        	if (WebSocketHandler3.sendFlag == 1)	{
+        		sendData(objectMapper.writeValueAsString(sdList));
+        		WebSocketHandler3.sendFlag = 0;
+        	}
+			
+		} catch (JsonProcessingException e) {
+			System.out.println("Error:" + e.getMessage());
+		}
+		
+	}
+}
+
+
+
+
+
 // 클라이언트에서 연결할 웹소켓 설정 : ws://localhost:8080/pushservice
 @RequiredArgsConstructor
 @Configuration
@@ -276,10 +409,12 @@ class WebSocketHandler2 extends TextWebSocketHandler {
 public class WebSocketConfig implements WebSocketConfigurer {
 	private final WebSocketHandler1 webSocketHandler;
 	private final WebSocketHandler2 webSocketHandler2;
-
+	private final WebSocketHandler3 webSocketHandler3;
+	
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
 		registry.addHandler(webSocketHandler, "pushservice").setAllowedOrigins("*")
-		.addHandler(webSocketHandler2, "findWorkListByATC").setAllowedOrigins("*");
+		.addHandler(webSocketHandler2, "findWorkListByATC").setAllowedOrigins("*")
+		.addHandler(webSocketHandler3, "findWorkList").setAllowedOrigins("*");
 	}
 }

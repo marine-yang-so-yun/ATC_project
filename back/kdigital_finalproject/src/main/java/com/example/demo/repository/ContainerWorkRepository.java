@@ -55,7 +55,9 @@ public interface ContainerWorkRepository extends JpaRepository<ContainerWork, In
 	
 	
 	// ATC 번호로 현재 시점부터 할 작업을 조회하는 쿼리
-	@Query(value = "SELECT container, block1, bay1, row1, timeEnd FROM ContainerWork WHERE crane=:keyword AND TIME(NOW())<=TIME(timeEnd) ORDER BY timeEnd ASC")
-	List<ContainerWork> findWorkListByATC(@Param("keyword") int paramValue);
+	@Query(value = "SELECT c FROM ContainerWork c WHERE crane=:keyword AND TIME(NOW())<=TIME(timeEnd) ORDER BY timeEnd ASC")
+	List<ContainerWork> findWorkListByATC(@Param("keyword") String paramValue);
 	
+	@Query(value = "select c from container_work c where time(now()) <= time(time_end)", nativeQuery=true)
+	List<ContainerWork> findWorkList();
 }
