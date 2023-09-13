@@ -7,7 +7,6 @@ import { AppState } from "store";
 const NoticeBar = () => {
 	const [count, setCount] = useState<number>(0);
 	const carouselRef = useRef<HTMLDivElement>(null);
-	const [currentPage, setCurrentPage] = useState<number>(0);
 	const dispatch = useDispatch();
 	const notices: AppState["notices"] = useSelector(
 		(state: AppState) => state.notices
@@ -20,7 +19,6 @@ const NoticeBar = () => {
 				if (count < 5) {
 					flag.current = false;
 					setCount((pre) => pre + 1);
-					setCurrentPage((pre) => (pre + 1) % 5);
 				} else {
 					flag.current = true;
 					setCount(0);
@@ -31,16 +29,17 @@ const NoticeBar = () => {
 		return () => {
 			clearInterval(timer);
 		};
-	}, [count, currentPage]);
+	}, [count]);
 
 	useEffect(() => {
 		dispatch<any>(getNoticeAsync());
 	}, [dispatch]);
 
+	if (notices.length === 0) return null;
 	return (
 		<S.BannerBarContainer>
 			<S.Carousel $count={count} ref={carouselRef}>
-				{notices.map((notice) => (
+				{notices.slice(0, 5).map((notice) => (
 					<S.BannerBarLink
 						to={"/notice?id=" + notice.noticeseq}
 						key={notice.noticeseq}
@@ -48,6 +47,9 @@ const NoticeBar = () => {
 						{notice.noticetitle}
 					</S.BannerBarLink>
 				))}
+				<S.BannerBarLink to={"/notice?id=" + notices[0].noticeseq}>
+					{notices[0].noticetitle}
+				</S.BannerBarLink>
 			</S.Carousel>
 		</S.BannerBarContainer>
 	);

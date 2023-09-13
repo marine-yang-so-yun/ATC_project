@@ -6,6 +6,8 @@ import { NoticeData } from "types/api";
 import "react-quill/dist/quill.snow.css";
 import apiService from "api";
 import { getUser } from "utils/localStorage";
+import { useDispatch } from "react-redux";
+import { getNoticeAsync } from "store/notice";
 
 const NoticeItem = ({ notice }: { notice: NoticeData }) => {
 	const { noticeseq, noticeurgency, noticetitle, noticedate, noticedetail } =
@@ -17,9 +19,10 @@ const NoticeItem = ({ notice }: { notice: NoticeData }) => {
 		Number(id) === notice.noticeseq
 	);
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	const editNotice = () => {
-		navigate("/createnotice", {
+		navigate("/editnotice", {
 			state: { noticeseq, noticetitle, noticeurgency, noticedetail },
 		});
 	};
@@ -28,7 +31,8 @@ const NoticeItem = ({ notice }: { notice: NoticeData }) => {
 		// eslint-disable-next-line no-restricted-globals
 		const isDelete = confirm("해당 공지사항을 삭제하겠습니까?");
 		if (isDelete) {
-			apiService.noticeService.deleteNotice(seq);
+			await apiService.noticeService.deleteNotice(seq);
+			await dispatch<any>(getNoticeAsync());
 		}
 	};
 

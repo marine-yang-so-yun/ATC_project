@@ -13,10 +13,11 @@ export const TitleContainer = styled.div`
 
 export const NoticeTitle = styled(MainTitle)`
 	color: ${theme.color.white};
-	margin-bottom: 30px;
+	margin-bottom: 0;
 `;
 
 export const CateBtn = styled.button<{ $active: boolean }>`
+	margin-top: 30px;
 	padding: 10px 15px;
 	background-color: ${theme.color.white};
 	font-weight: 600;

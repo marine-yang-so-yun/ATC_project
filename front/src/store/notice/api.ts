@@ -8,10 +8,15 @@ export const getNoticeAsync =
 	async (dispatch: ThunkDispatch<T.State, unknown, T.SetNoticeAction>) => {
 		try {
 			let { data } = await apiService.noticeService.getNotice();
-			data = data.map((notice) => ({
-				...notice,
-				noticedate: new Date(notice.noticedate),
-			}));
+			data = data
+				.map((notice) => ({
+					...notice,
+					noticedate: new Date(notice.noticedate),
+				}))
+				.sort((a, b) => {
+					if (a.noticeurgency && !b.noticeurgency) return -1;
+					else return a.noticeseq - b.noticeseq;
+				});
 			dispatch(setNotice(data));
 		} catch (error) {
 			console.log(error);
