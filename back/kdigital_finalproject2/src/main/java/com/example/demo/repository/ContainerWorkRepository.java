@@ -53,4 +53,9 @@ public interface ContainerWorkRepository extends JpaRepository<ContainerWork, In
 	@Query(value = "SELECT c from ContainerWork c WHERE block2 = :keyword ORDER BY crane ASC")
 	List<Object[]> findWorkListOrderByCrane(@Param("keyword") String paramValue);
 	
+	
+	// ATC 번호로 현재 시점부터 할 작업을 조회하는 쿼리
+	@Query(value = "SELECT container, block1, bay1, row1, timeEnd FROM ContainerWork WHERE crane=:keyword AND TIME(NOW())<=TIME(timeEnd) ORDER BY timeEnd ASC")
+	List<ContainerWork> findWorkListByATC(@Param("keyword") int paramValue);
+	
 }
