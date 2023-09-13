@@ -73,6 +73,7 @@ class WorkList	{
 	private Timestamp timeEnd;
 	private String truckNum;
 	private String workCode;
+	private int voyage;
 }
 
 
@@ -207,6 +208,7 @@ public class ContainerWorkController {
 		   temp.setTimeEnd(containerwork.getTimeEnd());
 		   temp.setTruckNum(containerwork.getTruckNum());
 		   temp.setWorkCode(containerwork.getWorkCode());
+		   temp.setVoyage(containerwork.getVoyage());
 		   result.add(temp);
 	   }
 	   
