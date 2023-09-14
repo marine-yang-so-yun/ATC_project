@@ -216,4 +216,18 @@ public class ContainerWorkController {
    }
    
    
+   @GetMapping("/allWorkList")
+   public List<Object> allWorkList()	{
+	   List<ContainerWork> list = repository.findAll();
+	   List<Object> result = new ArrayList<>();
+	   
+	   
+	   for (ContainerWork containerwork : list)	{
+		   result.add(containerwork);
+	   }
+	   
+	   return result;
+   }
+   
+   
 }
