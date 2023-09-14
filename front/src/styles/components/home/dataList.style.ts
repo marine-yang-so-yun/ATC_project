@@ -13,6 +13,15 @@ export const DataListOl = styled.ol<{ $count: number }>`
 	}
 `;
 
+export const DataContentOl = styled(DataListOl)`
+	background-color: ${theme.color.white};
+	border: 2px solid ${theme.color.lightGray};
+
+	& > li + li {
+		border-top: 2px solid ${theme.color.lightGray};
+	}
+`;
+
 export const DataListHeaderOl = styled(DataListOl)`
 	font-size: ${theme.fontSize.md};
 	font-weight: 600;

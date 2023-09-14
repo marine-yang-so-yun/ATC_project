@@ -13,24 +13,15 @@ export interface NoticeData {
 }
 
 export interface ContainerWorkData {
-	id: number;
 	container: string;
 	ship: string;
 	workCode: string;
-	state: string;
-	year: number;
 	voyage: number;
-	block1: string;
-	bay1: number;
-	row1: number;
-	tier1: number;
-	block2: string;
-	bay2: number;
-	row2: number;
-	tier2: number;
+	block: string;
+	bay: number;
+	row: number;
+	tier: number;
 	truckNum: string;
-	fullOrEmpty: string;
-	containerSize: string;
 	crane: string;
 	timeEnd: Date;
 }
