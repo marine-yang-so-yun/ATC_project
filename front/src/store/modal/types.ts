@@ -1,8 +1,8 @@
 import { Action } from "redux";
 
-export interface State {
+export type State = {
 	isOpen: boolean;
-}
+};
 
 export type OpenModalAction = Action<"@modal/openModal">;
 
