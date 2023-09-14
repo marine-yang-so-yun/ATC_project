@@ -4,8 +4,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { getUser } from "utils/localStorage";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { NoticeTitle, TitleContainer } from "styles/notice/noticeList.style";
-import * as S from "styles/notice/createNotice.style";
+import {
+	NoticeTitle,
+	TitleContainer,
+} from "styles/page/notice/noticeList.style";
+import * as S from "styles/page/notice/writeNotice.style";
 import { LightPurpleBtn } from "styles/commons";
 import { NoticeData } from "types/api";
 import { getNoticeAsync } from "store/notice";
