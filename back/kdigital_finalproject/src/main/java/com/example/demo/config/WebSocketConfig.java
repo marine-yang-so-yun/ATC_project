@@ -132,10 +132,7 @@ class WebSocketHandler1 extends TextWebSocketHandler {
 			return;
 		}
 
-		LocalTime now = LocalTime.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmmss");
-		String formatedNow = now.format(formatter);
-		log.info(formatedNow);
+
 		int sendFlag = 0;
 		List<SendData> sdList = new ArrayList<>();
 
@@ -150,7 +147,6 @@ class WebSocketHandler1 extends TextWebSocketHandler {
 			for (ContainerWork work : worklist) {
 
 				SendData sendData = new SendData();
-				log.info(work.getBlock1());
 
 				sendData.setWorkStatus("workingstart");
 				sendData.setBay1(work.getBay1());
@@ -241,10 +237,7 @@ class WebSocketHandler2 extends TextWebSocketHandler {
 			return;
 		}
 		
-		LocalTime now = LocalTime.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmmss");
-		String formatedNow = now.format(formatter);
-		log.info(formatedNow);
+
 		List<SendData2> sdList = new ArrayList<>();
 		
 		
