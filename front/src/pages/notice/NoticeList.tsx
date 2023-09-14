@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import NoticeItem from "components/notice/NoticeItem";
-import * as S from "styles/notice/noticeList.style";
+import * as S from "styles/page/notice/noticeList.style";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "store";
 import { LightPurpleBtn } from "styles/commons";
