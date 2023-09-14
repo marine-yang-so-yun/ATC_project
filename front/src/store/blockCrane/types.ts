@@ -5,8 +5,8 @@ export type State = {
 	crane: string[];
 };
 
-export type SetBlockAction = Action<"@block/setBlock"> & {
+export type SetBlockCraneAction = Action<"@blockCrane/setBlockCrane"> & {
 	payload: State["block"];
 };
 
-export type Actions = SetBlockAction;
+export type Actions = SetBlockCraneAction;

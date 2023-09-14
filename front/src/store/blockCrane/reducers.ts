@@ -15,7 +15,7 @@ const craneByBlock: Record<T.State["block"], T.State["crane"]> = {
 
 export const reducer = (state: T.State = initialState, action: T.Actions) => {
 	switch (action.type) {
-		case "@block/setBlock":
+		case "@blockCrane/setBlockCrane":
 			const crane = craneByBlock[action.payload];
 			return { block: action.payload, crane };
 	}

@@ -1,8 +1,8 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import * as Notice from "./notice";
-import * as Block from "./block";
+import * as BlockCrane from "./blockCrane";
 
 export const rootReducer = combineReducers({
 	notices: Notice.reducer,
-	block: Block.reducer,
+	blockCrane: BlockCrane.reducer,
 });
