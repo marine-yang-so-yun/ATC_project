@@ -132,10 +132,7 @@ class WebSocketHandler1 extends TextWebSocketHandler {
 			return;
 		}
 
-		LocalTime now = LocalTime.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmmss");
-		String formatedNow = now.format(formatter);
-		log.info(formatedNow);
+
 		int sendFlag = 0;
 		List<SendData> sdList = new ArrayList<>();
 
@@ -150,7 +147,6 @@ class WebSocketHandler1 extends TextWebSocketHandler {
 			for (ContainerWork work : worklist) {
 
 				SendData sendData = new SendData();
-				log.info(work.getBlock1());
 
 				sendData.setWorkStatus("workingstart");
 				sendData.setBay1(work.getBay1());
@@ -189,7 +185,7 @@ class WebSocketHandler2 extends TextWebSocketHandler {
 
 	private Map<String, WebSocketSession> map = new HashMap<>();
 	public static String receivedMessage;
-	public static int sendFlag = 0;
+	private int sendFlag = 0;
 	
 	@Autowired
 	ContainerWorkRepository containerworkrepository;
@@ -237,14 +233,11 @@ class WebSocketHandler2 extends TextWebSocketHandler {
 	@Scheduled(fixedDelay = 1000)			// scheduler 끝나는 시간 기준으로 1000 간격으로 실행
 	public void fixedDelayTask() {
 		
-		if (getSize() == 0)	{
+		if (getSize() == 0 || sendFlag != 1)	{
 			return;
 		}
 		
-		LocalTime now = LocalTime.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmmss");
-		String formatedNow = now.format(formatter);
-		log.info(formatedNow);
+
 		List<SendData2> sdList = new ArrayList<>();
 		
 		
@@ -277,9 +270,9 @@ class WebSocketHandler2 extends TextWebSocketHandler {
         	// Create ObjectMapper instance
         	ObjectMapper objectMapper = new ObjectMapper();
         	
-        	if (WebSocketHandler2.sendFlag == 1)	{
+        	if (sendFlag == 1)	{
         		sendData(objectMapper.writeValueAsString(sdList));
-        		WebSocketHandler2.sendFlag = 0;
+        		sendFlag = 0;
         	}
 			
 		} catch (JsonProcessingException e) {
