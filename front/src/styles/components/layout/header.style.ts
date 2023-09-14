@@ -13,7 +13,7 @@ export const HeaderContainer = styled.header<{ $isTop: boolean }>`
 	height: 90px;
 	padding: 0 5%;
 	background-color: ${theme.color.white};
-	z-index: 999;
+	z-index: 99;
 	border-bottom: ${({ $isTop }) =>
 		!$isTop && `2px solid ${theme.color.purple}`};
 `;

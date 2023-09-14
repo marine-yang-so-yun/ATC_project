@@ -28,5 +28,5 @@ export const LightPurpleBtn = styled.button`
 `;
 
 export const SectionContainer = styled.section`
-	padding: 1% 5%;
+	padding: 2% 5%;
 `;
