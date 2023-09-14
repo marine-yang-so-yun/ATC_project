@@ -48,6 +48,8 @@ class SendData {
 	private int tier2;
 	private String block2;
 	private String crane;
+	
+	private String workCode;
 
 }
 
@@ -161,6 +163,7 @@ class WebSocketHandler1 extends TextWebSocketHandler {
 
 				sendData.setBlock2(work.getBlock2());
 				sendData.setCrane(work.getCrane());
+				sendData.setWorkCode(work.getWorkCode());
 				sdList.add(sendData);
 			}
 		}
@@ -263,7 +266,7 @@ class WebSocketHandler2 extends TextWebSocketHandler {
 				sendData.setRow(work.getRow1());
 				sendData.setTier(work.getTier1());
 				sendData.setTimeEnd(work.getTimeEnd());
-				sdList.add(sendData);
+				sdList.add(sendData); 
 				
 			}
 
