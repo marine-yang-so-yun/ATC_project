@@ -122,8 +122,6 @@ const Simulator = () => {
 				castShadow
 			/>
 			<Stats />
-			<gridHelper args={[160, 160]} />
-			<axesHelper args={[50]} />
 		</S.ThreeCanvas>
 	);
 };

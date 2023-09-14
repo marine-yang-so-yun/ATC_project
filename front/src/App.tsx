@@ -6,6 +6,7 @@ import { theme } from "./styles/theme";
 import { GlobalStyle } from "./styles/global-style";
 import { Routes, Route } from "react-router-dom";
 import Layout from "components/layout/Layout";
+import Modal from "components/modal/Modal";
 import Home from "pages/Home";
 import NoticeList from "pages/notice/NoticeList";
 import Login from "pages/Login";
@@ -18,6 +19,7 @@ function App() {
 		<ReduxProvider store={store}>
 			<ThemeProvider theme={theme}>
 				<GlobalStyle />
+				<Modal />
 				<Routes>
 					<Route element={<Layout />}>
 						<Route index element={<Home />} />
