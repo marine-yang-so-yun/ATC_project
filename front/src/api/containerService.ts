@@ -1,5 +1,6 @@
 import { axiosInstance } from "api";
 import {
+	ContainerWorkData,
 	CurrentATCWorkData,
 	CurrentContainerWorkData,
 	MaxBlockData,
@@ -39,11 +40,19 @@ const getATCNum = (block: string) =>
 		`/containerwork/findworkingcrane/${block}`
 	);
 
+/**
+ * 현재 시간 이후 작업 리스트 요청
+ * @return AxiosPromise
+ */
+const getWorkList = () =>
+	axiosInstance.get<ContainerWorkData[]>("/containerwork/findWorkList");
+
 const containerService = {
 	getCurrentContainerWork,
 	getMaxBlock,
 	getCurrentWorkByBlock,
 	getATCNum,
+	getWorkList,
 };
 
 export default containerService;
