@@ -45,8 +45,8 @@ const YardWork = () => {
 			<SectionTitle>야드 작업 현황</SectionTitle>
 			<DataList header={cols} />
 			<DataContentOl $count={cols.length}>
-				{workList.slice(0, 10).map((item) => (
-					<li key={item.container}>
+				{workList.slice(0, 10).map((item, idx) => (
+					<li key={item.container + idx}>
 						<span>{item.container}</span>
 						<span>{workCodeKo[item.workCode]}</span>
 						<span>{item.ship + item.voyage}</span>
