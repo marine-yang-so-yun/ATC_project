@@ -14,6 +14,7 @@ export const DataListOl = styled.ol<{ $count: number }>`
 `;
 
 export const DataContentOl = styled(DataListOl)`
+	margin-bottom: 20px;
 	background-color: ${theme.color.white};
 	border: 2px solid ${theme.color.lightGray};
 

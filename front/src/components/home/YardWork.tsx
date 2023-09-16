@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import DataList from "./DataList";
+import DataList from "components/DataList";
 import { SectionContainer, SectionTitle } from "styles/commons";
 import { ContainerWorkData } from "types/api";
-import { DataContentOl } from "styles/components/home/dataList.style";
+import { DataContentOl } from "styles/components/dataList.style";
 
 const YardWork = () => {
 	const [workList, setWorkList] = useState<ContainerWorkData[]>([]);

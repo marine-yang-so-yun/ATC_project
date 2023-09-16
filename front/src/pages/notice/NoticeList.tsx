@@ -6,7 +6,7 @@ import { AppState } from "store";
 import { LightPurpleBtn } from "styles/commons";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { getNoticeAsync } from "store/notice";
-import Pagination from "components/notice/Pagination";
+import Pagination from "components/Pagination";
 
 const NoticeList = () => {
 	const navigate = useNavigate();

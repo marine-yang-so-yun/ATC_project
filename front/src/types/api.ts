@@ -27,6 +27,8 @@ export interface ContainerWorkData {
 	truckNum: string;
 	crane: string;
 	timeEnd: Date;
+	fullOrEmpty: string;
+	containerSize: string;
 }
 
 export interface CurrentContainerWorkData {

@@ -1,5 +1,5 @@
 import React from "react";
-import * as S from "styles/components/home/dataList.style";
+import * as S from "styles/components/dataList.style";
 import { DataListProps } from "types/components";
 
 const DataList = ({ header }: DataListProps) => {

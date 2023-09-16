@@ -5,8 +5,8 @@ export interface DataListProps {
 }
 
 export interface PaginationProps {
-	cate: string;
+	cate?: string;
 	page: number;
-	numPage: number | undefined;
+	numPage: number;
 	setSearchParams: SetURLSearchParams;
 }
