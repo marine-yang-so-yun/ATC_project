@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import ATCWork from "components/home/ATCWork";
 import YardWork from "components/home/YardWork";
 import { MainTitle } from "styles/commons";
@@ -8,7 +8,6 @@ import { AppState } from "store";
 import { openModal } from "store/modal";
 import * as S from "styles/page/home.style";
 import { ThreeCanvas } from "styles/components/home/simulator.style";
-import { Html } from "@react-three/drei";
 
 const Home = () => {
 	const selectedBlock: AppState["blockCrane"]["block"] = useSelector(
