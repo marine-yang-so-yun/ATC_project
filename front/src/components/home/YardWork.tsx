@@ -1,26 +1,21 @@
 import React, { useEffect, useState } from "react";
 import DataList from "./DataList";
 import { SectionContainer, SectionTitle } from "styles/commons";
-import apiService from "api";
 import { ContainerWorkData } from "types/api";
 import { DataContentOl } from "styles/components/home/dataList.style";
 
 const YardWork = () => {
 	const [workList, setWorkList] = useState<ContainerWorkData[]>([]);
+	const wsUrl = process.env.REACT_APP_SOCKET_YARD;
 	const cols = [
 		"컨테이너번호",
 		"작업코드",
 		"모선항차",
 		"위치",
-		// "작업시작시간",
+		"작업시작시간",
 		"작업완료시간",
-		// "소요시간",
-		// "비고",
-		// "선석",
-		// "선박명",
-		// "입항일시",
-		// "출항일시",
-		// "반입마감일시",
+		"소요시간",
+		"비고",
 	];
 	const workCodeKo: { [workCode: string]: string } = {
 		VU: "양하",
@@ -32,13 +27,21 @@ const YardWork = () => {
 	};
 
 	useEffect(() => {
-		const fetchWorkList = async () => {
-			let { data } = await apiService.containerService.getWorkList();
-			data = data.map((item) => ({ ...item, timeEnd: new Date(item.timeEnd) }));
-			setWorkList(data);
+		if (!wsUrl) return;
+
+		const ws = new WebSocket(wsUrl);
+
+		ws.onmessage = (event) => {
+			let newData: ContainerWorkData[] = JSON.parse(event.data);
+			newData = newData.map((item) => ({
+				...item,
+				timeEnd: new Date(item.timeEnd),
+			}));
+			setWorkList(newData);
 		};
-		fetchWorkList();
-	}, []);
+	}, [wsUrl]);
+
+	if (workList.length === 0) return null;
 
 	return (
 		<SectionContainer>
@@ -52,11 +55,18 @@ const YardWork = () => {
 						<span>{item.ship + item.voyage}</span>
 						<span>
 							{item.block +
-								item.bay.toString().padStart(2, "0") +
-								item.row.toString().padStart(2, "0") +
-								item.tier.toString().padStart(2, "0")}
+								item.bay1.toString().padStart(2, "0") +
+								item.row1.toString().padStart(2, "0") +
+								item.tier1.toString().padStart(2, "0")}
 						</span>
-						<span>{item.timeEnd.toLocaleString()}</span>
+						<span></span>
+						<span>
+							{item.timeEnd.toLocaleDateString()}
+							<br />
+							{item.timeEnd.toLocaleTimeString()}
+						</span>
+						<span></span>
+						<span></span>
 					</li>
 				))}
 			</DataContentOl>
