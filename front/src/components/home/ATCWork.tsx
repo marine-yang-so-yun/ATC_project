@@ -19,7 +19,6 @@ const ATCWork = () => {
 		"작업코드",
 		"출발위치",
 		"도착위치",
-		"작업시작시간",
 		"작업완료시간",
 	];
 	const workCodeKo: { [workCode: string]: string } = {
@@ -72,18 +71,23 @@ const ATCWork = () => {
 										<span>{item.container}</span>
 										<span>{workCodeKo[item.workCode]}</span>
 										<span>
-											{item.block +
-												item.bay1.toString().padStart(2, "0") +
-												item.row1.toString().padStart(2, "0") +
-												item.tier1.toString().padStart(2, "0")}
+											{`${item.block}-${item.bay1
+												.toString()
+												.padStart(2, "0")}-${item.row1
+												.toString()
+												.padStart(2, "0")}-${item.tier1
+												.toString()
+												.padStart(2, "0")}`}
 										</span>
 										<span>
-											{item.block +
-												item.bay2.toString().padStart(2, "0") +
-												item.row2.toString().padStart(2, "0") +
-												item.tier2.toString().padStart(2, "0")}
+											{`${item.block}-${item.bay2
+												.toString()
+												.padStart(2, "0")}-${item.row2
+												.toString()
+												.padStart(2, "0")}-${item.tier2
+												.toString()
+												.padStart(2, "0")}`}
 										</span>
-										<span></span>
 										<span>
 											{item.timeEnd.toLocaleDateString()}
 											<br />
