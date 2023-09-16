@@ -14,8 +14,9 @@ export const getNoticeAsync =
 					noticedate: new Date(notice.noticedate),
 				}))
 				.sort((a, b) => {
-					if (a.noticeurgency && !b.noticeurgency) return -1;
-					else return a.noticeseq - b.noticeseq;
+					if (a.noticeurgency === b.noticeurgency) return -1;
+					else if (!a.noticeurgency) return 1;
+					else return -1;
 				});
 			dispatch(setNotice(data));
 		} catch (error) {
