@@ -18,9 +18,12 @@ export interface ContainerWorkData {
 	workCode: string;
 	voyage: number;
 	block: string;
-	bay: number;
-	row: number;
-	tier: number;
+	bay1: number;
+	row1: number;
+	tier1: number;
+	bay2: number;
+	row2: number;
+	tier2: number;
 	truckNum: string;
 	crane: string;
 	timeEnd: Date;
@@ -41,7 +44,7 @@ export type CurrentATCWorkData = Omit<CurrentContainerWorkData, "container">;
 export interface SocketContainerData {
 	bay1: number;
 	bay2: number;
-	block2: string;
+	block: string;
 	row1: number;
 	row2: number;
 	tier1: number;
