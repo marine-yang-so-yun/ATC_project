@@ -34,6 +34,14 @@ const Modal = () => {
 				<S.CloseModalBtn onClick={() => dispatch(closeModal())} />
 				<SectionTitle>블록을 선택해주세요.</SectionTitle>
 				<S.SelectBtnContainer>
+					<button
+						onClick={() => {
+							dispatch(setBlockCrane("전체"));
+							dispatch(closeModal());
+						}}
+					>
+						전체
+					</button>
 					{Object.keys(craneByBlock).map((block) => (
 						<button
 							key={block}

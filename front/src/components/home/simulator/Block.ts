@@ -3,8 +3,8 @@ class Block {
 	z: number;
 
 	constructor(block: string) {
-		this.x = -4 + (7 - Number(block[0])) * 70;
-		this.z = 6 + (block[1].charCodeAt(0) - 67) * 18;
+		this.x = 8 + (7 - Number(block[0])) * 80;
+		this.z = 8 + (block[1].charCodeAt(0) - 67) * 24;
 	}
 }
 

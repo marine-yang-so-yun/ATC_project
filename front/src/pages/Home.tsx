@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ATCWork from "components/home/ATCWork";
 import YardWork from "components/home/YardWork";
 import { MainTitle } from "styles/commons";
@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "store";
 import { openModal } from "store/modal";
 import * as S from "styles/page/home.style";
+import { ThreeCanvas } from "styles/components/home/simulator.style";
+import { Html } from "@react-three/drei";
 
 const Home = () => {
 	const selectedBlock: AppState["blockCrane"]["block"] = useSelector(
@@ -23,8 +25,10 @@ const Home = () => {
 					<button onClick={() => dispatch(openModal())}>{selectedBlock}</button>
 				</div>
 			</S.MainSectionContainer>
-			<Simulator />
-			<ATCWork />
+			<ThreeCanvas shadows>
+				<Simulator />
+			</ThreeCanvas>
+			{selectedBlock !== "전체" && <ATCWork />}
 			<YardWork />
 		</>
 	);
