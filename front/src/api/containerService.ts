@@ -15,19 +15,19 @@ const getCurrentContainerWork = () =>
 	axiosInstance.get<CurrentContainerWorkData[]>("/containerwork/current");
 
 /**
- * 블록의 bay, row, tier의 max값 리스트 요청
+ * 블록별 bay, row, tier의 max값 리스트 요청
  * @return AxiosPromise
  */
 const getMaxBlock = () =>
 	axiosInstance.get<MaxBlockData[]>("/maxblock/findall");
 
 /**
- * 현재까지 작업 완료된 블록별 좌표 리스트 요청
+ * 현재까지 작업 완료된 크레인별 좌표 리스트 요청
  * @return AxiosPromise
  */
-const getCurrentWorkByBlock = () =>
+const getCurrentWorkByCrane = () =>
 	axiosInstance.get<CurrentATCWorkData[]>(
-		"/containerwork/findLastTimeWorkByBlock"
+		"/containerwork/findLastTimeWorkByCrane"
 	);
 
 /**
@@ -47,12 +47,29 @@ const getATCNum = (block: string) =>
 const getWorkList = () =>
 	axiosInstance.get<ContainerWorkData[]>("/containerwork/findWorkList");
 
+/**
+ * 야드 전체 작업 리스트 요청
+ * @return AxiosPromise
+ */
+const getAllWorkList = () =>
+	axiosInstance.get<ContainerWorkData[]>("/containerwork/allWorkList");
+
+/**
+ * ATC별 전체 작업 리스트 요청
+ * @param crane
+ * @return AxiosPromise
+ */
+const getAllWorkListByATC = (crane: string) =>
+	axiosInstance.get<ContainerWorkData[]>(`/containerwork/allWorkList/${crane}`);
+
 const containerService = {
 	getCurrentContainerWork,
 	getMaxBlock,
-	getCurrentWorkByBlock,
+	getCurrentWorkByCrane,
 	getATCNum,
 	getWorkList,
+	getAllWorkList,
+	getAllWorkListByATC,
 };
 
 export default containerService;
