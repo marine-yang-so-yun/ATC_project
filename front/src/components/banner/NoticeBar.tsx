@@ -38,6 +38,7 @@ const NoticeBar = () => {
 	if (notices.length === 0) return null;
 	return (
 		<S.BannerBarContainer>
+			<h1>공지사항</h1>
 			<S.Carousel $count={count} ref={carouselRef}>
 				{notices.slice(0, 5).map((notice) => (
 					<S.BannerBarLink
