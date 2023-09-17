@@ -3,12 +3,12 @@ import DataList from "components/DataList";
 import Pagination from "components/Pagination";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { SectionContainer } from "styles/commons";
-import { DataContentOl } from "styles/components/dataList.style";
 import {
-	NoticeTitle,
-	TitleContainer,
-} from "styles/page/notice/noticeList.style";
+	SectionContainer,
+	SubPageTitle,
+	SubPageTitleContainer,
+} from "styles/commons";
+import { DataContentOl } from "styles/components/dataList.style";
 import { ContainerWorkData } from "types/api";
 
 const YardWorkList = () => {
@@ -55,9 +55,9 @@ const YardWorkList = () => {
 
 	return (
 		<>
-			<TitleContainer>
-				<NoticeTitle>야드 작업 목록</NoticeTitle>
-			</TitleContainer>
+			<SubPageTitleContainer>
+				<SubPageTitle>야드 작업 목록</SubPageTitle>
+			</SubPageTitleContainer>
 			<SectionContainer>
 				<DataList header={cols} />
 				<DataContentOl $count={cols.length}>

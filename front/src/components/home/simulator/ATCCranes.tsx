@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import { CranePosition } from "types/simulator";
-import { angleToRadians } from "./angleToRadians";
 import { useFrame } from "@react-three/fiber";
 
 const ATCCrane = ({ position }: { position: THREE.Vector3 }) => {
@@ -14,7 +13,7 @@ const ATCCrane = ({ position }: { position: THREE.Vector3 }) => {
 	});
 
 	return (
-		<group ref={craneRef} position={position} castShadow>
+		<group ref={craneRef} position={position} castShadow receiveShadow>
 			<mesh position={[0, 5, 0]}>
 				<boxGeometry attach="geometry" args={[2, 10, 1]} />
 				<meshStandardMaterial attach="material" color="yellow" />
@@ -23,11 +22,17 @@ const ATCCrane = ({ position }: { position: THREE.Vector3 }) => {
 				<boxGeometry attach="geometry" args={[2, 10, 1]} />
 				<meshStandardMaterial attach="material" color="yellow" />
 			</mesh>
-			<mesh rotation={[-angleToRadians(90), 0, 0]} position={[0.7, 9.5, -7.5]}>
+			<mesh
+				rotation={[-((Math.PI / 180) * 90), 0, 0]}
+				position={[0.7, 9.5, -7.5]}
+			>
 				<boxGeometry attach="geometry" args={[0.5, 16, 1]} />
 				<meshStandardMaterial attach="material" color="yellow" />
 			</mesh>
-			<mesh rotation={[-angleToRadians(90), 0, 0]} position={[-0.7, 9.5, -7.5]}>
+			<mesh
+				rotation={[-((Math.PI / 180) * 90), 0, 0]}
+				position={[-0.7, 9.5, -7.5]}
+			>
 				<boxGeometry attach="geometry" args={[0.5, 16, 1]} />
 				<meshStandardMaterial attach="material" color="yellow" />
 			</mesh>

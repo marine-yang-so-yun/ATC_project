@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import DataList from "components/DataList";
 import { DataContentOl } from "styles/components/dataList.style";
-import {
-	CateBtn,
-	NoticeTitle,
-	TitleContainer,
-} from "styles/page/notice/noticeList.style";
 import { useSearchParams } from "react-router-dom";
 import { ContainerWorkData } from "types/api";
 import apiService from "api";
 import Pagination from "components/Pagination";
-import { SectionContainer } from "styles/commons";
+import {
+	SectionContainer,
+	SubPageTitle,
+	SubPageTitleContainer,
+	SubpageCateBtn,
+} from "styles/commons";
 
 const ATCWorkList = () => {
 	const [ATCWorkList, setATCWorkList] = useState<ContainerWorkData[]>([]);
@@ -20,6 +20,7 @@ const ATCWorkList = () => {
 	const page: number = Number(searchParams.get("page")) || 1;
 	const [numPage, setNumPage] = useState<number>(1);
 	const offset = (page - 1) * 20;
+
 	const cols = [
 		"컨테이너번호",
 		"작업코드",
@@ -57,20 +58,20 @@ const ATCWorkList = () => {
 
 	return (
 		<>
-			<TitleContainer>
-				<NoticeTitle>ATC 작업 목록</NoticeTitle>
+			<SubPageTitleContainer>
+				<SubPageTitle>ATC 작업 목록</SubPageTitle>
 				<div>
 					{ATCNum.map((atc) => (
-						<CateBtn
+						<SubpageCateBtn
 							key={atc}
 							$active={selectedATCNum === atc}
 							onClick={() => setSearchParams({ cate: atc })}
 						>
 							{atc}
-						</CateBtn>
+						</SubpageCateBtn>
 					))}
 				</div>
-			</TitleContainer>
+			</SubPageTitleContainer>
 			<SectionContainer>
 				<DataList header={cols} />
 				<DataContentOl $count={cols.length}>

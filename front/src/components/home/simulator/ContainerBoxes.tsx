@@ -27,6 +27,7 @@ const ContainerBoxes = ({ count, containers }: ContainerBoxesProps) => {
 			ref={meshRef}
 			args={[undefined, undefined, count]}
 			castShadow
+			receiveShadow
 		>
 			<boxGeometry attach="geometry" args={[2, 1, 1]} />
 			<meshStandardMaterial attach="material" color="#f2f2f2" map={outline} />

@@ -5,13 +5,13 @@ import { setBlockCrane } from "store/blockCrane";
 import { closeModal } from "store/modal";
 import { SectionTitle } from "styles/commons";
 import * as S from "styles/components/modal/modal.style";
-import craneByBlock from "utils/craneByBlock";
 
 const Modal = () => {
 	const { isOpen }: AppState["modal"] = useSelector(
 		(state: AppState) => state.modal
 	);
 	const dispatch = useDispatch();
+	const btnNames = ["전체", "7A", "7B", "7C", "7D", "8A", "8B", "8C", "8D"];
 
 	useEffect(() => {
 		if (isOpen) {
@@ -34,23 +34,15 @@ const Modal = () => {
 				<S.CloseModalBtn onClick={() => dispatch(closeModal())} />
 				<SectionTitle>블록을 선택해주세요.</SectionTitle>
 				<S.SelectBtnContainer>
-					<button
-						onClick={() => {
-							dispatch(setBlockCrane("전체"));
-							dispatch(closeModal());
-						}}
-					>
-						전체
-					</button>
-					{Object.keys(craneByBlock).map((block) => (
+					{btnNames.map((name) => (
 						<button
-							key={block}
+							key={name}
 							onClick={() => {
-								dispatch(setBlockCrane(block));
+								dispatch(setBlockCrane(name));
 								dispatch(closeModal());
 							}}
 						>
-							{block}
+							{name}
 						</button>
 					))}
 				</S.SelectBtnContainer>
