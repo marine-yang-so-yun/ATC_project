@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,6 +32,9 @@ public class Notice {
     private String noticetitle;
     private String noticewriter;
     private Boolean noticeurgency;
+    
+    @Lob
+    @Column(columnDefinition = "longtext")
     private String noticedetail;
 
     @Column(columnDefinition = "timestamp default current_timestamp()")

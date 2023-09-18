@@ -38,7 +38,7 @@ public class DataInitializer implements CommandLineRunner {
         if (!memberRepository.existsByUsername(adminUsername)) {
             Member adminMember = Member.builder()
                     .username(adminUsername)
-                    .password(passwordEncoder.encode(adminPassword)) // PasswordEncoder 사용
+                    .password(passwordEncoder.encode(adminPassword)) 
                     .role(adminRole)
                     .enabled(true)
                     .build();
