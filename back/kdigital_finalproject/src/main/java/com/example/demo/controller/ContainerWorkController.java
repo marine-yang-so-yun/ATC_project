@@ -86,7 +86,7 @@ public class ContainerWorkController {
 	// 각 컨테이너의 마지막 위치를 보내주는 쿼리
 	@GetMapping("/current")
 	public List<Object> workAll() {
-		List<Object[]> list = repository.findWorkAll();
+		List<Object[]> list = repository.findCurrentWorkAll();
 		Map<String, CurrentContainer> map = new HashMap<>();
 
 		// container, timeEnd, block2, bay2, row2, tier2, crane
@@ -114,9 +114,7 @@ public class ContainerWorkController {
 								String key1 = String.format("%s,%d,%d,%d", maxblock.getBlock(), bay, row, tier1);
 								map.put(key1, CurrentContainer.builder().block(maxblock.getBlock()).container(null)
 										.timeEnd(null).bay(bay).row(row).tier(tier1).build());
-
 							}
-
 						}
 					}
 				}
