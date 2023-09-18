@@ -16,13 +16,15 @@ public interface ContainerWorkRepository extends JpaRepository<ContainerWork, In
 
 	
 	@Query(value = "SELECT container, timeEnd, block2, bay2, row2, tier2, crane "
-			+ "FROM ContainerWork "
-			+ "WHERE (container, timeEnd) IN ( "
-			+ "  SELECT container, MAX(timeEnd) "
-			+ "  FROM ContainerWork "
-			+ "  WHERE TIME(timeEnd) <= TIME(NOW()) "
-			+ "  GROUP BY container"
-			+ ")")
+	        + "FROM ContainerWork "
+	        + "WHERE (container, timeEnd) IN ( "
+	        + "  SELECT container, MAX(timeEnd) "
+	        + "  FROM ContainerWork "
+	        + "  WHERE TIME(timeEnd) <= TIME(NOW()) "
+	        + "  GROUP BY container"
+	        + ") "
+	        + "AND bay2 != 0 AND row2 != 0 AND tier2 != 0")
+
 	List<Object[]> findWorkAll();
 	
 	

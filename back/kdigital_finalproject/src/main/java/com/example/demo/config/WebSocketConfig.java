@@ -38,7 +38,6 @@ import lombok.extern.slf4j.Slf4j;
 @ToString
 class SendData {
 
-	private String workStatus;
 	private int bay1;
 	private int row1;
 	private int tier1;
@@ -78,6 +77,22 @@ class SendData2 {
 @ToString
 class beforeWorklist	{
 	private String container;
+}
+
+@Getter
+@Setter
+@ToString
+class SendData3	{
+	private String container;
+	private String workCode;
+	private String ship;
+	private int voyage;
+	private String block;
+	private int bay;
+	private int row;
+	private int tier;
+	
+	private Timestamp timeEnd;
 }
 
 @Slf4j
@@ -147,7 +162,7 @@ class WebSocketHandler1 extends TextWebSocketHandler {
 
 				SendData sendData = new SendData();
 
-				sendData.setWorkStatus("workingstart");
+				
 				sendData.setBay1(work.getBay1());
 				sendData.setRow1(work.getRow1());
 				sendData.setTier1(work.getTier1());
@@ -372,7 +387,7 @@ class WebSocketHandler3 extends TextWebSocketHandler {
 	@Scheduled(fixedDelay = 1000) // scheduler 끝나는 시간 기준으로 1000 간격으로 실행
 	public void fixedDelayTask() {
 		
-		List<ContainerWork> sdList = new ArrayList<>();
+		List<SendData3> sdList = new ArrayList<>();
 		List<ContainerWork> worklist = new ArrayList<>();
 		int sendFlag = 0;
 		
@@ -388,7 +403,17 @@ class WebSocketHandler3 extends TextWebSocketHandler {
 			
 			sendFlag = 1;
 			for (ContainerWork work : worklist) {
-				sdList.add(work);
+				SendData3 sendData = new SendData3();
+				sendData.setContainer(work.getContainer());
+				sendData.setShip(work.getShip());
+				sendData.setVoyage(work.getVoyage());
+				sendData.setBlock(work.getBlock1());
+				sendData.setBay(work.getBay1());
+				sendData.setRow(work.getRow1());
+				sendData.setTier(work.getTier1());
+				sendData.setTimeEnd(work.getTimeEnd());
+				
+				sdList.add(sendData);
 			}
 
 		}
