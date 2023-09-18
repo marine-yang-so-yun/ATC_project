@@ -46,7 +46,7 @@ public interface ContainerWorkRepository extends JpaRepository<ContainerWork, In
 		       ") AS c " +
 		       "JOIN container_work AS cw " +
 		       "ON c.crane = cw.crane AND c.max_time_end = cw.time_end", nativeQuery=true)
-		List<Object[]> findLastTimeWorkByBlock();
+		List<Object[]> findLastTimeWorkByCrane();
 
 
 	

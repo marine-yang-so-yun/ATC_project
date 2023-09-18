@@ -146,9 +146,9 @@ public class ContainerWorkController {
 	}
 
 	// 블록별로 마지막으로 일한 timeEnd, block2, bay2, row2, tier2 를 출력하는 쿼리
-	@GetMapping("/findLastTimeWorkByBlock")
+	@GetMapping("/findLastTimeWorkByCrane")
 	public List<Object> findLastTimeWorkByBlock() {
-		List<Object[]> list = repository.findLastTimeWorkByBlock();
+		List<Object[]> list = repository.findLastTimeWorkByCrane();
 		List<Object> result = new ArrayList<>();
 
 		for (Object[] objs : list) {
