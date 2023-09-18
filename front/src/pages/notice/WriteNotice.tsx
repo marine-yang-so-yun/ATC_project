@@ -4,9 +4,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { getUser } from "utils/localStorage";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { NoticeTitle, TitleContainer } from "styles/notice/noticeList.style";
-import * as S from "styles/notice/createNotice.style";
-import { LightPurpleBtn } from "styles/commons";
+import * as S from "styles/page/notice/writeNotice.style";
+import {
+	LightPurpleBtn,
+	SubPageTitle,
+	SubPageTitleContainer,
+} from "styles/commons";
 import { NoticeData } from "types/api";
 import { getNoticeAsync } from "store/notice";
 import { useDispatch } from "react-redux";
@@ -32,7 +35,6 @@ const modules = {
 					background: ["#000000", "#e60000", "#0066cc", "#ffffff"],
 				},
 			],
-			["image", "video"],
 			["clean"],
 		],
 	},
@@ -89,9 +91,9 @@ const WriteNotice = () => {
 
 	return (
 		<>
-			<TitleContainer>
-				<NoticeTitle>공지사항</NoticeTitle>
-			</TitleContainer>
+			<SubPageTitleContainer>
+				<SubPageTitle>공지사항</SubPageTitle>
+			</SubPageTitleContainer>
 			<S.CreateNoticeForm onSubmit={(e) => onSubmit(e)}>
 				<S.NoticeTitleInput
 					name="title"

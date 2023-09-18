@@ -1,130 +1,125 @@
 import React, { useEffect, useRef, useState } from "react";
-import { PerspectiveCamera, OrbitControls, Stats } from "@react-three/drei";
-import * as S from "styles/components/home/simulator.style";
-import { CurrentContainerWorkData, SocketContainerData } from "types/api";
+import { CurrentContainerWorkData } from "types/api";
 import * as THREE from "three";
 import apiService from "api";
 import { ContainerPosition, CranePosition } from "types/simulator";
 import ContainerBoxes from "./ContainerBoxes";
 import Block from "./Block";
-import { moveBoxAnimation, moveCraneAnimation } from "./animation";
 import ATCCranes from "./ATCCranes";
 import Floor from "./Floor";
+import Controls from "./Controls";
+import SocketAnimation from "./SocketAnimation";
 
 const Simulator = () => {
-	const [containerWorkList, setContainerWorkList] =
-		useState<CurrentContainerWorkData[]>();
+	const [containerWorkList, setContainerWorkList] = useState<
+		CurrentContainerWorkData[]
+	>([]);
 	const [count, setCount] = useState<number>(0);
 	const containers = useRef<ContainerPosition[]>([]);
 	const cranes = useRef<CranePosition>({});
-	const maxBlockList = useRef<{ [block: string]: Block }>({});
-
-	const wsUrl = process.env.REACT_APP_SOCKET_URL;
+	const maxBlockList = useRef<{
+		[block: string]: { position: Block; width: number; height: number };
+	}>({});
 
 	useEffect(() => {
-		const fetchCurrentContainerData = async () => {
+		const fetchMaxBlockData = async () => {
 			try {
-				const blockRes = await apiService.containerService.getMaxBlock();
-				blockRes.data.forEach(
-					({ block }) => (maxBlockList.current[block] = new Block(block))
-				);
+				const { data } = await apiService.containerService.getMaxBlock();
 
-				const containerRes =
-					await apiService.containerService.getCurrentContainerWork();
-				setContainerWorkList(containerRes.data);
-				setCount((prev) => prev + containerRes.data.length);
-				containerRes.data.forEach((newItem) => {
-					if (newItem.tier === 0) return;
-					containers.current.push({
-						position: new THREE.Vector3(
-							maxBlockList.current[newItem.block].x + newItem.bay * 2,
-							-0.5 + newItem.tier,
-							maxBlockList.current[newItem.block].z + newItem.row
-						),
-					});
+				data.forEach(({ block, maxbay, maxrow }) => {
+					maxBlockList.current[block] = {
+						position: new Block(block),
+						width: maxbay,
+						height: maxrow,
+					};
 				});
-
-				const craneRes =
-					await apiService.containerService.getCurrentWorkByBlock();
-				craneRes.data.forEach(
-					(item) =>
-						(cranes.current[item.crane] = new THREE.Vector3(
-							maxBlockList.current[item.block].x + item.bay * 2,
-							0,
-							maxBlockList.current[item.block].z + 12
-						))
-				);
 			} catch (error) {
 				console.log(error);
 			}
 		};
-		fetchCurrentContainerData();
-	}, []);
 
-	useEffect(() => {
-		if (!wsUrl) return;
-		const ws = new WebSocket(wsUrl);
+		const fetchContainerData = async () => {
+			try {
+				const { data } =
+					await apiService.containerService.getCurrentContainerWork();
 
-		ws.onmessage = (event) => {
-			const newData: SocketContainerData[] = JSON.parse(event.data);
-
-			if (newData && newData.length > 0) {
-				setCount((prev) => prev + newData.length);
-				newData.forEach(async (newItem) => {
-					const craneNum = newItem.crane;
-					const prevCrane = cranes.current[craneNum];
-
-					const fromPosition = new THREE.Vector3(
-						maxBlockList.current[newItem.block2].x + newItem.bay1 * 2,
-						0.5 + newItem.tier1,
-						maxBlockList.current[newItem.block2].z + newItem.row1
-					);
-
-					const toPosition = new THREE.Vector3(
-						maxBlockList.current[newItem.block2].x + newItem.bay2 * 2,
-						0.5 + newItem.tier2,
-						maxBlockList.current[newItem.block2].z + newItem.row2
-					);
-
-					const cranePosition = new THREE.Vector3(
-						maxBlockList.current[newItem.block2].x + newItem.bay2 * 2,
-						0,
-						maxBlockList.current[newItem.block2].z + 12
-					);
-
-					containers.current.push({ position: fromPosition });
-					await moveCraneAnimation(prevCrane, cranePosition);
-					cranes.current[craneNum] = cranePosition;
-					await moveBoxAnimation(fromPosition, toPosition);
-				});
+				setContainerWorkList(data);
+				setCount(data.length);
+				containers.current = data.map((newItem) => ({
+					position: new THREE.Vector3(
+						maxBlockList.current[newItem.block].position.x + newItem.bay * 2,
+						newItem.tier - 0.5,
+						maxBlockList.current[newItem.block].position.z + newItem.row
+					),
+				}));
+			} catch (error) {
+				console.log(error);
 			}
 		};
 
-		return () => {
-			ws.close();
+		const fetchCraneData = async () => {
+			try {
+				const { data } =
+					await apiService.containerService.getCurrentWorkByCrane();
+
+				data.forEach((item) => {
+					cranes.current[item.crane] = new THREE.Vector3(
+						maxBlockList.current[item.block].position.x + item.bay * 2,
+						0,
+						maxBlockList.current[item.block].position.z + 12
+					);
+				});
+			} catch (error) {
+				console.log(error);
+			}
 		};
 
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [wsUrl]);
+		const fetchData = async () => {
+			await Promise.all([
+				fetchMaxBlockData(),
+				fetchContainerData(),
+				fetchCraneData(),
+			]);
+		};
 
-	if (!containerWorkList) return null;
+		fetchData();
+	}, []);
+
+	if (containerWorkList.length === 0) return null;
+
 	return (
-		<S.ThreeCanvas shadows>
-			<PerspectiveCamera makeDefault position={[0, 120, 80]} zoom={1.5} />
-			<OrbitControls target={[0, 0, 0]} />
+		<>
+			<Controls />
+			<SocketAnimation
+				cranes={cranes}
+				maxBlockList={maxBlockList}
+				containers={containers}
+				setCount={setCount}
+			/>
 			<ContainerBoxes count={count} containers={containers} />
-			<Floor />
+			{Object.values(maxBlockList.current).map(
+				({ position, width, height }) => (
+					<Floor
+						position={
+							new THREE.Vector3(
+								position.x + width - 3,
+								0,
+								position.z + height / 2
+							)
+						}
+						width={width * 2 + 5}
+						height={height + 8}
+					/>
+				)
+			)}
 			<ATCCranes cranes={cranes.current} />
 			<ambientLight args={["#ffffff", 0.5]} />
 			<directionalLight
-				args={["#ffffff", 0.7]}
-				position={[-90, 30, 0]}
+				args={["#ffffff", 1]}
+				position={[-80, 80, 0]}
 				castShadow
 			/>
-			<Stats />
-			<gridHelper args={[160, 160]} />
-			<axesHelper args={[50]} />
-		</S.ThreeCanvas>
+		</>
 	);
 };
 

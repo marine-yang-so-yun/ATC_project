@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import NoticeItem from "components/notice/NoticeItem";
-import * as S from "styles/notice/noticeList.style";
+import * as S from "styles/page/notice/noticeList.style";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "store";
-import { LightPurpleBtn } from "styles/commons";
+import {
+	LightPurpleBtn,
+	SubPageTitle,
+	SubPageTitleContainer,
+	SubpageCateBtn,
+} from "styles/commons";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { getNoticeAsync } from "store/notice";
-import Pagination from "components/notice/Pagination";
+import Pagination from "components/Pagination";
 
 const NoticeList = () => {
 	const navigate = useNavigate();
@@ -43,29 +48,29 @@ const NoticeList = () => {
 
 	return (
 		<>
-			<S.TitleContainer>
-				<S.NoticeTitle>공지사항</S.NoticeTitle>
+			<SubPageTitleContainer>
+				<SubPageTitle>공지사항</SubPageTitle>
 				<div>
-					<S.CateBtn
+					<SubpageCateBtn
 						$active={cate === "전체"}
 						onClick={() => setSearchParams({ cate: "전체" })}
 					>
 						전체
-					</S.CateBtn>
-					<S.CateBtn
+					</SubpageCateBtn>
+					<SubpageCateBtn
 						$active={cate === "공지"}
 						onClick={() => setSearchParams({ cate: "공지" })}
 					>
 						공지
-					</S.CateBtn>
-					<S.CateBtn
+					</SubpageCateBtn>
+					<SubpageCateBtn
 						$active={cate === "알림"}
 						onClick={() => setSearchParams({ cate: "알림" })}
 					>
 						알림
-					</S.CateBtn>
+					</SubpageCateBtn>
 				</div>
-			</S.TitleContainer>
+			</SubPageTitleContainer>
 			<S.NoticeOlContainer>
 				<LightPurpleBtn onClick={() => navigate("/createnotice")}>
 					글 작성

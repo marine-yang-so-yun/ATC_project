@@ -69,7 +69,10 @@ const Header = () => {
 						<Link to="/notice">공지사항</Link>
 					</S.NavListItem>
 					<S.NavListItem>
-						<Link to="/weather">날씨정보</Link>
+						<Link to="/atcwork">ATC 작업 목록</Link>
+					</S.NavListItem>
+					<S.NavListItem>
+						<Link to="/yardwork">야드 작업 목록</Link>
 					</S.NavListItem>
 				</ul>
 			</S.NavContainer>

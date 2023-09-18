@@ -1,11 +1,23 @@
 import React from "react";
-import { angleToRadians } from "./angleToRadians";
+import * as THREE from "three";
 
-const Floor = () => {
+const Floor = ({
+	width,
+	height,
+	position,
+}: {
+	width: number;
+	height: number;
+	position: THREE.Vector3;
+}) => {
 	return (
-		<mesh rotation={[-angleToRadians(90), 0, 0]} receiveShadow>
-			<planeGeometry args={[160, 80]} />
-			<meshStandardMaterial color="#a0f4a4" />
+		<mesh
+			rotation={[-((Math.PI / 180) * 90), 0, 0]}
+			position={position}
+			receiveShadow
+		>
+			<planeGeometry args={[width, height]} />
+			<meshStandardMaterial color="#7c9c60" />
 		</mesh>
 	);
 };

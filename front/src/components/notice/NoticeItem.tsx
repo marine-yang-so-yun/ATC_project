@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import DOMPurify from "dompurify";
-import * as S from "styles/notice/noticeList.style";
+import * as S from "styles/page/notice/noticeList.style";
 import { NoticeData } from "types/api";
 import "react-quill/dist/quill.snow.css";
 import apiService from "api";
