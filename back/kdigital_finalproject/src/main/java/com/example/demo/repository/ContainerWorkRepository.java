@@ -55,9 +55,21 @@ public interface ContainerWorkRepository extends JpaRepository<ContainerWork, In
 	
 	
 	// ATC 번호로 현재 시점부터 할 작업을 조회하는 쿼리
-	@Query(value = "SELECT c FROM ContainerWork c WHERE crane=:keyword AND TIME(NOW())<=TIME(timeEnd) ORDER BY timeEnd ASC")
+	@Query(value = "SELECT c FROM ContainerWork c WHERE crane=:keyword AND TIME(NOW())<=TIME(timeEnd) ORDER BY timeEnd ASC limit 10")
 	List<ContainerWork> findWorkListByATC(@Param("keyword") String paramValue);
+	
+	@Query(value = "SELECT * FROM container_work WHERE (crane =:keyword1 OR crane =:keyword2) AND TIME(NOW()) <= TIME(time_end) ORDER BY time_end ASC limit 10", nativeQuery = true)
+	List<ContainerWork> findWorkListByATC2(@Param("keyword1") String paramValue1, @Param("keyword2") String paramValue2);
+	
+	@Query(value = "SELECT * FROM container_work WHERE crane=:keyword AND TIME(NOW()) <= TIME(time_end) ORDER BY time_end ASC", nativeQuery = true)
+	List<ContainerWork> findWorkListByATC3(@Param("keyword") String paramValue);
+	
+	@Query(value = "SELECT * FROM container_work WHERE (crane=:keyword1 OR crane=:keyword2) AND TIME(NOW()) <= TIME(time_end) ORDER BY time_end ASC", nativeQuery = true)
+	List<ContainerWork> findWorkListByATC4(@Param("keyword1") String paramValue1, @Param("keyword2") String paramValue2);
+	
 	
 	@Query(value = "select * from container_work where time(now()) <= time(time_end)", nativeQuery=true)
 	List<ContainerWork> findWorkList();
+	
+	
 }

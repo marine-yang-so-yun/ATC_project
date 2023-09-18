@@ -30,12 +30,13 @@ public class Notice {
     private Integer noticeseq;
     private String noticetitle;
     private String noticewriter;
+    private Boolean noticeurgency;
+    private String noticedetail;
 
     @Column(columnDefinition = "timestamp default current_timestamp()")
     private Timestamp noticedate;
 
-    private boolean noticeurgency;
-    private String noticedetail;
+
 
     @PrePersist
     public void prePersist() {
