@@ -5,10 +5,10 @@ declare module "styled-components" {
 		color: {
 			white: "#fff";
 			black: "#222";
-			lightGray: "#F2F2F2";
+			lightGray: "#E6E6E6";
 			gray: "#767676";
 			purple: "#323470";
-			lightPurple: "#686BB6";
+			lightPurple: "#8E8FBD";
 		};
 		fontSize: {
 			xs: "0.75rem";
