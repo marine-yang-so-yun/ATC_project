@@ -75,14 +75,6 @@ const ATCWorkList = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [selectedATCNum]);
 
-	const options = {
-		year: "numeric",
-		month: "numeric",
-		day: "numeric",
-		hour: "2-digit",
-		minute: "2-digit",
-	};
-
 	if (ATCWorkList.length === 0) return null;
 
 	return (
