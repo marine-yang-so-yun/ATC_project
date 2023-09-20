@@ -88,3 +88,8 @@ export const CSVDownloadBtn = styled(CSVLink)`
 		background-color: ${theme.color.purple};
 	}
 `;
+
+export const FlexSpaceBetweenDiv = styled.div`
+	display: flex;
+	justify-content: space-between;
+`;

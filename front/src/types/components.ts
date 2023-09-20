@@ -25,3 +25,13 @@ export interface SocketAnimationProps {
 	containers: React.MutableRefObject<ContainerPosition[]>;
 	setCount: React.Dispatch<React.SetStateAction<number>>;
 }
+
+export interface SelectDatetimeProps {
+	inputs: { start: string; end: string };
+	setInputs: React.Dispatch<
+		React.SetStateAction<{
+			start: string;
+			end: string;
+		}>
+	>;
+}

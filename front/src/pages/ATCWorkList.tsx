@@ -6,12 +6,14 @@ import apiService from "api";
 import Pagination from "components/Pagination";
 import {
 	CSVDownloadBtn,
+	FlexSpaceBetweenDiv,
 	SectionContainer,
 	SubPageTitle,
 	SubPageTitleContainer,
 	SubpageCateBtn,
 } from "styles/commons";
 import { ContainerWorkCSVData } from "types/subpage";
+import SelectDatetime from "components/SelectDatetime";
 
 const ATCWorkList = () => {
 	const [ATCWorkList, setATCWorkList] = useState<
@@ -110,34 +112,23 @@ const ATCWorkList = () => {
 				</div>
 			</SubPageTitleContainer>
 			<SectionContainer>
-				<div>
-					<input
-						type="datetime-local"
-						value={inputs.start}
-						onChange={(e) => setInputs({ ...inputs, start: e.target.value })}
-					/>
-					<span>~</span>
-					<input
-						type="datetime-local"
-						value={inputs.end}
-						onChange={(e) => setInputs({ ...inputs, end: e.target.value })}
-					/>
-				</div>
-				<CSVDownloadBtn
-					data={ATCWorkList.filter(
-						(data) =>
-							data.timeEnd >= new Date(inputs.start) &&
-							data.timeEnd <= new Date(inputs.end)
-					)}
-					headers={headers}
-					filename={`${selectedATCNum}작업목록.csv`}
-					target="_blank"
-				>
-					ATC별 작업 목록 csv 다운로드
-				</CSVDownloadBtn>
-
+				<FlexSpaceBetweenDiv>
+					<SelectDatetime inputs={inputs} setInputs={setInputs} />
+					<CSVDownloadBtn
+						data={ATCWorkList.filter(
+							(data) =>
+								data.timeEnd >= new Date(inputs.start) &&
+								data.timeEnd <= new Date(inputs.end)
+						)}
+						headers={headers}
+						filename={`${selectedATCNum}작업목록.csv`}
+						target="_blank"
+					>
+						ATC별 작업 목록 csv 다운로드
+					</CSVDownloadBtn>
+				</FlexSpaceBetweenDiv>
 				<DataList header={headers.map((header) => header.label)} />
-				<DataContentOl $count={headers.map((header) => header.label).length}>
+				<DataContentOl $count={headers.length}>
 					{ATCWorkList.filter(
 						(data) =>
 							data.timeEnd >= new Date(inputs.start) &&

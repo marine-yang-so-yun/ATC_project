@@ -5,12 +5,14 @@ import Pagination from "components/Pagination";
 import { useSearchParams } from "react-router-dom";
 import {
 	CSVDownloadBtn,
+	FlexSpaceBetweenDiv,
 	SectionContainer,
 	SubPageTitle,
 	SubPageTitleContainer,
 } from "styles/commons";
 import { DataContentOl } from "styles/components/dataList.style";
 import { ContainerWorkCSVData } from "types/subpage";
+import SelectDatetime from "components/SelectDatetime";
 
 const YardWorkList = () => {
 	const [yardWorkList, setYardWorkList] = useState<ContainerWorkCSVData[]>([]);
@@ -91,33 +93,23 @@ const YardWorkList = () => {
 				<SubPageTitle>야드 작업 목록</SubPageTitle>
 			</SubPageTitleContainer>
 			<SectionContainer>
-				<div>
-					<input
-						type="datetime-local"
-						value={inputs.start}
-						onChange={(e) => setInputs({ ...inputs, start: e.target.value })}
-					/>
-					<span>~</span>
-					<input
-						type="datetime-local"
-						value={inputs.end}
-						onChange={(e) => setInputs({ ...inputs, end: e.target.value })}
-					/>
-				</div>
-				<CSVDownloadBtn
-					data={yardWorkList.filter(
-						(data) =>
-							data.timeEnd >= new Date(inputs.start) &&
-							data.timeEnd <= new Date(inputs.end)
-					)}
-					headers={headers}
-					filename="야드작업목록.csv"
-					target="_blank"
-				>
-					야드 작업 목록 csv 다운로드
-				</CSVDownloadBtn>
+				<FlexSpaceBetweenDiv>
+					<SelectDatetime inputs={inputs} setInputs={setInputs} />
+					<CSVDownloadBtn
+						data={yardWorkList.filter(
+							(data) =>
+								data.timeEnd >= new Date(inputs.start) &&
+								data.timeEnd <= new Date(inputs.end)
+						)}
+						headers={headers}
+						filename="야드작업목록.csv"
+						target="_blank"
+					>
+						야드 작업 목록 csv 다운로드
+					</CSVDownloadBtn>
+				</FlexSpaceBetweenDiv>
 				<DataList header={headers.map((header) => header.label)} />
-				<DataContentOl $count={headers.map((header) => header.label).length}>
+				<DataContentOl $count={headers.length}>
 					{yardWorkList
 						.filter(
 							(data) =>
