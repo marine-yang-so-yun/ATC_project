@@ -1,7 +1,7 @@
+import React, { useEffect, useState } from "react";
 import apiService from "api";
 import DataList from "components/DataList";
 import Pagination from "components/Pagination";
-import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
 	CSVDownloadBtn,
@@ -18,6 +18,10 @@ const YardWorkList = () => {
 	const page: number = Number(searchParams.get("page")) || 1;
 	const [numPage, setNumPage] = useState<number>(1);
 	const offset = (page - 1) * 20;
+	const [inputs, setInputs] = useState<{ start: string; end: string }>({
+		start: "2023-04-06T00:00",
+		end: "2023-04-06T23:59",
+	});
 
 	const headers = [
 		{ label: "컨테이너번호", key: "container" },
@@ -68,8 +72,16 @@ const YardWorkList = () => {
 	}, []);
 
 	useEffect(() => {
-		setNumPage(Math.ceil(yardWorkList.length / 20));
-	}, [yardWorkList.length]);
+		setNumPage(
+			Math.ceil(
+				yardWorkList.filter(
+					(data) =>
+						data.timeEnd >= new Date(inputs.start) &&
+						data.timeEnd <= new Date(inputs.end)
+				).length / 20
+			)
+		);
+	}, [inputs.end, inputs.start, yardWorkList]);
 
 	if (yardWorkList.length === 0) return null;
 
@@ -79,8 +91,25 @@ const YardWorkList = () => {
 				<SubPageTitle>야드 작업 목록</SubPageTitle>
 			</SubPageTitleContainer>
 			<SectionContainer>
+				<div>
+					<input
+						type="datetime-local"
+						value={inputs.start}
+						onChange={(e) => setInputs({ ...inputs, start: e.target.value })}
+					/>
+					<span>~</span>
+					<input
+						type="datetime-local"
+						value={inputs.end}
+						onChange={(e) => setInputs({ ...inputs, end: e.target.value })}
+					/>
+				</div>
 				<CSVDownloadBtn
-					data={yardWorkList}
+					data={yardWorkList.filter(
+						(data) =>
+							data.timeEnd >= new Date(inputs.start) &&
+							data.timeEnd <= new Date(inputs.end)
+					)}
 					headers={headers}
 					filename="야드작업목록.csv"
 					target="_blank"
@@ -89,23 +118,30 @@ const YardWorkList = () => {
 				</CSVDownloadBtn>
 				<DataList header={headers.map((header) => header.label)} />
 				<DataContentOl $count={headers.map((header) => header.label).length}>
-					{yardWorkList.slice(offset, offset + 20).map((item, idx) => (
-						<li key={item.container + idx}>
-							<span>{item.container}</span>
-							<span>{workCodeKo[item.workCode]}</span>
-							<span>{item.shipVoyage}</span>
-							<span>{item.fromPosition}</span>
-							<span>{item.toPosition}</span>
-							<span>
-								{item.timeEnd.toLocaleDateString()}
-								<br />
-								{item.timeEnd.toLocaleTimeString()}
-							</span>
-							<span>{item.fullOrEmpty}</span>
-							<span>{item.containerSize}</span>
-							<span>{item.crane}</span>
-						</li>
-					))}
+					{yardWorkList
+						.filter(
+							(data) =>
+								data.timeEnd >= new Date(inputs.start) &&
+								data.timeEnd <= new Date(inputs.end)
+						)
+						.slice(offset, offset + 20)
+						.map((item, idx) => (
+							<li key={item.container + idx}>
+								<span>{item.container}</span>
+								<span>{workCodeKo[item.workCode]}</span>
+								<span>{item.shipVoyage}</span>
+								<span>{item.fromPosition}</span>
+								<span>{item.toPosition}</span>
+								<span>
+									{item.timeEnd.toLocaleDateString()}
+									<br />
+									{item.timeEnd.toLocaleTimeString()}
+								</span>
+								<span>{item.fullOrEmpty}</span>
+								<span>{item.containerSize}</span>
+								<span>{item.crane}</span>
+							</li>
+						))}
 				</DataContentOl>
 				<Pagination
 					page={page}
