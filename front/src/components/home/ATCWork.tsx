@@ -3,7 +3,7 @@ import DataList from "components/DataList";
 import { SectionContainer, SectionTitle } from "styles/commons";
 import { AppState } from "store";
 import { useSelector } from "react-redux";
-import { ContainerWorkData } from "types/api";
+import { SocketContainerByATCData } from "types/api";
 import { DataContentOl } from "styles/components/dataList.style";
 import { WorkByATCContainer } from "styles/components/home/atcWork.style";
 
@@ -11,7 +11,9 @@ const ATCWork = () => {
 	const selectedCranes: AppState["blockCrane"]["crane"] = useSelector(
 		(state: AppState) => state.blockCrane.crane
 	);
-	const [workListByAtc, setWorkListByAtc] = useState<ContainerWorkData[]>([]);
+	const [workListByAtc, setWorkListByAtc] = useState<
+		SocketContainerByATCData[]
+	>([]);
 	const wsUrl = process.env.REACT_APP_SOCKET_BY_ATC_URL;
 
 	const cols = [
@@ -40,7 +42,7 @@ const ATCWork = () => {
 		};
 
 		ws.onmessage = (event) => {
-			let newData: ContainerWorkData[] = JSON.parse(event.data);
+			let newData: SocketContainerByATCData[] = JSON.parse(event.data);
 			newData = newData.map((item) => ({
 				...item,
 				timeEnd: new Date(item.timeEnd),
@@ -71,7 +73,7 @@ const ATCWork = () => {
 										<span>{item.container}</span>
 										<span>{workCodeKo[item.workCode]}</span>
 										<span>
-											{`${item.block}-${item.bay1
+											{`${item.block1}-${item.bay1
 												.toString()
 												.padStart(2, "0")}-${item.row1
 												.toString()
@@ -80,7 +82,7 @@ const ATCWork = () => {
 												.padStart(2, "0")}`}
 										</span>
 										<span>
-											{`${item.block}-${item.bay2
+											{`${item.block2}-${item.bay2
 												.toString()
 												.padStart(2, "0")}-${item.row2
 												.toString()
