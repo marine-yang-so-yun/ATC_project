@@ -17,52 +17,70 @@ export interface ContainerWorkData {
 	ship: string;
 	workCode: string;
 	voyage: number;
-	block: string;
+	block1: string;
 	bay1: number;
 	row1: number;
 	tier1: number;
+	block2: string;
 	bay2: number;
 	row2: number;
 	tier2: number;
 	truckNum: string;
-	crane: string;
-	timeEnd: Date;
 	fullOrEmpty: string;
 	containerSize: string;
+	crane: string;
+	timeEnd: Date;
 }
 
-export interface CurrentContainerWorkData {
-	crane: string;
-	container: string;
-	timeEnd: string;
-	block: string;
-	bay: number;
-	row: number;
-	tier: number;
-}
+export type CurrentContainerWorkData = Pick<
+	ContainerWorkData,
+	"container" | "block2" | "bay2" | "row2" | "tier2" | "timeEnd"
+>;
+
+export type CurrentWorkByCrane = Pick<
+	ContainerWorkData,
+	"crane" | "block2" | "bay2" | "row2" | "tier2" | "timeEnd"
+>;
 
 export type CurrentATCWorkData = Omit<CurrentContainerWorkData, "container">;
 
-export interface SocketContainerData {
-	bay1: number;
-	bay2: number;
-	block: string;
-	row1: number;
-	row2: number;
-	tier1: number;
-	tier2: number;
+export interface WorkingCraneData {
+	craneseq: number;
 	crane: string;
-	workStatus: string;
 }
+
+export type SocketContainerData = Omit<
+	ContainerWorkData,
+	| "container"
+	| "ship"
+	| "voyage"
+	| "truckNum"
+	| "fullOrEmpty"
+	| "containerSize"
+	| "timeEnd"
+>;
+
+export type SocketContainerByATCData = Omit<
+	ContainerWorkData,
+	"ship" | "voyage" | "truckNum" | "fullOrEmpty" | "containerSize"
+>;
+
+export type SocketYardData = Pick<
+	ContainerWorkData,
+	| "container"
+	| "ship"
+	| "voyage"
+	| "block1"
+	| "bay1"
+	| "row1"
+	| "tier1"
+	| "timeEnd"
+	| "workCode"
+>;
 
 export interface MaxBlockData {
 	block: string;
 	maxbay: number;
 	maxrow: number;
 	maxtier: number;
-}
-
-export interface WorkingCraneData {
-	craneseq: number;
-	crane: string;
 }
