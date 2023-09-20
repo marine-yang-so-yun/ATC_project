@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import DataList from "components/DataList";
 import { SectionContainer, SectionTitle } from "styles/commons";
-import { ContainerWorkData } from "types/api";
+import { SocketYardData } from "types/api";
 import { DataContentOl } from "styles/components/dataList.style";
 
 const YardWork = () => {
-	const [workList, setWorkList] = useState<ContainerWorkData[]>([]);
+	const [workList, setWorkList] = useState<SocketYardData[]>([]);
 	const wsUrl = process.env.REACT_APP_SOCKET_YARD;
 	const cols = ["컨테이너번호", "작업코드", "모선항차", "위치", "작업완료시간"];
 	const workCodeKo: { [workCode: string]: string } = {
@@ -23,7 +23,7 @@ const YardWork = () => {
 		const ws = new WebSocket(wsUrl);
 
 		ws.onmessage = (event) => {
-			let newData: ContainerWorkData[] = JSON.parse(event.data);
+			let newData: SocketYardData[] = JSON.parse(event.data);
 			newData = newData.map((item) => ({
 				...item,
 				timeEnd: new Date(item.timeEnd),
@@ -45,7 +45,7 @@ const YardWork = () => {
 						<span>{workCodeKo[item.workCode]}</span>
 						<span>{item.ship + item.voyage}</span>
 						<span>
-							{`${item.block}-${item.bay1
+							{`${item.block1}-${item.bay1
 								.toString()
 								.padStart(2, "0")}-${item.row1
 								.toString()

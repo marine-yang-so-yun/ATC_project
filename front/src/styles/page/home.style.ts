@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { SectionContainer } from "styles/commons";
 import { theme } from "styles/theme";
+import { Canvas } from "@react-three/fiber";
 
 export const MainSectionContainer = styled(SectionContainer)`
 	display: flex;
@@ -40,4 +41,12 @@ export const MainSectionContainer = styled(SectionContainer)`
 			}
 		}
 	}
+`;
+
+export const ThreeCanvas = styled(Canvas)`
+	margin: 0 auto;
+	margin-bottom: 30px;
+	width: 80vw !important;
+	height: 60vh !important;
+	background-color: #527d3c;
 `;

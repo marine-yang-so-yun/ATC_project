@@ -18,6 +18,7 @@ const SocketAnimation = ({
 
 		ws.onmessage = (event) => {
 			const newData: SocketContainerData[] = JSON.parse(event.data);
+			console.log(newData);
 
 			if (newData && newData.length > 0) {
 				newData.forEach(async (newItem) => {
@@ -25,26 +26,78 @@ const SocketAnimation = ({
 					const prevCrane = cranes.current[craneNum];
 
 					const fromPosition = new THREE.Vector3(
-						maxBlockList.current[newItem.block].position.x + newItem.bay1 * 2,
+						maxBlockList.current[newItem.block1].position.x + newItem.bay1 * 2,
 						(newItem.tier1 === 0 ? 1 : newItem.tier1) - 0.5,
-						maxBlockList.current[newItem.block].position.z +
+						maxBlockList.current[newItem.block1].position.z +
 							(newItem.row1 === 0 ? -1 : newItem.row1)
 					);
 
+					if (
+						fromPosition.y > 1 &&
+						!containers.current.includes({
+							position: new THREE.Vector3(
+								fromPosition.x,
+								fromPosition.y - 1,
+								fromPosition.z
+							),
+						})
+					) {
+						for (let i = fromPosition.y - 1; i > 0; i--) {
+							if (
+								containers.current.includes({
+									position: new THREE.Vector3(
+										fromPosition.x,
+										i,
+										fromPosition.z
+									),
+								})
+							)
+								return;
+							containers.current.push({
+								position: new THREE.Vector3(fromPosition.x, i, fromPosition.z),
+							});
+							setCount((prev) => prev + 1);
+						}
+					}
+
 					const toPosition = new THREE.Vector3(
-						maxBlockList.current[newItem.block].position.x + newItem.bay2 * 2,
+						maxBlockList.current[newItem.block2].position.x + newItem.bay2 * 2,
 						(newItem.tier2 === 0 ? 1 : newItem.tier2) - 0.5,
-						maxBlockList.current[newItem.block].position.z +
+						maxBlockList.current[newItem.block2].position.z +
 							(newItem.row2 === 0 ? -1 : newItem.row2)
 					);
 					containers.current.push({ position: fromPosition });
 					setCount((prev) => prev + 1);
 
 					const toCranePosition = new THREE.Vector3(
-						maxBlockList.current[newItem.block].position.x + newItem.bay2 * 2,
+						maxBlockList.current[newItem.block2].position.x + newItem.bay2 * 2,
 						0,
-						maxBlockList.current[newItem.block].position.z + 12
+						maxBlockList.current[newItem.block2].position.z + 12
 					);
+
+					if (
+						toPosition.y > 1 &&
+						!containers.current.includes({
+							position: new THREE.Vector3(
+								toPosition.x,
+								toPosition.y - 1,
+								toPosition.z
+							),
+						})
+					) {
+						for (let i = toPosition.y - 1; i > 0; i--) {
+							if (
+								containers.current.includes({
+									position: new THREE.Vector3(toPosition.x, i, toPosition.z),
+								})
+							)
+								return;
+							containers.current.push({
+								position: new THREE.Vector3(toPosition.x, i, toPosition.z),
+							});
+							setCount((prev) => prev + 1);
+						}
+					}
 
 					await moveAnimation(
 						fromPosition,

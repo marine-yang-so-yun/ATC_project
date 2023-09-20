@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "store";
 import { openModal } from "store/modal";
 import * as S from "styles/page/home.style";
-import { ThreeCanvas } from "styles/components/home/simulator.style";
 
 const Home = () => {
 	const selectedBlock: AppState["blockCrane"]["block"] = useSelector(
@@ -24,9 +23,9 @@ const Home = () => {
 					<button onClick={() => dispatch(openModal())}>{selectedBlock}</button>
 				</div>
 			</S.MainSectionContainer>
-			<ThreeCanvas shadows>
+			<S.ThreeCanvas shadows>
 				<Simulator />
-			</ThreeCanvas>
+			</S.ThreeCanvas>
 			{selectedBlock !== "전체" && <ATCWork />}
 			<YardWork />
 		</>

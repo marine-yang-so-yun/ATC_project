@@ -1,8 +1,8 @@
 import { axiosInstance } from "api";
 import {
 	ContainerWorkData,
-	CurrentATCWorkData,
 	CurrentContainerWorkData,
+	CurrentWorkByCrane,
 	MaxBlockData,
 	WorkingCraneData,
 } from "types/api";
@@ -26,7 +26,7 @@ const getMaxBlock = () =>
  * @return AxiosPromise
  */
 const getCurrentWorkByCrane = () =>
-	axiosInstance.get<CurrentATCWorkData[]>(
+	axiosInstance.get<CurrentWorkByCrane[]>(
 		"/containerwork/findLastTimeWorkByCrane"
 	);
 
@@ -37,15 +37,8 @@ const getCurrentWorkByCrane = () =>
  */
 const getATCNum = (block: string) =>
 	axiosInstance.get<WorkingCraneData[]>(
-		`/containerwork/findworkingcrane/${block}`
+		`/containerwork/findWorkingCrane/${block}`
 	);
-
-/**
- * 현재 시간 이후 작업 리스트 요청
- * @return AxiosPromise
- */
-const getWorkList = () =>
-	axiosInstance.get<ContainerWorkData[]>("/containerwork/findWorkList");
 
 /**
  * 야드 전체 작업 리스트 요청
@@ -67,7 +60,6 @@ const containerService = {
 	getMaxBlock,
 	getCurrentWorkByCrane,
 	getATCNum,
-	getWorkList,
 	getAllWorkList,
 	getAllWorkListByATC,
 };

@@ -10,7 +10,8 @@ export const BannerContainer = styled.aside`
 
 export const BannerBarContainer = styled.div`
 	display: flex;
-	width: 100%;
+	width: 80%;
+	margin: 0 auto;
 	padding: 0 1.5%;
 	border-radius: 50px;
 	background-color: ${theme.color.white};
