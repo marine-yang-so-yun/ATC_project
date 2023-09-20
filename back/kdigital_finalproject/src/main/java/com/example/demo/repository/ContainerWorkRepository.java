@@ -46,20 +46,22 @@ public interface ContainerWorkRepository extends JpaRepository<ContainerWork, In
 		       ") AS c " +
 		       "JOIN container_work AS cw " +
 		       "ON c.crane = cw.crane AND c.max_time_end = cw.time_end", nativeQuery=true)
-		List<Object[]> findLastTimeWorkByCrane();
+	List<Object[]> findLastTimeWorkByCrane();
 
+	List<ContainerWork> findAllByOrderByTimeEndAsc();
 
 	
 	// 해당 블록에서 일하는 ATC 번호를 찾는 코드
-	
 	@Query(value = "SELECT crane from ContainerWork WHERE block2 = :keyword GROUP BY crane ORDER BY crane ASC")
 	List<String> findWorkingCrane(@Param("keyword") String paramValue);
 	
 	// 해당 블록에서 일어나는 일을 ATC 번호로 오름차순 정렬해서 조회하는 코드
-	
 	@Query(value = "SELECT c from ContainerWork c WHERE block2 = :keyword ORDER BY crane ASC")
 	List<Object[]> findWorkListOrderByCrane(@Param("keyword") String paramValue);
 	
+	// ATC 번호로 전체 작업 리스트를 조회하는 쿼리
+	@Query(value = "SELECT * from container_work WHERE crane=:keyword ORDER BY time_end", nativeQuery=true)
+	List<ContainerWork> findAllListByATC(@Param("keyword") String paramValue);
 	
 	// ATC 번호로 현재 시점부터 할 작업을 조회하는 쿼리
 	@Query(value = "SELECT c FROM ContainerWork c WHERE crane=:keyword AND TIME(NOW())<=TIME(timeEnd) ORDER BY timeEnd ASC limit 10")
@@ -74,8 +76,7 @@ public interface ContainerWorkRepository extends JpaRepository<ContainerWork, In
 	@Query(value = "SELECT * FROM container_work WHERE (crane=:keyword1 OR crane=:keyword2) AND TIME(NOW()) <= TIME(time_end) ORDER BY time_end ASC", nativeQuery = true)
 	List<ContainerWork> findWorkListByATC4(@Param("keyword1") String paramValue1, @Param("keyword2") String paramValue2);
 	
-	
-	@Query(value = "select * from container_work where time(now()) <= time(time_end)", nativeQuery=true)
+	@Query(value = "select * from container_work where time(now()) <= time(time_end) ORDER BY time_end ASC", nativeQuery=true)
 	List<ContainerWork> findWorkList();
 	
 	
