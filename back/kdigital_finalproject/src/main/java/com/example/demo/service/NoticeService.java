@@ -43,6 +43,7 @@ public class NoticeService {
 				noticetemp.setNoticetitle(notice.getNoticetitle());
 				noticetemp.setNoticedate(new Timestamp(System.currentTimeMillis()));
 				noticetemp.setNoticedetail(notice.getNoticedetail());
+				noticetemp.setNoticeurgency(notice.getNoticeurgency());
 			}
 		}
 		
