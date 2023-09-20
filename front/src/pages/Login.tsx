@@ -27,11 +27,9 @@ const Login = () => {
 			const expires = new Date(decodedUserInfo.exp * 1000);
 
 			setCookie("accessToken", token, { path: "/", expires });
-			localStorage.setItem(
-				"username",
-				JSON.stringify(decodedUserInfo.username)
-			);
+			localStorage.setItem("username", decodedUserInfo.username);
 
+			alert(`${decodedUserInfo.username}님 환영합니다!`);
 			navigate("/");
 		} catch (error) {
 			console.log(error);

@@ -42,8 +42,12 @@ const Header = () => {
 				{getUser() ? (
 					<S.NavBtn
 						onClick={() => {
-							removeUser();
-							navigate("/");
+							// eslint-disable-next-line no-restricted-globals
+							const logout = confirm("로그아웃하시겠습니까?");
+							if (logout) {
+								removeUser();
+								navigate("/");
+							}
 						}}
 					>
 						<FaUser />
