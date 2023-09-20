@@ -56,7 +56,7 @@ const NoticeItem = ({ notice }: { notice: NoticeData }) => {
 					className="ql-editor"
 					dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(noticedetail) }}
 				/>
-				{getUser() === '"admin"' && (
+				{getUser() === "admin" && (
 					<S.NoticeBtnContainer>
 						<button onClick={() => editNotice()}>수정</button>
 						<button onClick={() => deleteNotice(noticeseq)}>삭제</button>
