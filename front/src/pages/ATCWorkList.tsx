@@ -5,12 +5,12 @@ import { useSearchParams } from "react-router-dom";
 import apiService from "api";
 import Pagination from "components/Pagination";
 import {
+	CSVDownloadBtn,
 	SectionContainer,
 	SubPageTitle,
 	SubPageTitleContainer,
 	SubpageCateBtn,
 } from "styles/commons";
-import { CSVLink } from "react-csv";
 import { ContainerWorkCSVData } from "types/subpage";
 
 const ATCWorkList = () => {
@@ -102,14 +102,14 @@ const ATCWorkList = () => {
 				</div>
 			</SubPageTitleContainer>
 			<SectionContainer>
-				<CSVLink
+				<CSVDownloadBtn
 					data={ATCWorkList.filter((data) => data.crane === selectedATCNum)}
 					headers={headers}
 					filename={`${selectedATCNum}작업목록.csv`}
 					target="_blank"
 				>
 					ATC별 작업 목록 csv 다운로드
-				</CSVLink>
+				</CSVDownloadBtn>
 				<DataList header={headers.map((header) => header.label)} />
 				<DataContentOl $count={headers.map((header) => header.label).length}>
 					{ATCWorkList.filter((item) => item.crane === selectedATCNum)

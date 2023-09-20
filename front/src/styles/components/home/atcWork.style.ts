@@ -13,10 +13,16 @@ export const WorkByATCContainer = styled.div<{ $count: number }>`
 		width: ${({ $count }) => $count > 1 && `${100 / $count - 1}%`};
 
 		& > h3 {
-			margin-bottom: 10px;
+			margin-bottom: 15px;
 			font-size: ${theme.fontSize.lg};
 			font-weight: 600;
 			text-align: center;
+			cursor: pointer;
+			transition: all 250ms ease-in-out;
+
+			&:hover {
+				color: ${theme.color.lightPurple};
+			}
 		}
 	}
 `;

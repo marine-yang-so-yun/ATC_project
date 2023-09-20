@@ -1,10 +1,10 @@
 import apiService from "api";
 import DataList from "components/DataList";
 import Pagination from "components/Pagination";
-import React, { useEffect, useRef, useState } from "react";
-import { CSVLink } from "react-csv";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
+	CSVDownloadBtn,
 	SectionContainer,
 	SubPageTitle,
 	SubPageTitleContainer,
@@ -79,14 +79,14 @@ const YardWorkList = () => {
 				<SubPageTitle>야드 작업 목록</SubPageTitle>
 			</SubPageTitleContainer>
 			<SectionContainer>
-				<CSVLink
+				<CSVDownloadBtn
 					data={yardWorkList}
 					headers={headers}
 					filename="야드작업목록.csv"
 					target="_blank"
 				>
 					야드 작업 목록 csv 다운로드
-				</CSVLink>
+				</CSVDownloadBtn>
 				<DataList header={headers.map((header) => header.label)} />
 				<DataContentOl $count={headers.map((header) => header.label).length}>
 					{yardWorkList.slice(offset, offset + 20).map((item, idx) => (
