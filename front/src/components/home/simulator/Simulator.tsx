@@ -2,11 +2,15 @@ import React, { useEffect, useRef, useState } from "react";
 import { CurrentContainerWorkData } from "types/api";
 import * as THREE from "three";
 import apiService from "api";
-import { ContainerPosition, CranePosition } from "types/simulator";
+import {
+	ContainerPosition,
+	CranePosition,
+	MaxBlockList,
+} from "types/simulator";
 import ContainerBoxes from "./ContainerBoxes";
 import Block from "./Block";
 import ATCCranes from "./ATCCranes";
-import Floor from "./Floor";
+import Floors from "./Floors";
 import Controls from "./Controls";
 import SocketAnimation from "./SocketAnimation";
 
@@ -17,9 +21,7 @@ const Simulator = () => {
 	const [count, setCount] = useState<number>(0);
 	const containers = useRef<ContainerPosition[]>([]);
 	const cranes = useRef<CranePosition>({});
-	const maxBlockList = useRef<{
-		[block: string]: { position: Block; width: number; height: number };
-	}>({});
+	const maxBlockList = useRef<MaxBlockList>({});
 
 	useEffect(() => {
 		const fetchMaxBlockData = async () => {
@@ -97,22 +99,7 @@ const Simulator = () => {
 				setCount={setCount}
 			/>
 			<ContainerBoxes count={count} containers={containers} />
-			{Object.values(maxBlockList.current).map(
-				({ position, width, height }, idx) => (
-					<Floor
-						key={idx}
-						position={
-							new THREE.Vector3(
-								position.x + width - 3,
-								0,
-								position.z + height / 2
-							)
-						}
-						width={width * 2 + 5}
-						height={height + 8}
-					/>
-				)
-			)}
+			<Floors maxBlockList={maxBlockList} />
 			<ATCCranes cranes={cranes.current} />
 			<ambientLight args={["#ffffff", 0.5]} />
 			<directionalLight

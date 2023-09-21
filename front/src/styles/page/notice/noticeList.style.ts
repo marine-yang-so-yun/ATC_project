@@ -3,6 +3,7 @@ import { theme } from "styles/theme";
 
 export const NoticeOlContainer = styled.div`
 	padding: 1% 5%;
+	min-height: 50vh;
 `;
 
 export const NoticeOl = styled.ol`

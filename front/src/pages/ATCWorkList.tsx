@@ -5,22 +5,30 @@ import { useSearchParams } from "react-router-dom";
 import apiService from "api";
 import Pagination from "components/Pagination";
 import {
+	CSVDownloadBtn,
+	FlexSpaceBetweenDiv,
 	SectionContainer,
 	SubPageTitle,
 	SubPageTitleContainer,
 	SubpageCateBtn,
 } from "styles/commons";
-import { CSVLink } from "react-csv";
 import { ContainerWorkCSVData } from "types/subpage";
+import SelectDatetime from "components/SelectDatetime";
 
 const ATCWorkList = () => {
-	const [ATCWorkList, setATCWorkList] = useState<ContainerWorkCSVData[]>([]);
+	const [ATCWorkList, setATCWorkList] = useState<
+		Omit<ContainerWorkCSVData, "crane">[]
+	>([]);
 	const ATCNum = ["251", "252", "253", "254", "255", "256", "257", "258"];
 	const [searchParams, setSearchParams] = useSearchParams();
 	const selectedATCNum = searchParams.get("cate") || "251";
 	const page: number = Number(searchParams.get("page")) || 1;
 	const [numPage, setNumPage] = useState<number>(1);
 	const offset = (page - 1) * 20;
+	const [inputs, setInputs] = useState<{ start: string; end: string }>({
+		start: "2023-04-06T00:00",
+		end: "2023-04-06T23:59",
+	});
 
 	const headers = [
 		{ label: "컨테이너번호", key: "container" },
@@ -66,22 +74,24 @@ const ATCWorkList = () => {
 				timeEnd: new Date(item.timeEnd),
 				fullOrEmpty: item.fullOrEmpty,
 				containerSize: item.containerSize,
-				crane: item.crane,
 			}));
 			setATCWorkList(csvData);
-			setNumPage(Math.ceil(csvData.length / 20));
 		};
 		fetchATCWorkList();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [selectedATCNum]);
 
-	const options = {
-		year: "numeric",
-		month: "numeric",
-		day: "numeric",
-		hour: "2-digit",
-		minute: "2-digit",
-	};
+	useEffect(() => {
+		setNumPage(
+			Math.ceil(
+				ATCWorkList.filter(
+					(data) =>
+						data.timeEnd >= new Date(inputs.start) &&
+						data.timeEnd <= new Date(inputs.end)
+				).length / 20
+			)
+		);
+	}, [inputs.end, inputs.start, ATCWorkList]);
 
 	if (ATCWorkList.length === 0) return null;
 
@@ -102,17 +112,28 @@ const ATCWorkList = () => {
 				</div>
 			</SubPageTitleContainer>
 			<SectionContainer>
-				<CSVLink
-					data={ATCWorkList.filter((data) => data.crane === selectedATCNum)}
-					headers={headers}
-					filename={`${selectedATCNum}작업목록.csv`}
-					target="_blank"
-				>
-					ATC별 작업 목록 csv 다운로드
-				</CSVLink>
+				<FlexSpaceBetweenDiv>
+					<SelectDatetime inputs={inputs} setInputs={setInputs} />
+					<CSVDownloadBtn
+						data={ATCWorkList.filter(
+							(data) =>
+								data.timeEnd >= new Date(inputs.start) &&
+								data.timeEnd <= new Date(inputs.end)
+						)}
+						headers={headers}
+						filename={`${selectedATCNum}작업목록.csv`}
+						target="_blank"
+					>
+						ATC별 작업 목록 csv 다운로드
+					</CSVDownloadBtn>
+				</FlexSpaceBetweenDiv>
 				<DataList header={headers.map((header) => header.label)} />
-				<DataContentOl $count={headers.map((header) => header.label).length}>
-					{ATCWorkList.filter((item) => item.crane === selectedATCNum)
+				<DataContentOl $count={headers.length}>
+					{ATCWorkList.filter(
+						(data) =>
+							data.timeEnd >= new Date(inputs.start) &&
+							data.timeEnd <= new Date(inputs.end)
+					)
 						.slice(offset, offset + 20)
 						.map((item, idx) => (
 							<li key={item.container + idx}>

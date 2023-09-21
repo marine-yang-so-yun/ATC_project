@@ -13,6 +13,7 @@ import Login from "pages/Login";
 import WriteNotice from "pages/notice/WriteNotice";
 import ATCWorkList from "pages/ATCWorkList";
 import YardWorkList from "pages/YardWorkList";
+import ScrollToTop from "components/ScrollToTop";
 
 function App() {
 	const store = useStore();
@@ -21,6 +22,7 @@ function App() {
 		<ReduxProvider store={store}>
 			<ThemeProvider theme={theme}>
 				<GlobalStyle />
+				<ScrollToTop />
 				<Modal />
 				<Routes>
 					<Route element={<Layout />}>

@@ -6,8 +6,10 @@ import { useSelector } from "react-redux";
 import { SocketContainerByATCData } from "types/api";
 import { DataContentOl } from "styles/components/dataList.style";
 import { WorkByATCContainer } from "styles/components/home/atcWork.style";
+import { useNavigate } from "react-router-dom";
 
 const ATCWork = () => {
+	const navigate = useNavigate();
 	const selectedCranes: AppState["blockCrane"]["crane"] = useSelector(
 		(state: AppState) => state.blockCrane.crane
 	);
@@ -63,7 +65,9 @@ const ATCWork = () => {
 			<WorkByATCContainer $count={selectedCranes.length}>
 				{selectedCranes.map((crane) => (
 					<div key={crane}>
-						<h3>{crane}번 장비</h3>
+						<h3 onClick={() => navigate(`/atcwork?cate=${crane}`)}>
+							{crane}번 장비
+						</h3>
 						<DataList header={cols} />
 						<DataContentOl $count={cols.length}>
 							{workListByAtc

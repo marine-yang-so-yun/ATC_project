@@ -18,7 +18,6 @@ const SocketAnimation = ({
 
 		ws.onmessage = (event) => {
 			const newData: SocketContainerData[] = JSON.parse(event.data);
-			console.log(newData);
 
 			if (newData && newData.length > 0) {
 				newData.forEach(async (newItem) => {
