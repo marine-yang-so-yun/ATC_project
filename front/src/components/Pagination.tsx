@@ -26,10 +26,13 @@ const Pagination = ({
 
 	return (
 		<S.PaginationContainer>
-			<button onClick={() => handlePageClick(1)} disabled={page < 10}>
+			<button onClick={() => handlePageClick(1)} disabled={page <= 10}>
 				<AiOutlineDoubleLeft />
 			</button>
-			<button onClick={() => handlePageClick(page - 1)} disabled={page === 1}>
+			<button
+				onClick={() => handlePageClick(page - 10 < 1 ? 1 : page - 10)}
+				disabled={page === 1}
+			>
 				<AiOutlineLeft />
 			</button>
 			{Array(10)
@@ -48,7 +51,9 @@ const Pagination = ({
 					);
 				})}
 			<button
-				onClick={() => handlePageClick(page + 1)}
+				onClick={() =>
+					handlePageClick(page + 10 > numPage ? numPage : page + 10)
+				}
 				disabled={page === numPage}
 			>
 				<AiOutlineRight />
