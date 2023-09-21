@@ -25,7 +25,7 @@ const Controls = () => {
 					(7 - Number(selectedBlock[0])) * 100 +
 					42 +
 					(Number(selectedBlock[0]) - 7) * 16;
-				const z = (selectedBlock[1].charCodeAt(0) - 67) * 30 + 19;
+				const z = (selectedBlock[1].charCodeAt(0) - 67) * 25 + 15;
 				orbit.target.set(x, 0, z);
 				orbit.update();
 				orbit.setAzimuthalAngle(-0.3);
