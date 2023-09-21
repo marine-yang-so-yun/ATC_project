@@ -408,6 +408,7 @@ class WebSocketHandler3 extends TextWebSocketHandler {
 				sendData.setRow1(work.getRow1());
 				sendData.setTier1(work.getTier1());
 				sendData.setTimeEnd(work.getTimeEnd());
+				sendData.setWorkCode(work.getWorkCode());
 				
 				sdList.add(sendData);
 			}
