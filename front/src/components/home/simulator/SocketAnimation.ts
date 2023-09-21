@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { moveAnimation } from "./animation";
 import { SocketContainerData } from "types/api";
 import * as THREE from "three";
