@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
 import { theme } from "./theme";
+import { CSVLink } from "react-csv";
 
 export const MainTitle = styled.h1`
 	margin-bottom: 15px;
@@ -71,4 +72,24 @@ export const SubpageCateBtn = styled.button<{ $active: boolean }>`
 			background-color: ${theme.color.lightPurple};
 			color: ${theme.color.white};
 		`}
+`;
+
+export const CSVDownloadBtn = styled(CSVLink)`
+	display: inline-block;
+	margin-bottom: 15px;
+	padding: 10px;
+	border-radius: 5px;
+	background-color: ${theme.color.lightPurple};
+	color: ${theme.color.white};
+	font-weight: 600;
+	transition: all 250ms ease-in-out;
+
+	&:hover {
+		background-color: ${theme.color.purple};
+	}
+`;
+
+export const FlexSpaceBetweenDiv = styled.div`
+	display: flex;
+	justify-content: space-between;
 `;

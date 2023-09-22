@@ -29,11 +29,10 @@ import lombok.ToString;
 class CurrentContainer {
 	private String container;
 	private Timestamp timeEnd;
-	private int bay;
-	private int row;
-	private int tier;
-	private String block;
-	private String crane;
+	private int bay2;
+	private int row2;
+	private int tier2;
+	private String block2;
 }
 
 @Getter
@@ -48,30 +47,14 @@ class WorkingCrane {
 @Setter
 @ToString
 class LastTimeWork {
-	private String block;
+	private String block2;
 	private Timestamp timeEnd;
-	private int bay;
-	private int row;
-	private int tier;
+	private int bay2;
+	private int row2;
+	private int tier2;
 	private String crane;
 }
 
-@Getter
-@Setter
-@ToString
-class WorkList {
-	private String container;
-	private String ship;
-	private String block;
-	private int bay;
-	private int row;
-	private int tier;
-	private String crane;
-	private Timestamp timeEnd;
-	private String truckNum;
-	private String workCode;
-	private int voyage;
-}
 
 @RestController
 @RequestMapping("/containerwork")
@@ -90,14 +73,13 @@ public class ContainerWorkController {
 		Map<String, CurrentContainer> map = new HashMap<>();
 
 		// container, timeEnd, block2, bay2, row2, tier2, crane
-
 		// 현재 컨테이너 정보
 		for (Object[] objs : list) {
 			CurrentContainer temp = CurrentContainer.builder().container((String) objs[0]).timeEnd((Timestamp) objs[1])
-					.block((String) objs[2]).bay((Integer) objs[3]).row((Integer) objs[4]).tier((Integer) objs[5])
+					.block2((String) objs[2]).bay2((Integer) objs[3]).row2((Integer) objs[4]).tier2((Integer) objs[5])
 					.build();
 
-			map.put(String.format("%s,%d,%d,%d", temp.getBlock(), temp.getBay(), temp.getRow(), temp.getTier()), temp);
+			map.put(String.format("%s,%d,%d,%d", temp.getBlock2(), temp.getBay2(), temp.getRow2(), temp.getTier2()), temp);
 
 		}
 
@@ -112,8 +94,8 @@ public class ContainerWorkController {
 						if (container != null) {
 							for (int tier1 = 1; tier1 < tier; tier1++) {
 								String key1 = String.format("%s,%d,%d,%d", maxblock.getBlock(), bay, row, tier1);
-								map.put(key1, CurrentContainer.builder().block(maxblock.getBlock()).container(null)
-										.timeEnd(null).bay(bay).row(row).tier(tier1).build());
+								map.put(key1, CurrentContainer.builder().block2(maxblock.getBlock()).container(null)
+										.timeEnd(null).bay2(bay).row2(row).tier2(tier1).build());
 							}
 						}
 					}
@@ -127,13 +109,12 @@ public class ContainerWorkController {
 	}
 
 	// 해당 블록에서 일하는 ATC 번호를 찾는 쿼리
-	@GetMapping("/findworkingcrane/{blockname}")
+	@GetMapping("/findWorkingCrane/{blockname}")
 	public List<Object> findWorkingCrane(@PathVariable String blockname) {
 		List<String> list = repository.findWorkingCrane(blockname);
 		List<Object> result = new ArrayList<>();
 		int i = 1;
 		for (String objs : list) {
-
 			WorkingCrane workingcrane = new WorkingCrane();
 			workingcrane.setCraneseq(i);
 			workingcrane.setCrane((String) objs);
@@ -145,7 +126,7 @@ public class ContainerWorkController {
 
 	}
 
-	// 블록별로 마지막으로 일한 timeEnd, block2, bay2, row2, tier2 를 출력하는 쿼리
+	// 블록별로 마지막으로 일한 crane, timeEnd, block2, bay2, row2, tier2 를 출력하는 쿼리
 	@GetMapping("/findLastTimeWorkByCrane")
 	public List<Object> findLastTimeWorkByBlock() {
 		List<Object[]> list = repository.findLastTimeWorkByCrane();
@@ -153,46 +134,22 @@ public class ContainerWorkController {
 
 		for (Object[] objs : list) {
 			LastTimeWork temp = new LastTimeWork();
-			temp.setBlock((String) objs[0]);
+			temp.setCrane((String) objs[0]);
 			temp.setTimeEnd((Timestamp) objs[1]);
-			temp.setBay((int) objs[2]);
-			temp.setRow((int) objs[3]);
-			temp.setTier((int) objs[4]);
-			temp.setCrane((String) objs[5]);
+			temp.setBlock2((String) objs[2]);
+			temp.setBay2((int) objs[3]);
+			temp.setRow2((int) objs[4]);
+			temp.setTier2((int) objs[5]);
 			result.add(temp);
 
 		}
 		return result;
 
-	}
-
-	@GetMapping("/findWorkList")
-	public List<Object> findWorkList() {
-		List<ContainerWork> list = repository.findWorkList();
-		List<Object> result = new ArrayList<>();
-
-		for (ContainerWork containerwork : list) {
-			WorkList temp = new WorkList();
-			temp.setContainer(containerwork.getContainer());
-			temp.setCrane(containerwork.getCrane());
-			temp.setBay(containerwork.getBay1());
-			temp.setRow(containerwork.getRow1());
-			temp.setTier(containerwork.getTier1());
-			temp.setBlock(containerwork.getBlock1());
-			temp.setShip(containerwork.getShip());
-			temp.setTimeEnd(containerwork.getTimeEnd());
-			temp.setTruckNum(containerwork.getTruckNum());
-			temp.setWorkCode(containerwork.getWorkCode());
-			temp.setVoyage(containerwork.getVoyage());
-			result.add(temp);
-		}
-
-		return result;
 	}
 
 	@GetMapping("/allWorkList")
 	public List<Object> allWorkList() {
-		List<ContainerWork> list = repository.findAll();
+		List<ContainerWork> list = repository.findAllByOrderByTimeEndAsc();
 		List<Object> result = new ArrayList<>();
 
 		for (ContainerWork containerwork : list) {
@@ -201,29 +158,17 @@ public class ContainerWorkController {
 
 		return result;
 	}
+	
+	@GetMapping("/allWorkList/{atcname}")
+	public List<Object> allWorkList(@PathVariable String atcname) {
+		List<ContainerWork> list = repository.findAllListByATC(atcname);
+		List<Object> result = new ArrayList<>();
 
-//   @GetMapping("/findWorkListByATC/{atcname}")
-//   public List<Object> findWorkListByATC1(@PathVariable String atcname)	{
-//	   List<ContainerWork> list = repository.findWorkListByATC3(atcname);
-//	   List<Object> result = new ArrayList<>();
-//	   
-//	   for (ContainerWork containerwork : list)	{
-//		   result.add(containerwork);
-//	   }
-//	   
-//	   return result;
-//   }
-//   
-//   @GetMapping("/findWorkListByATC/{atcname1}/{atcname2}")
-//   public List<Object> findWorkListByATC2(@PathVariable String atcname1, @PathVariable String atcname2)	{
-//	   List<ContainerWork> list = repository.findWorkListByATC4(atcname1, atcname2);
-//	   List<Object> result = new ArrayList<>();
-//	   
-//	   for (ContainerWork containerwork : list)	{
-//		   result.add(containerwork);
-//	   }
-//	   
-//	   return result;
-//   }
+		for (ContainerWork containerwork : list) {
+			result.add(containerwork);
+		}
+
+		return result;
+	}
 
 }

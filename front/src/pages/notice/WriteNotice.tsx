@@ -49,7 +49,7 @@ const WriteNotice = () => {
 	});
 	const [content, setContent] = useState<string>(state?.noticedetail || "");
 	const { title, urgency } = form;
-	const writer = getUser()?.replaceAll('"', "") || "";
+	const writer = getUser();
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 

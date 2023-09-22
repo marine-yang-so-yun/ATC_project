@@ -51,24 +51,15 @@ const NoticeList = () => {
 			<SubPageTitleContainer>
 				<SubPageTitle>공지사항</SubPageTitle>
 				<div>
-					<SubpageCateBtn
-						$active={cate === "전체"}
-						onClick={() => setSearchParams({ cate: "전체" })}
-					>
-						전체
-					</SubpageCateBtn>
-					<SubpageCateBtn
-						$active={cate === "공지"}
-						onClick={() => setSearchParams({ cate: "공지" })}
-					>
-						공지
-					</SubpageCateBtn>
-					<SubpageCateBtn
-						$active={cate === "알림"}
-						onClick={() => setSearchParams({ cate: "알림" })}
-					>
-						알림
-					</SubpageCateBtn>
+					{["전체", "공지", "알림"].map((item, idx) => (
+						<SubpageCateBtn
+							key={item + idx}
+							$active={cate === item}
+							onClick={() => setSearchParams({ cate: item })}
+						>
+							{item}
+						</SubpageCateBtn>
+					))}
 				</div>
 			</SubPageTitleContainer>
 			<S.NoticeOlContainer>

@@ -2,8 +2,6 @@ package com.example.demo.config;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,17 +35,17 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 @ToString
 class SendData {
-
+	private String block1;
 	private int bay1;
 	private int row1;
 	private int tier1;
 
+	private String block2;
 	private int bay2;
 	private int row2;
 	private int tier2;
-	private String block2;
-	private String crane;
 
+	private String crane;
 	private String workCode;
 
 }
@@ -57,15 +55,17 @@ class SendData {
 @ToString
 class SendData2 {
 	private String container;
-	private String block;
 	
+	private String block1;
 	private int bay1;
 	private int row1;
 	private int tier1;
 	
+	private String block2;
 	private int bay2;
 	private int row2;
 	private int tier2;
+	
 	private Timestamp timeEnd;
 	private String crane;
 	private String workCode;
@@ -87,7 +87,7 @@ class SendData3	{
 	private String workCode;
 	private String ship;
 	private int voyage;
-	private String block;
+	private String block1;
 	private int bay1;
 	private int row1;
 	private int tier1;
@@ -156,22 +156,21 @@ class WebSocketHandler1 extends TextWebSocketHandler {
 
 			sendFlag = 1;
 
-			//System.out.println("******************");
 
 			for (ContainerWork work : worklist) {
 
 				SendData sendData = new SendData();
 
-				
+				sendData.setBlock1(work.getBlock1());
 				sendData.setBay1(work.getBay1());
 				sendData.setRow1(work.getRow1());
 				sendData.setTier1(work.getTier1());
 
+				sendData.setBlock2(work.getBlock2());
 				sendData.setBay2(work.getBay2());
 				sendData.setRow2(work.getRow2());
 				sendData.setTier2(work.getTier2());
 
-				sendData.setBlock2(work.getBlock2());
 				sendData.setCrane(work.getCrane());
 				sendData.setWorkCode(work.getWorkCode());
 				sdList.add(sendData);
@@ -289,7 +288,7 @@ class WebSocketHandler2 extends TextWebSocketHandler {
 		
 
 
-		if (!worklist.get(0).getContainer().equals(beforeWorklist.getContainer())) {
+		if (!worklist.isEmpty() && !worklist.get(0).getContainer().equals(beforeWorklist.getContainer())) {
 			
 			sendFlag = 1;
 			
@@ -297,11 +296,12 @@ class WebSocketHandler2 extends TextWebSocketHandler {
 			for (ContainerWork work : worklist) {
 				SendData2 sendData = new SendData2();
 				sendData.setContainer(work.getContainer());
-				sendData.setBlock(work.getBlock1());
+				sendData.setBlock1(work.getBlock1());
 				sendData.setBay1(work.getBay1());
 				sendData.setRow1(work.getRow1());
 				sendData.setTier1(work.getTier1());
 				
+				sendData.setBlock2(work.getBlock2());
 				sendData.setBay2(work.getBay2());
 				sendData.setRow2(work.getRow2());
 				sendData.setTier2(work.getTier2());
@@ -343,9 +343,6 @@ class WebSocketHandler3 extends TextWebSocketHandler {
 	public static String receivedMessage = "";
 	public static ContainerWork beforeWorklist = new ContainerWork();
 
-	
-	
-	
 	@Autowired
 	ContainerWorkRepository containerworkrepository;
 
@@ -367,7 +364,7 @@ class WebSocketHandler3 extends TextWebSocketHandler {
 		if (keys.size() <= 0) {
 			return;
 		}
-		// System.out.println(String.format("==>%s[%d]", sendMessage, keys.size()));
+
 		synchronized (map) { // 블럭안에 코드를 수행하는 동안 map 객체에 대한 다른 스레드의 접근을 방지한다.
 			for (String key : keys) {
 				WebSocketSession ws = map.get(key);
@@ -399,19 +396,19 @@ class WebSocketHandler3 extends TextWebSocketHandler {
 		worklist = containerworkrepository.findWorkList();
 
 
-		if (!worklist.get(0).getContainer().equals(beforeWorklist.getContainer())) {
-			
+		if (!worklist.isEmpty() && !worklist.get(0).getContainer().equals(beforeWorklist.getContainer())) {
 			sendFlag = 1;
 			for (ContainerWork work : worklist) {
 				SendData3 sendData = new SendData3();
 				sendData.setContainer(work.getContainer());
 				sendData.setShip(work.getShip());
 				sendData.setVoyage(work.getVoyage());
-				sendData.setBlock(work.getBlock1());
+				sendData.setBlock1(work.getBlock1());
 				sendData.setBay1(work.getBay1());
 				sendData.setRow1(work.getRow1());
 				sendData.setTier1(work.getTier1());
 				sendData.setTimeEnd(work.getTimeEnd());
+				sendData.setWorkCode(work.getWorkCode());
 				
 				sdList.add(sendData);
 			}
