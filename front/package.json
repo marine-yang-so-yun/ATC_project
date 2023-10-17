@@ -24,7 +24,6 @@
     "react-dom": "^18.2.0",
     "react-quill": "^2.0.0",
     "react-redux": "^8.1.2",
-    "react-scripts": "5.0.1",
     "styled-components": "^6.0.7",
     "styled-reset": "^4.5.1",
     "three": "^0.155.0",
@@ -59,6 +58,7 @@
     "@types/dompurify": "^3.0.2",
     "@types/styled-components": "^5.1.26",
     "react-icons": "^4.10.1",
-    "react-router-dom": "^6.15.0"
+    "react-router-dom": "^6.15.0",
+    "react-scripts": "^5.0.1"
   }
 }
